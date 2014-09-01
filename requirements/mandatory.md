@@ -4,8 +4,8 @@
 
 ###1. Polls
 - 1.1 The system must support electronic polls with one or more items.
-- 1.2 Each poll must have a title. **The title has to be unique.**
-- 1.3 Each poll must have a description. a title. **The title has to be unique.**
+- 1.2 Each poll must have a title. **The title has to be unique (scope is system).**
+- 1.3 Each poll must have a description. 
 - 1.4 Each poll must have a voting period (start and end date with time).
 - 1.5 Each poll must have at least one item.
 - 1.6 The system must allow to group arbitrary many items into one poll.
