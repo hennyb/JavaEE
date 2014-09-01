@@ -24,9 +24,9 @@
 - 3.3 An organizer must be able to conduct arbitrary many polls.
 
 ### 5. Participants
-5.1 The organizer of a poll must be able to invite 3 to arbitrary many participants. In polls with less than 3 participants, anonymity can not be asserted.
-5.2 Each participant must be identified by her email address.
-5.3 The information mail must include the title of the poll, the start and end dates, the number of participants, and a token.
+- 5.1 The organizer of a poll must be able to invite 3 to arbitrary many participants. In polls with less than 3 participants, anonymity can not be asserted.
+- 5.2 Each participant must be identified by her email address.
+- 5.3 The information mail must include the title of the poll, the start and end dates, the number of participants, and a token.
 
 ### 6. Participant lists
 - 6.1 The organizer must be able to modify the participant list until a poll is STARTED.
