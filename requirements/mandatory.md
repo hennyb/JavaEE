@@ -2,26 +2,26 @@
 
 ## Functioinal Requirements
 
-1. Polls
-  1.1. The system must support electronic polls with one or more items.
-  1.2. Each poll must have a title. **The title has to be unique.**
-  1.3. Each poll must have a description. a title. **The title has to be unique.**
-  1.4. Each poll must have a voting period (start and end date with time).
-  1.5. Each poll must have at least one item.
-  1.6. The system must allow to group arbitrary many items into one poll.
+###1. Polls
+- 1.1 The system must support electronic polls with one or more items.
+- 1.2 Each poll must have a title. **The title has to be unique.**
+- 1.3 Each poll must have a description. a title. **The title has to be unique.**
+- 1.4 Each poll must have a voting period (start and end date with time).
+- 1.5 Each poll must have at least one item.
+- 1.6 The system must allow to group arbitrary many items into one poll.
 
 ### 2. Poll States
-2.1 The system must implement poll states. Polls be in one of four States:
+- 2.1 The system must implement poll states. Polls be in one of four States:
   - PREPARED
   - STARTED
   - VOTING
   - FINISHED
-2.2 When all participants submitted their votes, the system must set the poll to FINISHED
+- 2.2 When all participants submitted their votes, the system must set the poll to FINISHED
 
 ### 3. Organizers
-3.1 The system must allow all university members to act as organizers.
-3.2 Organizers must identify themselves with username and password.
-3.3 An organizer must be able to conduct arbitrary many polls.
+- 3.1 The system must allow all university members to act as organizers.
+- 3.2 Organizers must identify themselves with username and password.
+- 3.3 An organizer must be able to conduct arbitrary many polls.
 
 ### 5. Participants
 5.1 The organizer of a poll must be able to invite 3 to arbitrary many participants. In polls with less than 3 participants, anonymity can not be asserted.
