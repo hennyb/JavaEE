@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<uml:Model xmi:version="20131001" xmlns:xmi="http://www.omg.org/spec/XMI/20131001" xmlns:uml="http://www.eclipse.org/uml2/5.0.0/UML" xmi:id="_-6YJIDQuEeSazJOazc5EUg" name="NewModel">
+  <packageImport xmi:id="_EHuosDQ4EeSazJOazc5EUg">
+    <importedPackage xmi:type="uml:Model" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#_0"/>
+  </packageImport>
+  <packagedElement xmi:type="uml:Class" xmi:id="_FmRZYDQvEeSazJOazc5EUg" name="System"/>
+  <packagedElement xmi:type="uml:Class" xmi:id="_ImgQMDQvEeSazJOazc5EUg" name="Poll">
+    <ownedAttribute xmi:id="_pmTjADQ4EeSazJOazc5EUg" name="titel">
+      <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#String"/>
+      <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_pmTjATQ4EeSazJOazc5EUg" value="1"/>
+      <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_pmTjAjQ4EeSazJOazc5EUg" value="1"/>
+    </ownedAttribute>
+    <ownedAttribute xmi:id="_1pavkDQ4EeSazJOazc5EUg" name="start">
+      <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/XMLPrimitiveTypes.library.uml#Date"/>
+      <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_1pavkTQ4EeSazJOazc5EUg" value="1"/>
+      <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_1pavkjQ4EeSazJOazc5EUg" value="1"/>
+    </ownedAttribute>
+    <ownedAttribute xmi:id="_3sZ7ADQ4EeSazJOazc5EUg" name="end">
+      <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/XMLPrimitiveTypes.library.uml#Date"/>
+      <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_3sZ7ATQ4EeSazJOazc5EUg" value="1"/>
+      <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_3sZ7AjQ4EeSazJOazc5EUg" value="1"/>
+    </ownedAttribute>
+    <ownedAttribute xmi:id="_vxX-IDQ4EeSazJOazc5EUg" name="description">
+      <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#String"/>
+      <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_vxX-ITQ4EeSazJOazc5EUg" value="1"/>
+      <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_vxX-IjQ4EeSazJOazc5EUg" value="1"/>
+    </ownedAttribute>
+  </packagedElement>
+  <packagedElement xmi:type="uml:Class" xmi:id="_8x78UDQ2EeSazJOazc5EUg" name="Item">
+    <ownedAttribute xmi:id="_z_qHADQ5EeSazJOazc5EUg" name="titel">
+      <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#String"/>
+      <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_z_qHATQ5EeSazJOazc5EUg" value="1"/>
+      <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_z_qHAjQ5EeSazJOazc5EUg" value="1"/>
+    </ownedAttribute>
+    <ownedAttribute xmi:id="_jzdvwDQ6EeSazJOazc5EUg" name="m">
+      <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#Integer"/>
+      <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_jzdvwTQ6EeSazJOazc5EUg" value="1"/>
+      <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_jzdvwjQ6EeSazJOazc5EUg" value="1"/>
+    </ownedAttribute>
+  </packagedElement>
+  <packagedElement xmi:type="uml:Association" xmi:id="_-4-hUDQ2EeSazJOazc5EUg" name="items[1..*]" memberEnd="_-4-hUTQ2EeSazJOazc5EUg _-5RcQjQ2EeSazJOazc5EUg" navigableOwnedEnd="_-5RcQjQ2EeSazJOazc5EUg">
+    <ownedEnd xmi:id="_-4-hUTQ2EeSazJOazc5EUg" name="polls" type="_ImgQMDQvEeSazJOazc5EUg" aggregation="composite" association="_-4-hUDQ2EeSazJOazc5EUg">
+      <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_-5RcQDQ2EeSazJOazc5EUg"/>
+      <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_-5RcQTQ2EeSazJOazc5EUg" value="1"/>
+    </ownedEnd>
+    <ownedEnd xmi:id="_-5RcQjQ2EeSazJOazc5EUg" name="items" type="_8x78UDQ2EeSazJOazc5EUg" association="_-4-hUDQ2EeSazJOazc5EUg">
+      <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_-5uIMDQ2EeSazJOazc5EUg" value="1"/>
+      <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_-5uIMTQ2EeSazJOazc5EUg" value="*"/>
+    </ownedEnd>
+  </packagedElement>
+  <packagedElement xmi:type="uml:Association" xmi:id="_1ZOM4DQ3EeSazJOazc5EUg" name="domainsToPolls" memberEnd="_1ZOM4TQ3EeSazJOazc5EUg _1ZOM5DQ3EeSazJOazc5EUg" navigableOwnedEnd="_1ZOM5DQ3EeSazJOazc5EUg">
+    <ownedEnd xmi:id="_1ZOM4TQ3EeSazJOazc5EUg" name="domains" type="_FmRZYDQvEeSazJOazc5EUg" aggregation="composite" association="_1ZOM4DQ3EeSazJOazc5EUg">
+      <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_1ZOM4jQ3EeSazJOazc5EUg"/>
+      <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_1ZOM4zQ3EeSazJOazc5EUg" value="1"/>
+    </ownedEnd>
+    <ownedEnd xmi:id="_1ZOM5DQ3EeSazJOazc5EUg" name="polls" type="_ImgQMDQvEeSazJOazc5EUg" association="_1ZOM4DQ3EeSazJOazc5EUg">
+      <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_1ZOM5TQ3EeSazJOazc5EUg"/>
+      <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_1ZOM5jQ3EeSazJOazc5EUg" value="*"/>
+    </ownedEnd>
+  </packagedElement>
+  <packagedElement xmi:type="uml:Class" xmi:id="_RIEnoDQ6EeSazJOazc5EUg" name="Option">
+    <ownedAttribute xmi:id="_BAVIADQ6EeSazJOazc5EUg" name="description">
+      <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#String"/>
+      <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_BAVIATQ6EeSazJOazc5EUg" value="1"/>
+      <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_BAVIAjQ6EeSazJOazc5EUg" value="1"/>
+    </ownedAttribute>
+    <ownedAttribute xmi:id="__z2t0DQ5EeSazJOazc5EUg" name="name">
+      <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#String"/>
+      <lowerValue xmi:type="uml:LiteralInteger" xmi:id="__z2t0TQ5EeSazJOazc5EUg" value="1"/>
+      <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="__z2t0jQ5EeSazJOazc5EUg" value="1"/>
+    </ownedAttribute>
+  </packagedElement>
+  <packagedElement xmi:type="uml:Association" xmi:id="_ayuIADQ6EeSazJOazc5EUg" name="itemsToOptions" memberEnd="_ayuIATQ6EeSazJOazc5EUg _ay3R8jQ6EeSazJOazc5EUg" navigableOwnedEnd="_ay3R8jQ6EeSazJOazc5EUg">
+    <ownedEnd xmi:id="_ayuIATQ6EeSazJOazc5EUg" name="items" type="_8x78UDQ2EeSazJOazc5EUg" aggregation="composite" association="_ayuIADQ6EeSazJOazc5EUg">
+      <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_ay3R8DQ6EeSazJOazc5EUg"/>
+      <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_ay3R8TQ6EeSazJOazc5EUg" value="1"/>
+    </ownedEnd>
+    <ownedEnd xmi:id="_ay3R8jQ6EeSazJOazc5EUg" name="options" type="_RIEnoDQ6EeSazJOazc5EUg" association="_ayuIADQ6EeSazJOazc5EUg">
+      <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_ay3R8zQ6EeSazJOazc5EUg"/>
+      <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_ay3R9DQ6EeSazJOazc5EUg" value="*"/>
+    </ownedEnd>
+  </packagedElement>
+</uml:Model>
