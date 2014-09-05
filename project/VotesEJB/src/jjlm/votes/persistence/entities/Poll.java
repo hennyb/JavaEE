@@ -75,7 +75,7 @@ public class Poll extends NamedEntity<Poll, PollTO> {
      *
      * @param newItems
      */
-    public void setItems(HashSet<Item> newItems) {
+    public void setItems(Set<Item> newItems) {
         this.items = newItems;
     }
 
