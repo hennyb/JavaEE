@@ -10,7 +10,6 @@ import java.util.HashSet;
 import java.util.Set;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
-import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Temporal;
@@ -98,7 +97,6 @@ public class Poll extends NamedEntity<Poll, PollTO> {
     }
 
     @ManyToOne
-    @JoinColumn(name = "systemId")
     public System getSystem() {
         return system;
     }

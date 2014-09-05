@@ -19,6 +19,8 @@ public class ItemTO extends NamedEntityTO {
     private List<VoteOptionTO> options;
     private String titel;
     private Integer m;
+    
+    private PollTO poll;
 
     public ItemTO() {
         options = new ArrayList<>();
@@ -48,4 +50,11 @@ public class ItemTO extends NamedEntityTO {
         this.m = m;
     }
 
+    public PollTO getPoll() {
+        return poll;
+    }
+
+    public void setPoll(PollTO poll) {
+        this.poll = poll;
+    }
 }

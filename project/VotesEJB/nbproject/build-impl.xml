@@ -867,18 +867,24 @@ exists or setup the property manually. For example like this:
         <copyfiles files="${libs.eclipselinkmodelgen.classpath}" todir="${build.classes.dir}"/>
         <copyfiles files="${libs.javaee-endorsed-api-6.0.classpath}" todir="${build.classes.dir}"/>
         <copyfiles files="${libs.JAVADB_DRIVER_LABEL.classpath}" todir="${build.classes.dir}"/>
+        <copyfiles files="${libs.MySQLDriver.classpath}" todir="${build.classes.dir}"/>
+        <copyfiles files="${libs.jpa20-persistence.classpath}" todir="${build.classes.dir}"/>
     </target>
     <target if="is.server.weblogic" name="-library-inclusion-in-archive-weblogic">
         <basename file="${libs.eclipselink.classpath}" property="manifest.libs.eclipselink.classpath"/>
         <basename file="${libs.eclipselinkmodelgen.classpath}" property="manifest.libs.eclipselinkmodelgen.classpath"/>
         <basename file="${libs.javaee-endorsed-api-6.0.classpath}" property="manifest.libs.javaee-endorsed-api-6.0.classpath"/>
         <basename file="${libs.JAVADB_DRIVER_LABEL.classpath}" property="manifest.libs.JAVADB_DRIVER_LABEL.classpath"/>
+        <basename file="${libs.MySQLDriver.classpath}" property="manifest.libs.MySQLDriver.classpath"/>
+        <basename file="${libs.jpa20-persistence.classpath}" property="manifest.libs.jpa20-persistence.classpath"/>
         <manifest file="${build.ear.classes.dir}/META-INF/MANIFEST.MF" mode="update">
-            <attribute name="Extension-List" value="jar-1 jar-2 jar-3 jar-4 "/>
+            <attribute name="Extension-List" value="jar-1 jar-2 jar-3 jar-4 jar-5 jar-6 "/>
             <attribute name="jar-1-Extension-Name" value="${manifest.libs.eclipselink.classpath}"/>
             <attribute name="jar-2-Extension-Name" value="${manifest.libs.eclipselinkmodelgen.classpath}"/>
             <attribute name="jar-3-Extension-Name" value="${manifest.libs.javaee-endorsed-api-6.0.classpath}"/>
             <attribute name="jar-4-Extension-Name" value="${manifest.libs.JAVADB_DRIVER_LABEL.classpath}"/>
+            <attribute name="jar-5-Extension-Name" value="${manifest.libs.MySQLDriver.classpath}"/>
+            <attribute name="jar-6-Extension-Name" value="${manifest.libs.jpa20-persistence.classpath}"/>
         </manifest>
     </target>
     <target depends="compile" name="library-inclusion-in-manifest">
@@ -886,6 +892,8 @@ exists or setup the property manually. For example like this:
         <copyfiles files="${libs.eclipselinkmodelgen.classpath}" todir="${dist.ear.dir}/lib"/>
         <copyfiles files="${libs.javaee-endorsed-api-6.0.classpath}" todir="${dist.ear.dir}/lib"/>
         <copyfiles files="${libs.JAVADB_DRIVER_LABEL.classpath}" todir="${dist.ear.dir}/lib"/>
+        <copyfiles files="${libs.MySQLDriver.classpath}" todir="${dist.ear.dir}/lib"/>
+        <copyfiles files="${libs.jpa20-persistence.classpath}" todir="${dist.ear.dir}/lib"/>
         <manifest file="${build.ear.classes.dir}/META-INF/MANIFEST.MF" mode="update"/>
     </target>
     <target name="-copy-meta-inf">

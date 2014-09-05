@@ -20,6 +20,7 @@ import jjlm.votes.logic.to.VoteOptionTO;
  */
 @Entity
 public class VoteOption extends NamedEntity<VoteOption, VoteOptionTO> {
+    private static final long serialVersionUID = 6340070768142841421L;
 
   
     private String description;
@@ -52,7 +53,6 @@ public class VoteOption extends NamedEntity<VoteOption, VoteOptionTO> {
     }
 
     @ManyToOne
-    @JoinColumn(name = "itemId")
     public Item getItem() {
         return item;
     }
