@@ -21,32 +21,14 @@ import jjlm.votes.logic.to.VoteOptionTO;
 @Entity
 public class VoteOption extends NamedEntity<VoteOption, VoteOptionTO> {
 
-    /**
-     * Description of the property description.
-     */
-    private String description = "";
-
-    /**
-     * Description of the property name.
-     */
-    private String name = "";
-
-    /**
-     * Description of the property id.
-     */
-    private Integer id = Integer.valueOf(0);
-
+  
+    private String description;
     private Item item;
 
-	// Start of user code (user defined attributes for Option)
-	// End of user code
-    /**
-     * The constructor.
-     */
+
     public VoteOption() {
-        // Start of user code constructor for Option)
         super();
-        // End of user code
+        
     }
 
 	// Start of user code (user defined methods for Option)
@@ -67,42 +49,6 @@ public class VoteOption extends NamedEntity<VoteOption, VoteOptionTO> {
      */
     public void setDescription(String newDescription) {
         this.description = newDescription;
-    }
-
-    /**
-     * Returns name.
-     *
-     * @return name
-     */
-    public String getName() {
-        return this.name;
-    }
-
-    /**
-     * Sets a value to attribute name.
-     *
-     * @param newName
-     */
-    public void setName(String newName) {
-        this.name = newName;
-    }
-
-    /**
-     * Returns id.
-     *
-     * @return id
-     */
-    public Integer getId() {
-        return this.id;
-    }
-
-    /**
-     * Sets a value to attribute id.
-     *
-     * @param newId
-     */
-    public void setId(Integer newId) {
-        this.id = newId;
     }
 
     @ManyToOne

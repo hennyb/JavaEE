@@ -5,17 +5,16 @@
  */
 package jjlm.votes.persistence.entities;
 
-import java.io.Serializable;
 import java.util.Date;
 import java.util.HashSet;
+import java.util.Set;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
+import javax.persistence.Temporal;
+import jjlm.votes.logic.to.PollTO;
 
 // End of user code
 /**
@@ -24,30 +23,25 @@ import javax.persistence.OneToMany;
  * @author Johannes
  */
 @Entity
-public class Poll implements Serializable {
+public class Poll extends NamedEntity<Poll, PollTO> {
 
-    private int pollId;
+    private static final long serialVersionUID = -1526570451061341296L;
 
-    private String description = "";
+    private String description;
 
-    private HashSet<Item> items = new HashSet<Item>();
-
-    private Date start = new Date();
-
-    private Date end = new Date();
-
-    private String titel = "";
+    private Date startPoll;
+    private Date endPoll;
 
     private System system;
 
+    private Set<Item> items;
+
     public Poll() {
-        // Start of user code constructor for Poll)
         super();
-        // End of user code
+
+        items = new HashSet<>();
     }
 
-    // Start of user code (user defined methods for Poll)
-    // End of user code
     /**
      * Returns description.
      *
@@ -72,7 +66,7 @@ public class Poll implements Serializable {
      * @return items
      */
     @OneToMany(mappedBy = "poll", fetch = FetchType.EAGER)
-    public HashSet<Item> getItems() {
+    public Set<Item> getItems() {
         return this.items;
     }
 
@@ -85,68 +79,22 @@ public class Poll implements Serializable {
         this.items = newItems;
     }
 
-    /**
-     * Returns start.
-     *
-     * @return start
-     */
-    public Date getStart() {
-        return this.start;
+    @Temporal(javax.persistence.TemporalType.DATE)
+    public Date getStartPoll() {
+        return startPoll;
     }
 
-    /**
-     * Sets a value to attribute start.
-     *
-     * @param newStart
-     */
-    public void setStart(Date newStart) {
-        this.start = newStart;
+    public void setStartPoll(Date startPoll) {
+        this.startPoll = startPoll;
     }
 
-    /**
-     * Returns end.
-     *
-     * @return end
-     */
-    public Date getEnd() {
-        return this.end;
+    @Temporal(javax.persistence.TemporalType.DATE)
+    public Date getEndPoll() {
+        return endPoll;
     }
 
-    /**
-     * Sets a value to attribute end.
-     *
-     * @param newEnd
-     */
-    public void setEnd(Date newEnd) {
-        this.end = newEnd;
-    }
-
-    /**
-     * Returns titel.
-     *
-     * @return titel
-     */
-    public String getTitel() {
-        return this.titel;
-    }
-
-    /**
-     * Sets a value to attribute titel.
-     *
-     * @param newTitel
-     */
-    public void setTitel(String newTitel) {
-        this.titel = newTitel;
-    }
-
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    public int getPollId() {
-        return pollId;
-    }
-
-    public void setPollId(int pollId) {
-        this.pollId = pollId;
+    public void setEndPoll(Date endPoll) {
+        this.endPoll = endPoll;
     }
 
     @ManyToOne
@@ -157,6 +105,12 @@ public class Poll implements Serializable {
 
     public void setSystem(System system) {
         this.system = system;
+    }
+
+    @Override
+    public PollTO createTO() {
+        PollTO to = new PollTO();
+        return to;
     }
 
 }

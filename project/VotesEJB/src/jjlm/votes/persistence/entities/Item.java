@@ -27,18 +27,17 @@ public class Item extends NamedEntity<Item, ItemTO> {
 
     private static final long serialVersionUID = -5062238818277568048L;
 
-
-    private HashSet<VoteOption> options = new HashSet<VoteOption>();
-
-    private String titel = "";
-
-    private Integer m = Integer.valueOf(0);
-
+    private HashSet<VoteOption> options;
+    
+    private String titel;
+    private Integer m;
 
     public Item() {
-        // Start of user code constructor for Item)
         super();
-        // End of user code
+        m = 0;
+        titel = "";
+        options = new HashSet<VoteOption>();
+
     }
 
     // Start of user code (user defined methods for Item)
@@ -101,8 +100,8 @@ public class Item extends NamedEntity<Item, ItemTO> {
     @Override
     public ItemTO createTO() {
         ItemTO to = new ItemTO();
-        
+
         return to;
     }
-    
+
 }

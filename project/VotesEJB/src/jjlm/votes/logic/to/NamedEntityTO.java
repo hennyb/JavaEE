@@ -13,7 +13,6 @@ public abstract class NamedEntityTO extends AbstractEntityTO implements Comparab
 
     private static final long serialVersionUID = 4027757361891311318L;
 
-    
     private String name;
 
     public String getName() {
@@ -40,4 +39,4 @@ public abstract class NamedEntityTO extends AbstractEntityTO implements Comparab
         }
         return r;
     }
-    }
+}

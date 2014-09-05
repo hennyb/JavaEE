@@ -8,12 +8,15 @@ package jjlm.votes.persistence.entities;
 // Start of user code (user defined imports)
 import java.io.Serializable;
 import java.util.HashSet;
+import java.util.Set;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
+import jjlm.votes.logic.to.NamedEntityTO;
+import jjlm.votes.logic.to.SystemTO;
 
 // End of user code
 /**
@@ -22,24 +25,15 @@ import javax.persistence.OneToMany;
  * @author Johannes
  */
 @Entity
-public class System implements Serializable {
+public class System extends NamedEntity<System, SystemTO> {
 
-    /**
-     * Description of the property polls.
-     */
-    private int systemId;
+    private Set<Poll> polls;
 
-    private HashSet<Poll> polls = new HashSet<Poll>();
-
-	// Start of user code (user defined attributes for System)
-    // End of user code
-    /**
-     * The constructor.
-     */
+	
     public System() {
-        // Start of user code constructor for System)
         super();
-        // End of user code
+        polls = new HashSet<Poll>();
+        
     }
 
     // Start of user code (user defined methods for System)
@@ -50,7 +44,7 @@ public class System implements Serializable {
      * @return polls
      */
     @OneToMany(mappedBy = "system", fetch = FetchType.EAGER)
-    public HashSet<Poll> getPolls() {
+    public Set<Poll> getPolls() {
         return this.polls;
     }
 
@@ -59,18 +53,14 @@ public class System implements Serializable {
      *
      * @param newPolls
      */
-    public void setPolls(HashSet<Poll> newPolls) {
+    public void setPolls(Set<Poll> newPolls) {
         this.polls = newPolls;
     }
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    public int getSystemId() {
-        return systemId;
-    }
-
-    public void setSystemId(int systemId) {
-        this.systemId = systemId;
+    @Override
+    public SystemTO createTO() {
+        SystemTO to = new SystemTO();
+        return to;
     }
 
 }
