@@ -5,6 +5,8 @@
  */
 package jjlm.logic.impl;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Random;
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
@@ -28,11 +30,16 @@ public class VotesLogicImpl implements VotesLogic {
     public OrganizerTO getOrganizer(String email) {
         Organizer o = oa.findOrganizer(email);
 
+        System.out.println(o.getRealname());
         if (o == null) {
             throw new IllegalArgumentException("Organizer with email: " + email + " does not exist");
         }
-
-        return o.createTO();
+        
+        System.out.println("getOrganizer");
+        
+        OrganizerTO to =o.createTO();
+        
+        return to;
     }
 
     @Override
@@ -58,6 +65,21 @@ public class VotesLogicImpl implements VotesLogic {
         if (to.getId() == null) {
             oa.create(organizer);
         }
+    }
+    
+    @Override
+    public OrganizerTO findFirst(){
+        List<Organizer> all = oa.findAll();
+        
+        if(all.isEmpty())
+            return new Organizer().createTO();
+       return all.get(0).createTO();
+   
+    }
+
+    @Override
+    public String getPlainString() {
+        return "halllllllo";
     }
 
 }

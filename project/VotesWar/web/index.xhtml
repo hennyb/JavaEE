@@ -7,6 +7,13 @@
     </h:head>
     <h:body>
         Hello from Facelets
+        <div>
+            <h:form>
+            <h:inputText value="#{organizerBean.email}"/>
+            <h:outputText value="#{organizerBean.name}"/>
+            <h:commandButton value="send"></h:commandButton>
+            </h:form>
+        </div>
     </h:body>
 </html>
 

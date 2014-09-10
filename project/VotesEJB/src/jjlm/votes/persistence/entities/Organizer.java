@@ -74,11 +74,14 @@ public class Organizer extends NamedEntity<Organizer, OrganizerTO> {
     @Override
     public OrganizerTO createTO() {
         OrganizerTO to = new OrganizerTO();
-        to.setPolls(polls);
+        //to.setPolls(polls);
         to.setEmail(email);
         to.setEncryptedPassword(encryptedPassword);
         to.setRealname(realname);
         to.setUsername(username);
+        
+        System.out.println(to.getUsername());
+        
         return to;
     }
 

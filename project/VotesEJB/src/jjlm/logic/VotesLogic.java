@@ -14,8 +14,14 @@ public interface VotesLogic {
     
     OrganizerTO getOrganizer(String email);
     
+    OrganizerTO findFirst();
+    
     void storeOrganizer(OrganizerTO to);
     
     PollTO storePoll(PollTO to);
+    
+    String getPlainString();
+    
+    
     
 }

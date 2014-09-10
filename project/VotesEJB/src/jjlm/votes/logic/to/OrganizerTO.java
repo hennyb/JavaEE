@@ -18,7 +18,7 @@ public class OrganizerTO extends NamedEntityTO{
     
      
     private List<Poll> polls;
-    private String username;
+    private String username = "asdf";
     private String realname;
     private String email;
     private String encryptedPassword;
