@@ -5,6 +5,8 @@
  */
 package jjlm.votes.persistence;
 
+import javax.ejb.LocalBean;
+import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import jjlm.votes.logic.to.ItemTO;
@@ -14,6 +16,8 @@ import jjlm.votes.persistence.entities.Item;
  *
  * @author henny
  */
+@Stateless
+@LocalBean
 public class ItemAccess extends NamedAccess<Item, ItemTO> {
 
     @PersistenceContext(name = "VotesEJBPU")

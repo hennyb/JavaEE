@@ -5,11 +5,14 @@
  */
 package jjlm.votes.persistence.entities;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
+import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Temporal;
@@ -31,14 +34,47 @@ public class Poll extends NamedEntity<Poll, PollTO> {
     private Date startPoll;
     private Date endPoll;
 
-    private System system;
-
     private Set<Item> items;
+
+    private List<Organizer> organizer;
+    private List<Token> tokens;
+    private List<Participant> participants;
 
     public Poll() {
         super();
 
         items = new HashSet<>();
+        organizer = new ArrayList<>();
+        tokens = new ArrayList<>();
+        participants = new ArrayList<>();
+        
+    }
+
+    @OneToMany(mappedBy = "poll", fetch = FetchType.EAGER)
+    public List<Token> getTokens() {
+        return tokens;
+    }
+
+    public void setTokens(List<Token> tokens) {
+        this.tokens = tokens;
+    }
+
+    @OneToMany(mappedBy = "poll", fetch = FetchType.EAGER)
+    public List<Participant> getParticipants() {
+        return participants;
+    }
+
+    public void setParticipants(List<Participant> participants) {
+        this.participants = participants;
+    }
+
+    @ManyToMany
+    public List<Organizer> getOrganizer() {
+        return organizer;
+    }
+
+    public void setOrganizer(List<Organizer> organizer) {
+        this.organizer = organizer;
     }
 
     /**
@@ -94,15 +130,6 @@ public class Poll extends NamedEntity<Poll, PollTO> {
 
     public void setEndPoll(Date endPoll) {
         this.endPoll = endPoll;
-    }
-
-    @ManyToOne
-    public System getSystem() {
-        return system;
-    }
-
-    public void setSystem(System system) {
-        this.system = system;
     }
 
     @Override

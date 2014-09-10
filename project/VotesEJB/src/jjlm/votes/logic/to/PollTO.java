@@ -22,7 +22,6 @@ public class PollTO extends NamedEntityTO {
     private Date startPoll;
     private Date endPoll;
 
-    private SystemTO system;
 
     private List<ItemTO> items;
 
@@ -54,13 +53,6 @@ public class PollTO extends NamedEntityTO {
         this.endPoll = endPoll;
     }
 
-    public SystemTO getSystem() {
-        return system;
-    }
-
-    public void setSystem(SystemTO system) {
-        this.system = system;
-    }
 
     public List<ItemTO> getItems() {
         return items;
