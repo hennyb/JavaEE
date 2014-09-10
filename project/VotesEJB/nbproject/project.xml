@@ -5,7 +5,6 @@
         <data xmlns="http://www.netbeans.org/ns/j2ee-ejbjarproject/3">
             <name>VotesEJB</name>
             <minimum-ant-version>1.6.5</minimum-ant-version>
-            <explicit-platform explicit-source-supported="true"/>
             <included-library dirs="200">libs.eclipselink.classpath</included-library>
             <included-library dirs="200">libs.eclipselinkmodelgen.classpath</included-library>
             <included-library dirs="200">libs.javaee-endorsed-api-6.0.classpath</included-library>
