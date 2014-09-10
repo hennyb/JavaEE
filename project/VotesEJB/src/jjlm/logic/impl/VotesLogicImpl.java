@@ -5,6 +5,7 @@
  */
 package jjlm.logic.impl;
 
+import java.util.Random;
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
 import jjlm.logic.VotesLogic;
@@ -19,19 +20,18 @@ import jjlm.votes.persistence.entities.Organizer;
  */
 @Stateless
 public class VotesLogicImpl implements VotesLogic {
-    
+
     @EJB
     private OrganizerAccess oa;
 
     @Override
     public OrganizerTO getOrganizer(String email) {
         Organizer o = oa.findOrganizer(email);
-    
-        if(o == null)
-        {
-            throw new IllegalArgumentException("Organizer with email: "+email+" does not exist");
+
+        if (o == null) {
+            throw new IllegalArgumentException("Organizer with email: " + email + " does not exist");
         }
-        
+
         return o.createTO();
     }
 
@@ -39,5 +39,25 @@ public class VotesLogicImpl implements VotesLogic {
     public PollTO storePoll(PollTO to) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
-    
+
+    @Override
+    public void storeOrganizer(OrganizerTO to) {
+
+        Organizer organizer = to.getId() == null ? new Organizer() : oa.find(to.getId());
+
+        if (organizer == null) {
+            throw new IllegalArgumentException("Organizer does not exist");
+        }
+
+        organizer.setEmail(to.getEmail());
+        organizer.setEncryptedPassword(to.getEncryptedPassword());
+        organizer.setPolls(to.getPolls());
+        organizer.setRealname(to.getRealname());
+        organizer.setUsername(to.getUsername());
+
+        if (to.getId() == null) {
+            oa.create(organizer);
+        }
+    }
+
 }
