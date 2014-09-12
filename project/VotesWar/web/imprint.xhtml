@@ -10,23 +10,27 @@
 
     <ui:define name="body">
 
-        <ui:composition template="./resources/votes/jsf/votes-disclaimer.xhtml">
+        <div class="container-fluid">
+            
+            <ui:composition template="./resources/votes/jsf/votes-disclaimer.xhtml">
 
-            <ui:define name="disclaimer-content">
+                <ui:define name="disclaimer-content">
 
-                <h1>Impressum</h1>
+                    <h1>Impressum</h1>
 
-                <ul>
-                    <li>Jan-Hendrik Borth</li>
-                    <li>Johannes H&auml;rtel</li>
-                    <li>Maximilian Meffert</li>
-                    <li>Lukas Müller</li>
-                </ul>
+                    <ul>
+                        <li>Jan-Hendrik Borth</li>
+                        <li>Johannes H&auml;rtel</li>
+                        <li>Maximilian Meffert</li>
+                        <li>Lukas Müller</li>
+                    </ul>
 
-            </ui:define>
+                </ui:define>
 
-        </ui:composition>
-
+            </ui:composition>
+            
+        </div>
+        
     </ui:define>
 
 </ui:composition>

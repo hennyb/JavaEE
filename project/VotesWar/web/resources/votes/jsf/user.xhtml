@@ -13,12 +13,6 @@
         <c:choose>
             <c:when test="#{userBean.isLoggedIn}">
 
-                <ul class="nav nav-tabs" role="tablist">
-                    <li class="active"><a href="#">Home</a></li>
-                    <li><a href="#">Organize</a></li>
-                    <li><a href="#">Participate</a></li>
-                </ul>
-
                 <ui:insert name="content"></ui:insert>
 
             </c:when>
