@@ -1,19 +1,57 @@
 <?xml version='1.0' encoding='UTF-8' ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml"
-      xmlns:h="http://xmlns.jcp.org/jsf/html">
-    <h:head>
-        <title>Facelet Title</title>
-    </h:head>
-    <h:body>
-        Hello from Facelets
-        <div>
-            <h:form>
-            <h:inputText value="#{organizerBean.email}"/>
-            <h:outputText value="#{organizerBean.name}"/>
-            <h:commandButton value="send"></h:commandButton>
-            </h:form>
-        </div>
-    </h:body>
-</html>
+<ui:composition 
+    template="./resources/votes/jsf/user.xhtml" 
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:h="http://xmlns.jcp.org/jsf/html"
+    xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+    xmlns:votes="http://java.sun.com/jsf/composite/votes/jsf"
+    xmlns:c="http://xmlns.jcp.org/jsp/jstl/core">
 
+    <ui:define name="content">
+
+        <div class="container">
+            
+            <div class="row">
+                <div class="col-md-12">
+                    <h1>My Polls</h1>
+                </div>
+            </div>
+            <hr></hr>
+            <div class="row">
+                <div class="col-md-12">
+                    
+                    <table class="table table-bordered table-hover">
+                        <thead>
+                            <tr>
+                                <th>Poll</th>
+                                <th>Period</th>
+                                <th>Participated</th>
+                                <th>Result</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            
+                            <tr>
+                                <td>
+                                    <a href="./poll.xhtml?pollid=1234">Fappening YES or NO?</a>
+                                </td>
+                                <td>2014-2015</td>
+                                <td>No</td>
+                                <td></td>
+                            </tr>
+                            
+                        </tbody>
+                    </table>
+                    
+                </div>
+                
+                
+            </div>
+            
+        </div>
+        
+
+    </ui:define>
+
+</ui:composition>
