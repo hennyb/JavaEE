@@ -1,6 +1,9 @@
 /project/Votes/build/
-/project/Votes/nbproject/private/
+/project/Votes/dist/
+/project/Votes/nbproject/
 /project/VotesEJB/build/
-/project/VotesEJB/nbproject/private/
+/project/VotesEJB/dist/
+/project/VotesEJB/nbproject/
 /project/VotesWar/build/
-/project/VotesWar/nbproject/private/
+/project/VotesWar/dist/
+/project/VotesWar/nbproject/
