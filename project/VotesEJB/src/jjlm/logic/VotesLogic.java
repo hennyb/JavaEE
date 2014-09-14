@@ -22,6 +22,8 @@ public interface VotesLogic {
     
     String getPlainString();
     
+    OrganizerTO lookupUser(String uid);
     
+    OrganizerTO getUser(String uid);
     
 }
