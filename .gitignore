@@ -5,5 +5,18 @@
 /project/VotesEJB/dist/
 /project/VotesEJB/nbproject/
 /project/VotesWar/build/
+<<<<<<< HEAD
 /project/VotesWar/dist/
 /project/VotesWar/nbproject/
+=======
+/project/VotesWar/nbproject/private/
+/project/VotesEJB/dist/
+/project/VotesWar/dist/
+/project/Votes/dist/
+
+/project/Votes/nbproject/project.properties
+/project/VotesEJB/nbproject/project.properties
+/project/VotesWar/lib/nblibraries.properties
+
+/project/VotesWar/nbproject
+>>>>>>> d6acd370f34fa343e26bad1eb7f07f7d1ee5bf1f

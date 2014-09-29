@@ -27,6 +27,36 @@ public class VotesLogicImpl implements VotesLogic {
     private OrganizerAccess oa;
 
     @Override
+    public OrganizerTO lookupUser(String uid) {
+        return UnikoLdapLookup.lookupPerson(uid);
+    }
+
+    @Override
+    public OrganizerTO getUser(String uid) {
+        return getUserEntity(uid).createTO();
+    }
+
+    private Organizer getUserEntity(String uid) {
+        OrganizerTO ldapUser = lookupUser(uid);
+        if (ldapUser == null) {
+            return null;
+        }
+        Organizer o = oa.findByName(uid);
+        if (o == null) {
+            o = new Organizer();
+            o.setRealname(ldapUser.getRealname()+"fromldap");
+            o.setName(ldapUser.getUsername()+"fromldap");
+            o.setEmail(uid+"@uni-koblenz.de");
+            o.setUsername(uid);
+            oa.create(o);
+            return o;
+        } else {
+            o.setUsername(ldapUser.getRealname());
+            return oa.edit(o);
+        }
+    }
+
+    @Override
     public OrganizerTO getOrganizer(String email) {
         Organizer o = oa.findOrganizer(email);
 
@@ -34,11 +64,11 @@ public class VotesLogicImpl implements VotesLogic {
         if (o == null) {
             throw new IllegalArgumentException("Organizer with email: " + email + " does not exist");
         }
-        
+
         System.out.println("getOrganizer");
-        
-        OrganizerTO to =o.createTO();
-        
+
+        OrganizerTO to = o.createTO();
+
         return to;
     }
 
@@ -66,15 +96,16 @@ public class VotesLogicImpl implements VotesLogic {
             oa.create(organizer);
         }
     }
-    
+
     @Override
-    public OrganizerTO findFirst(){
+    public OrganizerTO findFirst() {
         List<Organizer> all = oa.findAll();
-        
-        if(all.isEmpty())
+
+        if (all.isEmpty()) {
             return new Organizer().createTO();
-       return all.get(0).createTO();
-   
+        }
+        return all.get(0).createTO();
+
     }
 
     @Override
