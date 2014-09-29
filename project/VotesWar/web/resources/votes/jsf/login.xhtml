@@ -1,22 +1,55 @@
 <?xml version='1.0' encoding='UTF-8' ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<ui:composition 
-    template="./votes-disclaimer.xhtml"
-    xmlns="http://www.w3.org/1999/xhtml"
-    xmlns:cc="http://xmlns.jcp.org/jsf/composite"
-    xmlns:h="http://xmlns.jcp.org/jsf/html"
-    xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
-
-    <ui:define name="disclaimer-content">
+<ui:component
+        xmlns="http://www.w3.org/1999/xhtml"
+        xmlns:cc="http://xmlns.jcp.org/jsf/composite"
+        xmlns:h="http://xmlns.jcp.org/jsf/html"
+        xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
+  
+    <div class="container">
         
         <div class="row">
             <div class="col-md-12">
                 <h1>Willkommen bei Votes!</h1>
+                <hr></hr>
             </div>
         </div>
         
-        <ui:include src="./forms/login.xhtml"></ui:include>
-        
-    </ui:define>
-          
-</ui:composition>
+        <ui:composition template="./votes-disclaimer.xhtml">
+            
+            <ui:define name="disclaimer-content">
+
+                
+
+                <h:form styleClass="form-horizontal">
+
+                    <div class="row">
+                        <div class="col-md-12">
+
+                                <div class="form-group">
+                                    <label for="inputEmail3" class="col-sm-2 control-label">Email</label>
+                                    <div class="col-sm-4">
+                                      <input type="email" class="form-control" id="inputEmail3" placeholder="Email"></input>
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="inputPassword3" class="col-sm-2 control-label">Password</label>
+                                    <div class="col-sm-4">
+                                        <input type="password" class="form-control" id="inputPassword3" placeholder="Password"></input>
+                                    </div>
+                                </div>
+
+                                <h:commandButton value="Anmelden" styleClass="btn btn-primary" action="#{userBean.login()}"></h:commandButton>
+
+                        </div>
+                    </div>
+
+                </h:form>
+
+            </ui:define>
+            
+        </ui:composition>
+    </div>
+    
+</ui:component>

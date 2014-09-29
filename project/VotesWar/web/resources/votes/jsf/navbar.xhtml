@@ -20,25 +20,18 @@
                 </button>
                 <a class="navbar-brand" href="./index.xhtml"><i class="votes-logo"></i>Votes</a>
             </div>
-            <h:form>
-            <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
-                <ul class="nav navbar-nav">
-                    <li class="dropdown">
-                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">Poll Organizer<span class="caret"></span></a>
-                        <ul class="dropdown-menu" role="menu">
-                            <li><a href="#">New Poll</a></li>
-                            <li><a href="#">All Polls</a></li>
-                            <li><a href="#">New Participant-List</a></li>
-                            <li><a href="#">All Participant-List</a></li>
+            
+            <c:choose>
+
+                <c:when test="#{userBean.isLoggedIn}">
+
+                    <h:form>
+                    <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+                        <ul class="nav navbar-nav">
+                            <li><a href="#">Polls</a></li>
+                            <li><a href="#">Participant-Lists</a></li>
                         </ul>
-                    </li>
-                </ul>
-                <ul class="nav navbar-nav navbar-right">
-
-                    <c:choose>
-
-                        <c:when test="#{userBean.isLoggedIn}">
-
+                        <ul class="nav navbar-nav navbar-right">
                             <li class="dropdown">
                                 <a href="#" class="dropdown-toggle" data-toggle="dropdown">#{userBean.name}<span class="caret"></span></a>
                                 <ul class="dropdown-menu" role="menu">
@@ -46,20 +39,24 @@
                                     <li><a href="./imprint.xhtml">Impressum</a></li>
                                 </ul>
                             </li>
+                        </ul>
+                    </div>
+                    </h:form>
+                    
+                </c:when>
+                <c:otherwise>
 
-                        </c:when>
-                        <c:otherwise>
-
+                    <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+                        <ul class="nav navbar-nav navbar-right">
                             <li><a href="./imprint.xhtml">Impressum</a></li>
+                        </ul>
+                    </div>
+                    
+                </c:otherwise>
 
-                        </c:otherwise>
-
-                    </c:choose>
+            </c:choose>
 
 
-                </ul>
-            </div>
-            </h:form>
 
 
         </div>
