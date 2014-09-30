@@ -11,7 +11,7 @@
     <ui:define name="content">
 
         <div class="container">
-            
+
             <div class="row">
                 <div class="col-md-12">
                     <h1>My Polls</h1>
@@ -20,7 +20,7 @@
             <hr></hr>
             <div class="row">
                 <div class="col-md-12">
-                    
+
                     <table class="table table-bordered table-hover">
                         <thead>
                             <tr>
@@ -31,7 +31,17 @@
                             </tr>
                         </thead>
                         <tbody>
-                            
+
+                            <div>
+                                <h:form>
+                                    <h:inputText value="#{organizerBean.email}"/>
+                                     <c:forEach items="#{organizerBean.polls}" var="item">
+                                        <h:outputText value="#{item.description} "/>
+                                    </c:forEach>
+                                    <h:commandButton value="send"></h:commandButton>
+                                </h:form>
+                            </div>
+
                             <tr>
                                 <td>
                                     <a href="./poll.xhtml?pollid=1234">Fappening YES or NO?</a>
@@ -40,17 +50,17 @@
                                 <td>No</td>
                                 <td></td>
                             </tr>
-                            
+
                         </tbody>
                     </table>
-                    
+
                 </div>
-                
-                
+
+
             </div>
-            
+
         </div>
-        
+
 
     </ui:define>
 
