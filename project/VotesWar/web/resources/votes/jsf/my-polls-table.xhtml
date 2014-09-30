@@ -1,0 +1,37 @@
+<ui:component
+        xmlns="http://www.w3.org/1999/xhtml"
+        xmlns:h="http://xmlns.jcp.org/jsf/html"
+        xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
+            
+    <table class="table table-bordered table-hover">
+        
+        <thead>
+            <tr>
+                <th>#</th>
+                <th>Poll</th>
+                <th>Period</th>
+                <th>State</th>
+            </tr>
+        </thead>
+        
+        <tbody>
+
+            <ui:repeat var="poll" varStatus="status" value="#{myPollsBean.myPolls}">
+
+                 <tr>
+                    <td>#{status.index+1}</td>
+                    <td>
+                        <a href="./edit-poll.xhtml?id=1234">#{poll.name}</a>
+                    </td>
+                    <td>2014-2015</td>
+                    <td>asdf</td>
+                </tr>
+
+            </ui:repeat>
+
+        </tbody>
+        
+    </table>
+    
+    
+</ui:component>
