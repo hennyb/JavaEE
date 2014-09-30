@@ -12,6 +12,7 @@ import java.util.List;
 import java.util.Set;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
+import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
@@ -68,7 +69,7 @@ public class Poll extends NamedEntity<Poll, PollTO> {
         this.participants = participants;
     }
 
-    @ManyToMany
+    @ManyToMany(mappedBy = "polls" )
     public List<Organizer> getOrganizer() {
         return organizer;
     }
@@ -135,6 +136,7 @@ public class Poll extends NamedEntity<Poll, PollTO> {
     @Override
     public PollTO createTO() {
         PollTO to = new PollTO();
+        to.setDescription(getDescription());
         return to;
     }
 

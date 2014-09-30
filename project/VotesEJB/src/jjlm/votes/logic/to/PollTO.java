@@ -8,6 +8,9 @@ package jjlm.votes.logic.to;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import jjlm.votes.persistence.entities.Organizer;
+import jjlm.votes.persistence.entities.Participant;
+import jjlm.votes.persistence.entities.Token;
 
 /**
  *
@@ -24,6 +27,10 @@ public class PollTO extends NamedEntityTO {
 
 
     private List<ItemTO> items;
+    
+    private List<OrganizerTO> organizer;
+    private List<TokenTO> tokens;
+    private List<ParticipantTO> participants;
 
     public PollTO() {
         items = new ArrayList<>();
@@ -60,6 +67,30 @@ public class PollTO extends NamedEntityTO {
 
     public void setItems(List<ItemTO> items) {
         this.items = items;
+    }
+
+    public List<OrganizerTO> getOrganizer() {
+        return organizer;
+    }
+
+    public void setOrganizer(List<OrganizerTO> organizer) {
+        this.organizer = organizer;
+    }
+
+    public List<TokenTO> getTokens() {
+        return tokens;
+    }
+
+    public void setTokens(List<TokenTO> tokens) {
+        this.tokens = tokens;
+    }
+
+    public List<ParticipantTO> getParticipants() {
+        return participants;
+    }
+
+    public void setParticipants(List<ParticipantTO> participants) {
+        this.participants = participants;
     }
     
     

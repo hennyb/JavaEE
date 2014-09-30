@@ -8,7 +8,9 @@ package jjlm.votes.persistence.entities;
 import java.util.ArrayList;
 import java.util.List;
 import javax.persistence.Entity;
+import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
+import javax.validation.constraints.NotNull;
 import jjlm.votes.logic.to.OrganizerTO;
 
 /**
@@ -31,6 +33,7 @@ public class Organizer extends NamedEntity<Organizer, OrganizerTO> {
     }
 
     @ManyToMany
+    @JoinTable(name = "ORGANIZER_POLL")
     public List<Poll> getPolls() {
         return polls;
     }
@@ -74,7 +77,7 @@ public class Organizer extends NamedEntity<Organizer, OrganizerTO> {
     @Override
     public OrganizerTO createTO() {
         OrganizerTO to = new OrganizerTO();
-        //to.setPolls(polls);
+        to.setPolls(createTransferList(getPolls()));
         to.setEmail(email);
         to.setEncryptedPassword(encryptedPassword);
         to.setRealname(realname);

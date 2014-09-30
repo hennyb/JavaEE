@@ -14,7 +14,10 @@ import jjlm.logic.VotesLogic;
 import jjlm.votes.logic.to.OrganizerTO;
 import jjlm.votes.logic.to.PollTO;
 import jjlm.votes.persistence.OrganizerAccess;
+import jjlm.votes.persistence.PollAccess;
+import jjlm.votes.persistence.entities.AbstractEntity;
 import jjlm.votes.persistence.entities.Organizer;
+import jjlm.votes.persistence.entities.Poll;
 
 /**
  *
@@ -25,6 +28,9 @@ public class VotesLogicImpl implements VotesLogic {
 
     @EJB
     private OrganizerAccess oa;
+
+    @EJB
+    private PollAccess pa;
 
     @Override
     public OrganizerTO lookupUser(String uid) {
@@ -44,9 +50,9 @@ public class VotesLogicImpl implements VotesLogic {
         Organizer o = oa.findByName(uid);
         if (o == null) {
             o = new Organizer();
-            o.setRealname(ldapUser.getRealname()+"fromldap");
-            o.setName(ldapUser.getUsername()+"fromldap");
-            o.setEmail(uid+"@uni-koblenz.de");
+            o.setRealname(ldapUser.getRealname() + "fromldap");
+            o.setName(ldapUser.getUsername() + "fromldap");
+            o.setEmail(uid + "@uni-koblenz.de");
             o.setUsername(uid);
             oa.create(o);
             return o;
@@ -88,7 +94,7 @@ public class VotesLogicImpl implements VotesLogic {
 
         organizer.setEmail(to.getEmail());
         organizer.setEncryptedPassword(to.getEncryptedPassword());
-        organizer.setPolls(to.getPolls());
+        //organizer.setPolls(to.getPolls());
         organizer.setRealname(to.getRealname());
         organizer.setUsername(to.getUsername());
 
@@ -113,4 +119,25 @@ public class VotesLogicImpl implements VotesLogic {
         return "halllllllo";
     }
 
+    @Override
+    public List<PollTO> getAllPolls() {
+
+//        ArrayList<PollTO> result = new ArrayList<>();
+//        
+//        System.out.println("sizeee " +pa.getAllPolls().size());
+//        
+//        for(Poll poll : pa.getAllPolls())
+//            result.add(poll.createTO());
+        return AbstractEntity.createTransferList(pa.getAllPolls());
+    }
+
+    @Override
+    public List<PollTO> getPollsfromOrganizer(int organizerID) {
+        return AbstractEntity.createTransferList(pa.getPolls(organizerID));
+    }
+
+    @Override
+    public List<PollTO> getPollsfromOrganizer(OrganizerTO to) {
+        return AbstractEntity.createTransferList(pa.getAllPolls());
+    }
 }

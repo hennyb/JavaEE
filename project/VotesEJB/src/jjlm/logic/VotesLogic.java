@@ -5,6 +5,7 @@
  */
 package jjlm.logic;
 
+import java.util.List;
 import javax.ejb.Remote;
 import jjlm.votes.logic.to.OrganizerTO;
 import jjlm.votes.logic.to.PollTO;
@@ -25,5 +26,11 @@ public interface VotesLogic {
     OrganizerTO lookupUser(String uid);
     
     OrganizerTO getUser(String uid);
+    
+    List<PollTO> getPollsfromOrganizer(OrganizerTO to);
+    
+    List<PollTO> getPollsfromOrganizer(int organizerID);
+    
+    List<PollTO> getAllPolls();
     
 }
