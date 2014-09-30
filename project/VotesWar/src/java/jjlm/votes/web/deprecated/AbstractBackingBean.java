@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package jjlm.votes.web;
+package jjlm.votes.web.deprecated;
 
 
 import java.io.Serializable;

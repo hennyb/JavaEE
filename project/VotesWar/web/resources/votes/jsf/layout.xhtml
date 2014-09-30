@@ -6,19 +6,27 @@
       xmlns:votes="http://java.sun.com/jsf/composite/votes/jsf"
       xmlns:c="http://xmlns.jcp.org/jsp/jstl/core">
 
-    <head>
-        <link rel="icon" type="image/x-icon" href="./resources/votes/img/votes.png"></link>   
-        <link rel="stylesheet" type="text/css" href="./resources/bootstrap/bootstrap-3.2.0-dist/css/bootstrap.min.css"></link>
-        <link rel="stylesheet" type="text/css" href="./resources/votes/css/votes.css"></link>
-        <script type ="text/javascript" src="./resources/jquery/jquery-1.11.1.min.js"></script>
-        <script type ="text/javascript" src="./resources/bootstrap/bootstrap-3.2.0-dist/js/bootstrap.min.js"></script>
-        <title><ui:insert name="title">Votes</ui:insert></title>
-    </head>
+    <h:head>
+        <h:outputStylesheet name="votes/css/votes.css"></h:outputStylesheet>
+        <link rel="icon" type="image/x-icon" href="resources/votes/img/votes.png"></link>   
+        <link rel="stylesheet" type="text/css" href="resources/bootstrap/bootstrap-3.2.0-dist/css/bootstrap.min.css"></link>
+        <link rel="stylesheet" type="text/css" href="resources/votes/css/votes.css"></link>
+        <ui:insert name="html-styles"></ui:insert>
+        <script type ="text/javascript" src="resources/jquery/jquery-1.11.1.min.js"></script>
+        <script type ="text/javascript" src="resources/bootstrap/bootstrap-3.2.0-dist/js/bootstrap.min.js"></script>
+        <ui:insert name="html-scripts"></ui:insert>
+        <title><ui:insert name="html-title">Votes</ui:insert></title>
+    </h:head>
 
     <body>
         
         <ui:include src="./navbar.xhtml"></ui:include>
-        <ui:insert name="body"></ui:insert>
+        
+        <div class="container">
+            
+             <ui:insert name="layout-content"></ui:insert>
+            
+        </div>
         
     </body>
 

@@ -22,6 +22,8 @@ public class UserBean  implements Serializable {
     private boolean isOrganizer = false;
     private boolean isParticipant = false;
     private String name = "Max Meffert";
+    private String email;
+    private String password;
 
     public boolean getIsLoggedIn() {
         return isLoggedIn;
@@ -33,6 +35,22 @@ public class UserBean  implements Serializable {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
     }
     
     public void login () {

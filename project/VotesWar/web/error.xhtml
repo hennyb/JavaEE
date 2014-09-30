@@ -1,39 +1,31 @@
 <?xml version='1.0' encoding='UTF-8' ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <ui:composition 
-    template="./resources/votes/jsf/publicView.xhtml"
+    template="./resources/votes/jsf/participant-view.xhtml"
     xmlns="http://www.w3.org/1999/xhtml"
     xmlns:h="http://xmlns.jcp.org/jsf/html"
     xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
 
+    <ui:define name="html-title">Votes | Error</ui:define>
+
     <ui:define name="content">
-        <h:form>
+
         <div class="container">
             
             <div class="row">
+                
                 <div class="col-md-12">
                     
-                    <h1>Vote for something</h1>
+                    <h1 class="text-center">We're sorry!</h1>
+                    <h4 class="text-center">Some error occured or the page you have requested might just not exist.</h4>
                     
+                    <img class="col-md-6 col-md-offset-3 img-responsive" src="./resources/votes/img/votes.png"></img>
                 </div>
+                
             </div>
             
-            <hr></hr>
-            
-            <div class="row">
-                <div class="col-md-12">
-                    
-                    <h3>Ballot</h3>
-                    
-                        <h:inputText></h:inputText>
-                    
-                    
-                    
-                </div>
-            </div>
             
         </div>
-        </h:form>
         
     </ui:define>
 

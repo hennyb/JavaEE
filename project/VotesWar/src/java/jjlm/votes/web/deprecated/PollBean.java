@@ -1,4 +1,4 @@
-package jjlm.votes.web;
+package jjlm.votes.web.deprecated;
 
 /*
  * To change this license header, choose License Headers in Project Properties.
