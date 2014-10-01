@@ -6,34 +6,47 @@
 
 package jjlm.votes.web.organizer;
 
-import javax.ejb.Stateless;
-import javax.enterprise.context.RequestScoped;
 import javax.enterprise.context.SessionScoped;
-import javax.faces.bean.ViewScoped;
 import javax.inject.Named;
+import jjlm.votes.web.help.RequestParameters;
 
 /**
  *
- * @author darjeeling
+ * @author maxmeffert
  */
+
 @Named
-@RequestScoped  
+@SessionScoped
 public class EditPollBean extends OrganizerBean {
 
+    private final String PARAMETERNAME_ID = "id";
+
+    public String getPARAMETERNAME_ID() {
+        return PARAMETERNAME_ID;
+    }
+
+    
+    
+    
     public EditPollBean () {
         
     }
     
     private String pollId;
 
+    
     public String getPollId() {
-        return pollId;
+        return RequestParameters.get(PARAMETERNAME_ID);
     }
 
     public void setPollId(String pollId) {
         this.pollId = pollId;
     }
     
-    
+    public void doStuff () {
+        
+        System.out.println(RequestParameters.get("page"));
+        
+    }
     
 }

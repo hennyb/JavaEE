@@ -22,7 +22,7 @@
 
                         <div class="form-group">
                             <label class="col-sm-2 control-label">Name</label>
-                            <div class="col-sm-4">
+                            <div class="col-sm-10">
                                 <h:inputText 
                                     styleClass="form-control"></h:inputText>
                             </div>
@@ -30,41 +30,9 @@
 
                         <div class="form-group">
                             <label class="col-sm-2 control-label">Description</label>
-                            <div class="col-sm-4">
+                            <div class="col-sm-10">
                                 <h:inputTextarea
                                     styleClass="form-control"></h:inputTextarea>
-                            </div>
-                        </div>
-
-                        <div class="form-group">
-                            <label class="col-sm-2 control-label">Period (from:to)</label>
-                            <div class="col-sm-2">
-                                <h:inputText
-                                    styleClass="form-control"></h:inputText>
-                            </div>
-                            <div class="col-sm-2">
-                                <h:inputText
-                                    styleClass="form-control"></h:inputText>
-                            </div>
-                        </div>
-
-                        <div class="form-group">
-                            <label class="col-sm-2 control-label">Participants</label>
-                            <div class="col-sm-4">
-                                <h:inputTextarea
-                                    styleClass="form-control"></h:inputTextarea>
-                            </div>
-                        </div>
-
-                        <div class="form-group">
-                            <label class="col-sm-2 control-label">Add Participants List</label>
-                            <div class="col-sm-4">
-                                <h:selectOneMenu  class="form-control">
-                                    <f:selectItem itemValue="none" itemLabel="" />
-                                    <f:selectItem itemValue="Cream Latte" itemLabel="Coffee3 - Cream Latte" />
-                                    <f:selectItem itemValue="Extreme Mocha" itemLabel="Coffee3 - Extreme Mocha" />
-                                    <f:selectItem itemValue="Buena Vista" itemLabel="Coffee3 - Buena Vista" />
-                                </h:selectOneMenu>
                             </div>
                         </div>
 
@@ -72,13 +40,15 @@
             </div>
             <br></br>
             <div class="row">
-                <div class="col-md-12">
+                <div class="col-md-12 text-center">
                     
-                    <div class="btn-toolbar">
+                    <div class="btn-toolbar ">
                         
                         <h:commandButton
                             styleClass="btn btn-primary"
-                            value="Save"></h:commandButton>
+                            value="Save"
+                            action="#{newPollBean.save()}"></h:commandButton>
+                            
                         
                         
                     </div>
