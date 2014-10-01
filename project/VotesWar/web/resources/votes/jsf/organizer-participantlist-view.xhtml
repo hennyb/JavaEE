@@ -13,16 +13,13 @@
         <div class="row">
             <div class="col-md-12">
                 <h1>
-                    <ui:insert name="organizer-participants-title">Participants</ui:insert>
+                    <ui:insert name="organizer-participantlist-title">Participants</ui:insert>
                     <ul class="nav nav-pills pull-right">
                         <li>
-                            <a class="btn" href="#">My Participants</a>
+                            <h:link class="btn" outcome="my-participantlists" value="My Participant Lists"></h:link>
                         </li>
                         <li>
-                            <a class="btn" href="#">My Participant Lists</a>
-                        </li>
-                        <li>
-                            <a class="btn" href="#">New Participant List</a>
+                            <h:link class="btn" outcome="new-participantlist" value="New Participant Lists"></h:link>
                         </li>
                     </ul>
                 </h1>
@@ -30,7 +27,7 @@
             </div>
         </div>
         
-        <ui:insert name="organizer-participants-content"></ui:insert>
+        <ui:insert name="organizer-participantlist-content"></ui:insert>
         
 
     </ui:define>

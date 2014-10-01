@@ -7,14 +7,33 @@
 package jjlm.votes.web.organizer;
 
 import javax.ejb.Stateless;
+import javax.enterprise.context.RequestScoped;
+import javax.enterprise.context.SessionScoped;
+import javax.faces.bean.ViewScoped;
+import javax.inject.Named;
 
 /**
  *
  * @author darjeeling
  */
-@Stateless
-public class EditPollBean {
+@Named
+@RequestScoped  
+public class EditPollBean extends OrganizerBean {
 
-    // Add business logic below. (Right-click in editor and choose
-    // "Insert Code > Add Business Method")
+    public EditPollBean () {
+        
+    }
+    
+    private String pollId;
+
+    public String getPollId() {
+        return pollId;
+    }
+
+    public void setPollId(String pollId) {
+        this.pollId = pollId;
+    }
+    
+    
+    
 }

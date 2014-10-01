@@ -7,13 +7,12 @@
       xmlns:c="http://xmlns.jcp.org/jsp/jstl/core">
 
     <h:head>
-        <h:outputStylesheet name="votes/css/votes.css"></h:outputStylesheet>
-        <link rel="icon" type="image/x-icon" href="resources/votes/img/votes.png"></link>   
-        <link rel="stylesheet" type="text/css" href="resources/bootstrap/bootstrap-3.2.0-dist/css/bootstrap.min.css"></link>
-        <link rel="stylesheet" type="text/css" href="resources/votes/css/votes.css"></link>
+        <link rel="icon" type="image/x-icon" href="#{request.contextPath}/resources/votes/img/votes.png"></link>   
+        <link rel="stylesheet" type="text/css" href="#{request.contextPath}/resources/bootstrap/bootstrap-3.2.0-dist/css/bootstrap.min.css"></link>
+        <link rel="stylesheet" type="text/css" href="#{request.contextPath}/resources/votes/css/votes.css"></link>
         <ui:insert name="html-styles"></ui:insert>
-        <script type ="text/javascript" src="resources/jquery/jquery-1.11.1.min.js"></script>
-        <script type ="text/javascript" src="resources/bootstrap/bootstrap-3.2.0-dist/js/bootstrap.min.js"></script>
+        <script type ="text/javascript" src="#{request.contextPath}/resources/jquery/jquery-1.11.1.min.js"></script>
+        <script type ="text/javascript" src="#{request.contextPath}/resources/bootstrap/bootstrap-3.2.0-dist/js/bootstrap.min.js"></script>
         <ui:insert name="html-scripts"></ui:insert>
         <title><ui:insert name="html-title">Votes</ui:insert></title>
     </h:head>

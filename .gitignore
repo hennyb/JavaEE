@@ -10,3 +10,10 @@
 /project/VotesWar/lib/nblibraries.properties
 
 /project/VotesWar/nbproject
+/project/Votes/build/
+
+/project/VotesEJB/build.xml
+/project/VotesWar/nbproject/build-impl.xml
+/project/VotesWar/nbproject/genfiles.properties
+/project/VotesWar/nbproject/project.properties
+/project/VotesWar/nbproject/project.xml

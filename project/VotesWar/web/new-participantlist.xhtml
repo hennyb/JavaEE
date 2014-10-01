@@ -1,0 +1,47 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition 
+    template="./resources/votes/jsf/organizer-participantlist-view.xhtml" 
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:h="http://xmlns.jcp.org/jsf/html"
+    xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+    xmlns:votes="http://java.sun.com/jsf/composite/votes/jsf"
+    xmlns:c="http://xmlns.jcp.org/jsp/jstl/core">
+
+    <ui:define name="html-title">New Participant List</ui:define>
+    
+    <ui:define name="organizer-participantlist-title">New Participant List</ui:define>
+    
+    <ui:define name="organizer-participantlist-content">
+        
+        <h:form>
+            <div class="row">
+                <div class="col-md-12">
+
+                    <h:inputTextarea
+                        styleClass="col-md-12"
+                        style="width: 100%; resize: none; min-height: 300px; font-family: Courier"></h:inputTextarea>
+                    
+                    
+                </div>
+            </div>
+            <br></br>
+            <div class="row">
+                <div class="col-md-12">
+                    
+                    <div class="btn-toolbar">
+                        
+                        <h:commandButton
+                            styleClass="btn btn-primary"
+                            value="Save"></h:commandButton>
+                        
+                        
+                    </div>
+                    
+                </div>
+            </div>
+        </h:form>
+
+    </ui:define>
+
+</ui:composition>

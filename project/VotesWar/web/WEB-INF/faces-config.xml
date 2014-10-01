@@ -7,28 +7,41 @@
     <navigation-rule>
         
         <navigation-case>
+            <from-outcome>index</from-outcome>
+            <to-view-id>/index.html</to-view-id>
+        </navigation-case>
+        
+        <navigation-case>
             <from-outcome>my-polls</from-outcome>
-            <to-view-id>./my-polls.xhtml</to-view-id>
+            <to-view-id>/my-polls.xhtml</to-view-id>
         </navigation-case>
         <navigation-case>
             <from-outcome>new-poll</from-outcome>
-            <to-view-id>./new-poll.xhtml</to-view-id>
+            <to-view-id>/new-poll.xhtml</to-view-id>
         </navigation-case>
         <navigation-case>
             <from-outcome>edit-poll</from-outcome>
-            <to-view-id>./edit-poll.xhtml</to-view-id>
+            <to-view-id>/edit-poll.xhtml</to-view-id>
+        </navigation-case>
+        
+        <navigation-case>
+            <from-outcome>my-participantlists</from-outcome>
+            <to-view-id>./my-participantlists.xhtml</to-view-id>
+        </navigation-case>
+        <navigation-case>
+            <from-outcome>new-participantlist</from-outcome>
+            <to-view-id>./new-participantlist.xhtml</to-view-id>
+        </navigation-case>
+        <navigation-case>
+            <from-outcome>edit-participantlist</from-outcome>
+            <to-view-id>./edit-participantlist.xhtml</to-view-id>
         </navigation-case>
         
         <navigation-case>
             <from-outcome>imprint</from-outcome>
-            <to-view-id>./imprint.xhtml</to-view-id>
+            <to-view-id>/imprint.xhtml</to-view-id>
         </navigation-case>
         
-        
-        <navigation-case>
-            <from-outcome>test</from-outcome>
-            <to-view-id>./pages/test.xhtml</to-view-id>
-        </navigation-case>
         
     </navigation-rule>
     
