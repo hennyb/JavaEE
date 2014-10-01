@@ -19,10 +19,16 @@
                 <div class="col-md-12">
 
                     <h:inputTextarea
-                        styleClass="col-md-12"
-                        style="width: 100%; resize: none; min-height: 300px; font-family: Courier"></h:inputTextarea>
-                    
-                    
+                        styleClass="col-md-12 participantlist"
+                        value="#{newParticipantListBean.participantListText}"></h:inputTextarea>
+                        
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-12">
+                    <p class="well">
+                        Paste a list of Email addresses separated by "," or line break.
+                    </p>
                 </div>
             </div>
             <br></br>
@@ -33,7 +39,8 @@
                         
                         <h:commandButton
                             styleClass="btn btn-primary"
-                            value="Save"></h:commandButton>
+                            value="Save"
+                            action="#{newParticipantListBean.save()}"></h:commandButton>
                         
                         
                     </div>

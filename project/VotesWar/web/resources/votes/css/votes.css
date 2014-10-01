@@ -41,3 +41,13 @@ i.votes-logo {
     
 }
 
+
+textarea.participantlist {
+    
+    width: 100%; 
+    resize: none; 
+    min-height: 300px; 
+    font-family: Courier;
+    
+}
+

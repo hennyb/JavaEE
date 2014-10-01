@@ -1,67 +1,47 @@
 <?xml version='1.0' encoding='UTF-8' ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <ui:composition 
-    template="./resources/votes/jsf/publicView.xhtml"
+    template="./resources/votes/jsf/participant-view.xhtml"
     xmlns="http://www.w3.org/1999/xhtml"
     xmlns:h="http://xmlns.jcp.org/jsf/html"
-    xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
+    xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+    xmlns:votes="http://java.sun.com/jsf/composite/votes/jsf">
 
-    <ui:define name="title">Votes | Sign In</ui:define>
+    <ui:define name="html-title">Votes | Sign In</ui:define>
 
     <ui:define name="content">
 
-        <div class="container">
-        
         <div class="row">
             <div class="col-md-12">
-                <h1>Sign In</h1>
+                <h1 class="text-center">Sign In</h1>
                 <hr></hr>
             </div>
         </div>
         
-        <ui:composition template="./resources/votes/jsf/votes-disclaimer.xhtml">
-            
-            <ui:define name="disclaimer-content">
+        <div class="row">
 
-                
+            <div class="col-md-12">
 
-                <h:form styleClass="form-horizontal">
+                <div class="">
 
-                    <div class="row">
-                        <div class="col-md-12">
+                    <votes:image styleClass="col-md-4 col-sm-3 col-xs-4 img-responsive" src="votes/img/votes.png"></votes:image>
 
-                                <div class="form-group">
-                                    <label for="inputEmail" class="col-sm-2 control-label">Email</label>
-                                    <div class="col-sm-4">
-                                      <input type="email" class="form-control" id="inputEmail" placeholder="Email"></input>
-                                    </div>
-                                </div>
-
-                                <div class="form-group">
-                                    <label for="inputPassword1" class="col-sm-2 control-label">Password</label>
-                                    <div class="col-sm-4">
-                                        <input type="password" class="form-control" id="inputPassword1" placeholder="Password"></input>
-                                    </div>
-                                </div>
-
-                                <div class="form-group">
-                                    <label for="inputPassword2" class="col-sm-2 control-label">Password (Wdh)</label>
-                                    <div class="col-sm-4">
-                                        <input type="password" class="form-control" id="inputPassword2" placeholder="Password"></input>
-                                    </div>
-                                </div>
-
-                                <h:commandButton value="Sign In" styleClass="btn btn-primary" action="#{userBean.login()}"></h:commandButton>
-
-                        </div>
+                    <div class="col-md-8">
+                        
+                        <ui:include src="./resources/votes/jsf/signin-form.xhtml"></ui:include>
+                        
                     </div>
+                    
+                    
 
-                </h:form>
+                </div>
 
-            </ui:define>
-            
-        </ui:composition>
-    </div>
+            </div>
+
+
+
+        </div>
+        
         
     </ui:define>
 

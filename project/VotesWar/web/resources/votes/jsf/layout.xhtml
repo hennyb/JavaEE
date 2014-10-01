@@ -1,21 +1,19 @@
 <?xml version='1.0' encoding='UTF-8' ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml"
-      xmlns:h="http://xmlns.jcp.org/jsf/html"
       xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
-      xmlns:votes="http://java.sun.com/jsf/composite/votes/jsf"
-      xmlns:c="http://xmlns.jcp.org/jsp/jstl/core">
+      xmlns:votes="http://java.sun.com/jsf/composite/votes/jsf">
 
-    <h:head>
-        <link rel="icon" type="image/x-icon" href="#{request.contextPath}/resources/votes/img/votes.png"></link>   
-        <link rel="stylesheet" type="text/css" href="#{request.contextPath}/resources/bootstrap/bootstrap-3.2.0-dist/css/bootstrap.min.css"></link>
-        <link rel="stylesheet" type="text/css" href="#{request.contextPath}/resources/votes/css/votes.css"></link>
+    <head>
+        <votes:favicon src="votes/img/votes.png"></votes:favicon>
+        <votes:stylesheet src="bootstrap/bootstrap-3.2.0-dist/css/bootstrap.min.css"></votes:stylesheet>
+        <votes:stylesheet src="votes/css/votes.css"></votes:stylesheet>
         <ui:insert name="html-styles"></ui:insert>
-        <script type ="text/javascript" src="#{request.contextPath}/resources/jquery/jquery-1.11.1.min.js"></script>
-        <script type ="text/javascript" src="#{request.contextPath}/resources/bootstrap/bootstrap-3.2.0-dist/js/bootstrap.min.js"></script>
+        <votes:script src="jquery/jquery-1.11.1.min.js"></votes:script>
+        <votes:script src="bootstrap/bootstrap-3.2.0-dist/js/bootstrap.min.js"></votes:script>
         <ui:insert name="html-scripts"></ui:insert>
         <title><ui:insert name="html-title">Votes</ui:insert></title>
-    </h:head>
+    </head>
 
     <body>
         

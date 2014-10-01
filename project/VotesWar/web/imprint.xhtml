@@ -4,7 +4,8 @@
     template="./resources/votes/jsf/participant-view.xhtml"
     xmlns="http://www.w3.org/1999/xhtml"
     xmlns:h="http://xmlns.jcp.org/jsf/html"
-    xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
+    xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+    xmlns:votes="http://java.sun.com/jsf/composite/votes/jsf">
 
     <ui:define name="html-title">Votes | Impressum</ui:define>
 
@@ -23,7 +24,7 @@
 
                 <div class="">
 
-                    <img class="col-md-4 col-sm-3 col-xs-4 img-responsive" src="./resources/votes/img/votes.png"></img>
+                    <votes:image styleClass="col-md-4 col-sm-3 col-xs-4 img-responsive" src="votes/img/votes.png"></votes:image>
 
                     <div class="col-md-8 col-sm-9 col-xs-8">
                         <h3>

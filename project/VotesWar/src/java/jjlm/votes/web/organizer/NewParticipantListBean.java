@@ -7,14 +7,37 @@
 package jjlm.votes.web.organizer;
 
 import javax.ejb.Stateless;
+import javax.enterprise.context.RequestScoped;
+import javax.inject.Named;
+import jjlm.votes.web.logic.ParticipantListParser;
 
 /**
  *
  * @author darjeeling
  */
-@Stateless
+@Named
+@RequestScoped
 public class NewParticipantListBean {
 
-    // Add business logic below. (Right-click in editor and choose
-    // "Insert Code > Add Business Method")
+    private String participantListText;
+
+    public String getParticipantListText() {
+        return participantListText;
+    }
+
+    public void setParticipantListText(String participantListText) {
+        this.participantListText = participantListText;
+    }
+    
+    
+    
+    public void save () {
+        
+        ParticipantListParser parser = new ParticipantListParser();
+        
+        System.out.println(parser.parse(this.participantListText));
+        
+    }
+    
+    
 }
