@@ -4,7 +4,7 @@
  * and open the template in the editor.
  */
 
-package jjlm.votes.web;
+package jjlm.votes.web.data;
 
 /**
  *

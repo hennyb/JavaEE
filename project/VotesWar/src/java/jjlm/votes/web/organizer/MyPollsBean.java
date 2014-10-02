@@ -14,7 +14,7 @@ import javax.enterprise.context.SessionScoped;
 import javax.faces.bean.ViewScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
-import jjlm.votes.web.Poll;
+import jjlm.votes.web.data.Poll;
 import jjlm.votes.web.UserBean;
 import jjlm.votes.web.help.RequestParameters;
 

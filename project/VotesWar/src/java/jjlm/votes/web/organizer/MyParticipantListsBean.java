@@ -6,7 +6,7 @@
 
 package jjlm.votes.web.organizer;
 
-import jjlm.votes.web.ParticipantList;
+import jjlm.votes.web.data.ParticipantList;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
