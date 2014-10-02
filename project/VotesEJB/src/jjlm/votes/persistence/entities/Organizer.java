@@ -84,8 +84,6 @@ public class Organizer extends NamedEntity<Organizer, OrganizerTO> {
         to.setRealname(realname);
         to.setUsername(username);
         
-        System.out.println(to.getUsername());
-        
         return to;
     }
 

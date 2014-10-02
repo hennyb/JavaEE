@@ -92,6 +92,7 @@ public class VotesLogicImpl implements VotesLogic {
         organizer.setEmail(to.getEmail());
         organizer.setEncryptedPassword(to.getEncryptedPassword());
         //organizer.setPolls(to.getPolls());
+        organizer.setPolls(new ArrayList<Poll>());
         organizer.setRealname(to.getRealname());
         organizer.setUsername(to.getUsername());
 
