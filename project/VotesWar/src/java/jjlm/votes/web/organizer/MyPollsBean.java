@@ -6,17 +6,11 @@
 
 package jjlm.votes.web.organizer;
 
-import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
-import javax.enterprise.context.RequestScoped;
 import javax.enterprise.context.SessionScoped;
-import javax.faces.bean.ViewScoped;
-import javax.inject.Inject;
 import javax.inject.Named;
 import jjlm.votes.web.Poll;
-import jjlm.votes.web.UserBean;
-import jjlm.votes.web.help.RequestParameters;
 
 /**
  *
@@ -53,7 +47,7 @@ public class MyPollsBean extends OrganizerBean  {
         }
         
         max = myPolls.size();
-        
+        //ueber sql offset & limit
         return myPolls.subList(offset, offset+limit <= max ? offset+limit : max);
         
     }

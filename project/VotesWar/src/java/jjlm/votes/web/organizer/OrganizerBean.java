@@ -18,7 +18,7 @@ import jjlm.votes.web.UserBean;
  */
 @Named
 @SessionScoped
-public abstract class OrganizerBean implements Serializable {
+public class OrganizerBean implements Serializable {
     
     @Inject
     protected UserBean user;

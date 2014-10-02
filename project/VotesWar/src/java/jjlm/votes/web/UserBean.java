@@ -3,20 +3,23 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-
 package jjlm.votes.web;
 
 import java.io.Serializable;
+import javax.ejb.EJB;
 import javax.enterprise.context.SessionScoped;
 import javax.inject.Named;
+import jjlm.logic.VotesLogic;
+import jjlm.votes.logic.to.OrganizerTO;
 
 /**
  * UserBean is a data provider bean for presentation logic
+ *
  * @author maxmeffert
  */
 @SessionScoped
 @Named
-public class UserBean  implements Serializable {
+public class UserBean implements Serializable {
 
     private boolean isLoggedIn = true;
     private boolean isOrganizer = false;
@@ -25,10 +28,13 @@ public class UserBean  implements Serializable {
     private String email;
     private String password;
 
+    @EJB
+    private VotesLogic logic;
+
     public boolean getIsLoggedIn() {
         return isLoggedIn;
     }
-    
+
     public String getName() {
         return name;
     }
@@ -52,18 +58,25 @@ public class UserBean  implements Serializable {
     public void setPassword(String password) {
         this.password = password;
     }
-    
-    public void login () {
-        
-        this.isLoggedIn = true;
-        
-    }
-    
-    public void logout () {
-        
+
+    public void login() {
+
         this.isLoggedIn = false;
         
+        if (email != null) {
+            OrganizerTO o = logic.getOrganizer(email);
+            if(o!=null){
+                if(o.getEncryptedPassword()!=null && o.getEncryptedPassword().equals(password)){
+                    isLoggedIn=true;
+                }
+            }
+        }
     }
-    
-    
+
+    public void logout() {
+
+        this.isLoggedIn = false;
+
+    }
+
 }
