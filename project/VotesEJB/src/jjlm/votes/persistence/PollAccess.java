@@ -43,5 +43,18 @@ public class PollAccess extends NamedAccess<Poll, PollTO> {
                 .getResultList();
 
     }
+    
+    public List<Poll> getPolls(int organizerId, int offset, int max) {
+        System.out.println("oid: "+ organizerId);
+        return em.createQuery("SELECT p FROM Poll p, IN(p.organizer) o"
+                + " where o.id= :organizerId"
+                + "", Poll.class)
+                .setParameter("organizerId", organizerId)
+                .setFirstResult(offset)
+                .setMaxResults(max)
+                .getResultList();
+
+    }
+    
 
 }

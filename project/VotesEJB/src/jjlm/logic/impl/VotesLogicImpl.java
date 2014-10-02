@@ -66,12 +66,9 @@ public class VotesLogicImpl implements VotesLogic {
     public OrganizerTO getOrganizer(String email) {
         Organizer o = oa.findOrganizer(email);
 
-        System.out.println(o.getRealname());
         if (o == null) {
             throw new IllegalArgumentException("Organizer with email: " + email + " does not exist");
         }
-
-        System.out.println("getOrganizer");
 
         OrganizerTO to = o.createTO();
 
@@ -138,6 +135,12 @@ public class VotesLogicImpl implements VotesLogic {
 
     @Override
     public List<PollTO> getPollsfromOrganizer(OrganizerTO to) {
+        return AbstractEntity.createTransferList(pa.getPolls(to.getId()));
+    }
+
+    @Override
+    public List<PollTO> getPollsfromOrganizer(int organizerID, int offset, int max) {
+        System.out.println("listsize: "+pa.getAllPolls().size());
         return AbstractEntity.createTransferList(pa.getAllPolls());
     }
 }

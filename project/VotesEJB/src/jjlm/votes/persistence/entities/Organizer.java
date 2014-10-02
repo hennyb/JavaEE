@@ -77,6 +77,7 @@ public class Organizer extends NamedEntity<Organizer, OrganizerTO> {
     @Override
     public OrganizerTO createTO() {
         OrganizerTO to = new OrganizerTO();
+        to.setId(id);
         to.setPolls(createTransferList(getPolls()));
         to.setEmail(email);
         to.setEncryptedPassword(encryptedPassword);
