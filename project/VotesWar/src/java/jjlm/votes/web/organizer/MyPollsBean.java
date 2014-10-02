@@ -66,8 +66,6 @@ public class MyPollsBean extends OrganizerBean  {
             
         }
         
-       
-        
     }
     
     public void prev () {
