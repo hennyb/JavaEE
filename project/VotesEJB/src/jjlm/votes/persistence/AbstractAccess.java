@@ -27,19 +27,7 @@ public abstract class AbstractAccess<E extends AbstractEntity<E, T>, T extends A
     protected abstract EntityManager getEntityManager();
 
     public void create(E entity) {
-        ValidatorFactory factory = Validation.buildDefaultValidatorFactory();
-        Validator validator = factory.getValidator();
-        Set<ConstraintViolation<E>> constraintViolations = validator.validate(entity);
-        if (constraintViolations.size() > 0) {
-            Iterator<ConstraintViolation<E>> iterator = constraintViolations.iterator();
-            while (iterator.hasNext()) {
-                ConstraintViolation<E> cv = iterator.next();
-                System.err.println(cv.getRootBeanClass().getName() + "." + cv.getPropertyPath() + " " + cv.getMessage());
-                //System.out.println(cv.getRootBeanClass().getSimpleName() + "." + cv.getPropertyPath() + " " + cv.getMessage());
-            }
-        } else {
-            getEntityManager().persist(entity);
-        }
+        getEntityManager().persist(entity);
         getEntityManager().flush();
     }
 

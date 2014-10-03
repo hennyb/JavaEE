@@ -31,6 +31,8 @@ public interface VotesLogic {
     
     List<PollTO> getPollsfromOrganizer(int organizerID);
     
+    List<PollTO> getPollsfromOrganizer(int organizerID, int from, int to);
+    
     List<PollTO> getAllPolls();
     
 }

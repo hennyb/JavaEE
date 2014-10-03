@@ -6,9 +6,13 @@
 
 package jjlm.votes.web;
 
+import java.util.ArrayList;
+import javax.ejb.EJB;
 import javax.enterprise.context.RequestScoped;
-import javax.enterprise.context.SessionScoped;
 import javax.inject.Named;
+import jjlm.logic.VotesLogic;
+import jjlm.votes.logic.to.OrganizerTO;
+import jjlm.votes.logic.to.PollTO;
 
 /**
  *
@@ -24,6 +28,10 @@ public class SignInBean {
     private String password1;
     private String password2;
     private String email;
+    
+    @EJB
+    private VotesLogic logic;
+    
 
     public String getUsername() {
         return username;
@@ -67,8 +75,16 @@ public class SignInBean {
     
     public String signin () {
         
-        return "index";
+        OrganizerTO organizer = new OrganizerTO();
+        organizer.setEmail(email);
+        organizer.setEncryptedPassword(password1);
+        organizer.setRealname(realname);
+        organizer.setUsername(username);
+        organizer.setPolls(new ArrayList<PollTO>());
         
+        logic.storeOrganizer(organizer);
+        
+        return "index";
         
     }
     

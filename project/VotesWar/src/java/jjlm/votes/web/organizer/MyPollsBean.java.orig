@@ -10,8 +10,13 @@ import java.util.ArrayList;
 import java.util.List;
 import javax.enterprise.context.SessionScoped;
 import javax.inject.Named;
-import jjlm.votes.logic.to.PollTO;
+<<<<<<< HEAD
+import jjlm.votes.web.Poll;
+=======
 import jjlm.votes.web.data.Poll;
+import jjlm.votes.web.UserBean;
+import jjlm.votes.web.help.RequestParameters;
+>>>>>>> 38607e33473254f1cad471dc4d09635407312132
 
 /**
  *
@@ -31,15 +36,26 @@ public class MyPollsBean extends OrganizerBean  {
     }
     
     
-    public List<PollTO> getMyPolls() {
-        try{
-            System.out.println("getMyPolls "+this.getOrganizer().getId());
-            return logic.getPollsfromOrganizer(this.getOrganizer());
+    public List<Poll> getMyPolls() {
         
-        }catch(Exception e){
+        List<Poll> myPolls = new ArrayList<Poll>();
+        
+        
+        for (int i=0; i < 33; i++) {
+            
+            Poll myPoll = new Poll();
+            
+            myPoll.setName("Poll-" + i);
+            
+            myPolls.add(myPoll);
+            
             
         }
-        return new ArrayList<>();
+        
+        max = myPolls.size();
+        //ueber sql offset & limit
+        return myPolls.subList(offset, offset+limit <= max ? offset+limit : max);
+        
     }
 
     public void next () {
@@ -49,8 +65,6 @@ public class MyPollsBean extends OrganizerBean  {
             offset += limit;
             
         }
-        
-       
         
     }
     
