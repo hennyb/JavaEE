@@ -27,11 +27,21 @@ public class NewPollBean extends OrganizerBean {
 
     private String pollName;
     private String pollDescription;
+    private PollTO pollTO;
 
     private int paramID;
 
     public String setParamID(String paramID) {
-        this.paramID = Integer.parseInt(paramID);
+        try {
+            this.paramID = Integer.parseInt(paramID);
+            pollTO = logic.getPoll(this.paramID);
+
+            setPollDescription(pollTO.getDescription());
+            setPollName(pollTO.getName());
+        } catch (Exception e) {
+            pollTO = null;
+        }
+
         return "edit-poll";
     }
 
@@ -44,30 +54,29 @@ public class NewPollBean extends OrganizerBean {
     }
 
     public String getPollName() {
-        return logic.getPoll(paramID).getName();
+        return this.pollName;
     }
 
     public String getPollDescription() {
-        return logic.getPoll(paramID).getDescription();
+        return this.pollDescription;
     }
 
     public String save() {
 
-        Poll poll = new Poll();
+        if (pollTO == null) {
+            pollTO = new PollTO();
+        }
 
-        poll.setName(pollName);
-        poll.setDescription(pollDescription);
+        pollTO.setName(pollName);
+        pollTO.setDescription(pollDescription);
 
-        logic.storePoll(poll.createTO());
+        pollTO = logic.storePoll(pollTO);
+
+        System.out.println("pollTO id " + pollTO.getId());
 
         OrganizerTO o = logic.getOrganizer(user.getEmail());
 
-        PollTO pto = logic.getPoll(pollName, pollDescription);
-        System.out.println("name:" + o.getEmail());
-        System.out.println(o.getId());
-        System.out.println(pto.getId());
-
-        logic.addOrganizerToPoll(o.getId(), pto.getId());
+        logic.addOrganizerToPoll(o.getId(), pollTO.getId());
 
         return "edit-poll";
 
