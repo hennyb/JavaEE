@@ -9,6 +9,7 @@ package jjlm.votes.web;
 import java.util.ArrayList;
 import javax.ejb.EJB;
 import javax.enterprise.context.RequestScoped;
+import javax.inject.Inject;
 import javax.inject.Named;
 import jjlm.logic.VotesLogic;
 import jjlm.votes.logic.to.OrganizerTO;
@@ -80,11 +81,13 @@ public class SignInBean {
         organizer.setEncryptedPassword(password1);
         organizer.setRealname(realname);
         organizer.setUsername(username);
-        organizer.setPolls(new ArrayList<PollTO>());
+        //organizer.setPolls(new ArrayList<PollTO>());
         
+        System.out.println(email);
+        System.out.println(logic.getClass());
         logic.storeOrganizer(organizer);
         
-        return "index";
+        return "index?faces-redirect=true";
         
     }
     
