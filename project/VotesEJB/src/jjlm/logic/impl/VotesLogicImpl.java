@@ -158,7 +158,7 @@ public class VotesLogicImpl implements VotesLogic {
 
     @Override
     public List<PollTO> getPollsfromOrganizer(int organizerID) {
-        return AbstractEntity.createTransferList(pa.getPolls(organizerID));
+        return AbstractEntity.createTransferList(pa.getPolls(1));
     }
 
     @Override
@@ -174,8 +174,13 @@ public class VotesLogicImpl implements VotesLogic {
 
     @Override
     public PollTO addOrganizerToPoll(int organizerId, int pollId) {
-        PollTO poll = new PollTO();
+        PollTO poll = pa.addOrganizerToPoll(pollId, organizerId).createTO();
         
         return poll;
+    }
+
+    @Override
+    public PollTO getPoll(String name, String description) {
+        return pa.getPoll(name, description).createTO();
     }
 }

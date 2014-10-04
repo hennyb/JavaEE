@@ -7,13 +7,15 @@
 package jjlm.votes.web;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import javax.ejb.EJB;
 import javax.enterprise.context.RequestScoped;
 import javax.inject.Named;
 import jjlm.logic.VotesLogic;
 import jjlm.votes.logic.to.OrganizerTO;
 import jjlm.votes.logic.to.PollTO;
-
+import jjlm.votes.persistence.entities.Organizer;
+import jjlm.votes.persistence.entities.Poll;
 /**
  *
  * @author darjeeling
@@ -75,14 +77,13 @@ public class SignInBean {
     
     public String signin () {
         
-        OrganizerTO organizer = new OrganizerTO();
+        Organizer organizer = new Organizer();
         organizer.setEmail(email);
         organizer.setEncryptedPassword(password1);
         organizer.setRealname(realname);
         organizer.setUsername(username);
-        organizer.setPolls(new ArrayList<PollTO>());
         
-        logic.storeOrganizer(organizer);
+        logic.storeOrganizer(organizer.createTO());
         
         return "index";
         

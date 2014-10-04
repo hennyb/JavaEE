@@ -5,6 +5,7 @@
  */
 package jjlm.votes.persistence.entities;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
@@ -14,6 +15,8 @@ import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
 import javax.persistence.Temporal;
+import jjlm.votes.logic.to.ItemTO;
+import jjlm.votes.logic.to.OrganizerTO;
 import jjlm.votes.logic.to.PollTO;
 
 // End of user code
@@ -134,13 +137,16 @@ public class Poll extends NamedEntity<Poll, PollTO> {
     @Override
     public PollTO createTO() {
         PollTO to = new PollTO();
+        to.setId(getId());
         to.setName(getName());
         to.setDescription(getDescription());
         to.setEndPoll(getEndPoll());
         to.setStartPoll(getStartPoll());
-        to.setItems(createTransferList(getItems()));
-        to.setOrganizer(createTransferList(getOrganizer()));
-        to.setTokens(createTransferList(getTokens()));
+        if(getOrganizer()==null)
+            to.setOrganizer(new ArrayList<OrganizerTO>());
+        else
+            to.setOrganizer(createTransferList(getOrganizer()));
+        
         return to;
     }
 
