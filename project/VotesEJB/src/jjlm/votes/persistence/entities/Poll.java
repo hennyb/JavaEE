@@ -5,16 +5,13 @@
  */
 package jjlm.votes.persistence.entities;
 
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
-import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Temporal;
 import jjlm.votes.logic.to.PollTO;
@@ -37,44 +34,45 @@ public class Poll extends NamedEntity<Poll, PollTO> {
 
     private Set<Item> items;
 
-    private List<Organizer> organizer;
-    private List<Token> tokens;
-    private List<Participant> participants;
+    private Set<Organizer> organizer;
+    private Set<Token> tokens;
+    private Set<Participant> participants;
 
     public Poll() {
         super();
 
         items = new HashSet<>();
-        organizer = new ArrayList<>();
-        tokens = new ArrayList<>();
-        participants = new ArrayList<>();
+        organizer = new HashSet<>();
+        tokens = new HashSet<>();
+        participants = new HashSet<>();
         
     }
 
     @OneToMany(mappedBy = "poll", fetch = FetchType.EAGER)
-    public List<Token> getTokens() {
+    public Set<Token> getTokens() {
         return tokens;
     }
 
-    public void setTokens(List<Token> tokens) {
+    public void setTokens(Set<Token> tokens) {
         this.tokens = tokens;
     }
 
     @OneToMany(mappedBy = "poll", fetch = FetchType.EAGER)
-    public List<Participant> getParticipants() {
+    public Set<Participant> getParticipants() {
         return participants;
     }
 
-    public void setParticipants(List<Participant> participants) {
+    public void setParticipants(Set<Participant> participants) {
         this.participants = participants;
     }
 
-    @ManyToMany(mappedBy = "polls" )
-    public List<Organizer> getOrganizer() {
+    @ManyToMany
+    @JoinTable(name="POLL_ORGANIZER")
+    public Set<Organizer> getOrganizer() {
         return organizer;
     }
 
-    public void setOrganizer(List<Organizer> organizer) {
+    public void setOrganizer(Set<Organizer> organizer) {
         this.organizer = organizer;
     }
 
@@ -136,7 +134,13 @@ public class Poll extends NamedEntity<Poll, PollTO> {
     @Override
     public PollTO createTO() {
         PollTO to = new PollTO();
+        to.setName(getName());
         to.setDescription(getDescription());
+        to.setEndPoll(getEndPoll());
+        to.setStartPoll(getStartPoll());
+        to.setItems(createTransferList(getItems()));
+        to.setOrganizer(createTransferList(getOrganizer()));
+        to.setTokens(createTransferList(getTokens()));
         return to;
     }
 

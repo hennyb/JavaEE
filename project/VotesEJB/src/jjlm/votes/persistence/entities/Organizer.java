@@ -6,12 +6,13 @@
 package jjlm.votes.persistence.entities;
 
 import java.util.ArrayList;
-import java.util.List;
+import java.util.HashSet;
+import java.util.Set;
 import javax.persistence.Entity;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
-import javax.validation.constraints.NotNull;
 import jjlm.votes.logic.to.OrganizerTO;
+import jjlm.votes.logic.to.PollTO;
 
 /**
  *
@@ -22,23 +23,22 @@ public class Organizer extends NamedEntity<Organizer, OrganizerTO> {
 
     private static final long serialVersionUID = 7704608960481160103L;
 
-    private List<Poll> polls;
+    private Set<Poll> polls;
     private String username;
     private String realname;
     private String email;
     private String encryptedPassword;
 
     public Organizer() {
-        polls = new ArrayList<>();
+        polls = new HashSet<>();
     }
 
-    @ManyToMany
-    @JoinTable(name = "ORGANIZER_POLL")
-    public List<Poll> getPolls() {
+    @ManyToMany(mappedBy="organizer")
+    public Set<Poll> getPolls() {
         return polls;
     }
 
-    public void setPolls(List<Poll> polls) {
+    public void setPolls(Set<Poll> polls) {
         this.polls = polls;
     }
     
@@ -76,9 +76,13 @@ public class Organizer extends NamedEntity<Organizer, OrganizerTO> {
 
     @Override
     public OrganizerTO createTO() {
+       
         OrganizerTO to = new OrganizerTO();
-        to.setId(id);
-        to.setPolls(createTransferList(getPolls()));
+        
+        if(getPolls()==null)
+            to.setPolls(new ArrayList<PollTO>());
+        else
+            to.setPolls(createTransferList(getPolls()));
         to.setEmail(email);
         to.setEncryptedPassword(encryptedPassword);
         to.setRealname(realname);
