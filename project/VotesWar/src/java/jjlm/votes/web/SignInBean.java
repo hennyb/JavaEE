@@ -83,11 +83,8 @@ public class SignInBean {
         organizer.setEncryptedPassword(password1);
         organizer.setRealname(realname);
         organizer.setUsername(username);
-        //organizer.setPolls(new ArrayList<PollTO>());
         
-        System.out.println(email);
-        System.out.println(logic.getClass());
-        
+        //logic.storeOrganizer(organizer);
         logic.storeOrganizer(organizer.createTO());
         return "index?faces-redirect=true";
         
