@@ -1,5 +1,6 @@
 <?xml version='1.0' encoding='UTF-8' ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
 <ui:composition 
     template="./resources/votes/jsf/organizer-poll-view.xhtml" 
     xmlns="http://www.w3.org/1999/xhtml"
@@ -8,18 +9,16 @@
     xmlns:votes="http://java.sun.com/jsf/composite/votes/jsf"
     xmlns:c="http://xmlns.jcp.org/jsp/jstl/core"
     xmlns:f="http://xmlns.jcp.org/jsf/core">
-
     
+    <f:event type="preRenderView" listener="#{newPollBean.preRenderView}"/>
     
     <ui:define name="html-title">Edit Polls</ui:define>
     
     <ui:define name="organizer-polls-title">
         Edit Polls
-        
     </ui:define>
     
     <ui:define name="organizer-polls-content">
-
         <div class="row">
             <div class="col-md-12">
                 
@@ -111,10 +110,7 @@
                                     value="Delete"
                                     action="#{newPollBean.save()}"></h:commandButton>
 
-
-
                             </div>
-
                         </div>
                     </div>
 

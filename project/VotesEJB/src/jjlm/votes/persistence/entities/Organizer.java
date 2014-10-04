@@ -78,7 +78,7 @@ public class Organizer extends NamedEntity<Organizer, OrganizerTO> {
     public OrganizerTO createTO() {
        
         OrganizerTO to = new OrganizerTO();
-        System.out.println("asas "+getId());
+        
         to.setId(getId());
         to.setEmail(email);
         to.setEncryptedPassword(encryptedPassword);
