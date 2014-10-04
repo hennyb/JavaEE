@@ -19,23 +19,36 @@ import jjlm.votes.web.logic.ParticipantListParser;
 @RequestScoped
 public class NewParticipantListBean {
 
-    private String participantListText;
+    private String name;
+    private String text;
 
-    public String getParticipantListText() {
-        return participantListText;
+    public String getName() {
+        return name;
     }
 
-    public void setParticipantListText(String participantListText) {
-        this.participantListText = participantListText;
+    public void setName(String name) {
+        this.name = name;
     }
+
+    public String getText() {
+        return text;
+    }
+
+    public void setText(String text) {
+        this.text = text;
+    }
+
     
     
     
-    public void save () {
+    
+    public String save () {
         
         ParticipantListParser parser = new ParticipantListParser();
         
-        System.out.println(parser.parse(this.participantListText));
+        System.out.println(parser.parse(this.text));
+        
+        return "index?faces-redirect=true";
         
     }
     

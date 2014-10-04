@@ -119,6 +119,9 @@ public class VotesLogicImpl implements VotesLogic {
         organizer.setRealname(to.getRealname());
         organizer.setUsername(to.getUsername());
 
+        System.out.println("=====================");
+        System.out.println(oa);
+        
         if (to.getId() == null) {
             oa.create(organizer);
         } else {

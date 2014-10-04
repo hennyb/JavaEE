@@ -10,6 +10,7 @@ import java.util.ArrayList;
 import java.util.HashSet;
 import javax.ejb.EJB;
 import javax.enterprise.context.RequestScoped;
+import javax.inject.Inject;
 import javax.inject.Named;
 import jjlm.logic.VotesLogic;
 import jjlm.votes.logic.to.OrganizerTO;
@@ -82,10 +83,18 @@ public class SignInBean {
         organizer.setEncryptedPassword(password1);
         organizer.setRealname(realname);
         organizer.setUsername(username);
+<<<<<<< HEAD
+        //organizer.setPolls(new ArrayList<PollTO>());
+        
+        System.out.println(email);
+        System.out.println(logic.getClass());
+        logic.storeOrganizer(organizer);
+=======
         
         logic.storeOrganizer(organizer.createTO());
+>>>>>>> b05165b4512db3ee23982e1f0d394f86c21f3821
         
-        return "index";
+        return "index?faces-redirect=true";
         
     }
     
