@@ -5,9 +5,9 @@
  */
 package jjlm.logic.impl;
 
-import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
-import java.util.Random;
+import java.util.Set;
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
 import jjlm.logic.VotesLogic;
@@ -77,22 +77,45 @@ public class VotesLogicImpl implements VotesLogic {
 
     @Override
     public PollTO storePoll(PollTO to) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        Poll poll = to.getId() == null ? new Poll() : pa.find(to.getId());
+
+        poll.setId(to.getId());
+        poll.setName(to.getName());
+        poll.setDescription(to.getDescription());
+        poll.setEndPoll(to.getEndPoll());
+        poll.setStartPoll(to.getStartPoll());
+
+        Set<Organizer> organizer = poll.getOrganizer();
+        for (Organizer o : organizer) {
+            o.getPolls().remove(poll);
+        }
+        organizer.clear();
+
+        for (OrganizerTO oto : to.getOrganizer()) {
+            Organizer o = oa.find(oto.getId());
+            organizer.add(o);
+            o.getPolls().add(poll);
+        }
+
+        if (to.getId() == null) {
+            pa.create(poll);
+        } else {
+            poll = pa.edit(poll);
+        }
+
+        return poll.createTO();
     }
 
     @Override
-    public void storeOrganizer(OrganizerTO to) {
+    public OrganizerTO storeOrganizer(OrganizerTO to) {
 
         Organizer organizer = to.getId() == null ? new Organizer() : oa.find(to.getId());
 
-        if (organizer == null) {
-            throw new IllegalArgumentException("Organizer does not exist");
-        }
-
+        organizer.setId(to.getId());
         organizer.setEmail(to.getEmail());
         organizer.setEncryptedPassword(to.getEncryptedPassword());
         //organizer.setPolls(to.getPolls());
-        organizer.setPolls(new ArrayList<Poll>());
+        organizer.setPolls(new HashSet<Poll>());
         organizer.setRealname(to.getRealname());
         organizer.setUsername(to.getUsername());
 
@@ -101,7 +124,11 @@ public class VotesLogicImpl implements VotesLogic {
         
         if (to.getId() == null) {
             oa.create(organizer);
+        } else {
+            organizer = oa.edit(organizer);
         }
+
+        return organizer.createTO();
     }
 
     @Override
@@ -134,7 +161,7 @@ public class VotesLogicImpl implements VotesLogic {
 
     @Override
     public List<PollTO> getPollsfromOrganizer(int organizerID) {
-        return AbstractEntity.createTransferList(pa.getPolls(organizerID));
+        return AbstractEntity.createTransferList(pa.getPolls(1));
     }
 
     @Override
@@ -144,7 +171,19 @@ public class VotesLogicImpl implements VotesLogic {
 
     @Override
     public List<PollTO> getPollsfromOrganizer(int organizerID, int offset, int max) {
-        System.out.println("listsize: "+pa.getAllPolls().size());
+        System.out.println("listsize: " + pa.getAllPolls().size());
         return AbstractEntity.createTransferList(pa.getAllPolls());
+    }
+
+    @Override
+    public PollTO addOrganizerToPoll(int organizerId, int pollId) {
+        PollTO poll = pa.addOrganizerToPoll(pollId, organizerId).createTO();
+        
+        return poll;
+    }
+
+    @Override
+    public PollTO getPoll(String name, String description) {
+        return pa.getPoll(name, description).createTO();
     }
 }

@@ -11,7 +11,6 @@ import java.util.List;
 import javax.enterprise.context.SessionScoped;
 import javax.inject.Named;
 import jjlm.votes.logic.to.PollTO;
-import jjlm.votes.web.data.Poll;
 
 /**
  *
@@ -33,8 +32,8 @@ public class MyPollsBean extends OrganizerBean  {
     
     public List<PollTO> getMyPolls() {
         try{
-            System.out.println("getMyPolls "+this.getOrganizer().getId());
-            return logic.getPollsfromOrganizer(this.getOrganizer());
+            System.out.println("getMyPolls "+this.getOrganizer().getId()+"  "+this.getOrganizer().getEmail());
+            return logic.getPollsfromOrganizer(logic.getOrganizer(this.getOrganizer().getEmail()));
         
         }catch(Exception e){
             

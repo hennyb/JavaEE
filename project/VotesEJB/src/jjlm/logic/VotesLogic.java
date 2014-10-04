@@ -17,9 +17,11 @@ public interface VotesLogic {
     
     OrganizerTO findFirst();
     
-    void storeOrganizer(OrganizerTO to);
+    OrganizerTO storeOrganizer(OrganizerTO to);
     
     PollTO storePoll(PollTO to);
+    
+    PollTO addOrganizerToPoll(int organizerId, int pollId);
     
     String getPlainString();
     
@@ -34,5 +36,7 @@ public interface VotesLogic {
     List<PollTO> getPollsfromOrganizer(int organizerID, int from, int to);
     
     List<PollTO> getAllPolls();
+    
+    PollTO getPoll(String name, String description);
     
 }
