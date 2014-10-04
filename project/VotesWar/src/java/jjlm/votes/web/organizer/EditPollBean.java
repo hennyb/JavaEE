@@ -3,50 +3,66 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-
 package jjlm.votes.web.organizer;
 
 import javax.enterprise.context.SessionScoped;
 import javax.inject.Named;
+import jjlm.votes.logic.to.PollTO;
 import jjlm.votes.web.help.RequestParameters;
 
 /**
  *
  * @author maxmeffert
  */
-
 @Named
 @SessionScoped
 public class EditPollBean extends OrganizerBean {
 
-    private final String PARAMETERNAME_ID = "id";
+    private PollTO pollTO;
+    private int paramID;
 
-    public String getPARAMETERNAME_ID() {
-        return PARAMETERNAME_ID;
+    private String pollDescription;
+    private String pollName;
+
+    public String setParamID(String paramID) {
+        try {
+            this.paramID = Integer.parseInt(paramID);
+            pollTO = logic.getPoll(this.paramID);
+
+            setPollDescription(pollTO.getDescription());
+            setPollName(pollTO.getName());
+        } catch (Exception e) {
+            pollTO = null;
+        }
+
+        return "edit-poll";
     }
 
-    
-    
-    
-    public EditPollBean () {
-        
-    }
-    
-    private String pollId;
-
-    
-    public String getPollId() {
-        return RequestParameters.get(PARAMETERNAME_ID);
+    public String getPollDescription() {
+        return pollDescription;
     }
 
-    public void setPollId(String pollId) {
-        this.pollId = pollId;
+    public void setPollDescription(String pollDescription) {
+        this.pollDescription = pollDescription;
     }
-    
-    public void doStuff () {
-        
-        System.out.println(RequestParameters.get("page"));
-        
+
+    public String getPollName() {
+        return pollName;
     }
-    
+
+    public void setPollName(String pollName) {
+        this.pollName = pollName;
+    }
+
+    public String edit() {
+
+        pollTO.setName(pollName);
+        pollTO.setDescription(pollDescription);
+
+        logic.storePoll(pollTO);
+
+        return ("my-polls");
+
+    }
+
 }
