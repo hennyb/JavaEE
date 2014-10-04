@@ -28,9 +28,8 @@ public class NewPollBean extends OrganizerBean {
 
     private String pollName;
     private String pollDescription;
-    private PollTO pollTO;
-    
-    @Inject 
+
+    @Inject
     EditPollBean epb;
 
     public void setPollName(String pollName) {
@@ -51,19 +50,20 @@ public class NewPollBean extends OrganizerBean {
 
     public String save() {
 
-        if (pollTO == null) {
-            pollTO = new PollTO();
-        }
+        PollTO pollTO = new PollTO();
 
         pollTO.setName(pollName);
         pollTO.setDescription(pollDescription);
 
         pollTO = logic.storePoll(pollTO);
-        
+
         OrganizerTO o = logic.getOrganizer(user.getEmail());
         logic.addOrganizerToPoll(o.getId(), pollTO.getId());
         
-        return epb.setParamID(pollTO.getId()+"");
+        setPollName("");
+        setPollDescription("");
+
+        return epb.setParamID(pollTO.getId() + "");
 
     }
 
