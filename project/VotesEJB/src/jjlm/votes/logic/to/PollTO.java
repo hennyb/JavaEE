@@ -25,7 +25,6 @@ public class PollTO extends NamedEntityTO {
     private Date startPoll;
     private Date endPoll;
 
-
     private List<ItemTO> items;
     
     private List<OrganizerTO> organizer;

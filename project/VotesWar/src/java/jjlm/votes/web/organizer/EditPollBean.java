@@ -5,12 +5,19 @@
  */
 package jjlm.votes.web.organizer;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.Map;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.enterprise.context.SessionScoped;
 import javax.faces.context.FacesContext;
 import javax.inject.Named;
 import jjlm.votes.logic.to.PollTO;
 import jjlm.votes.web.help.RequestParameters;
+import org.apache.commons.lang3.time.DateUtils;
 
 /**
  *
@@ -26,27 +33,58 @@ public class EditPollBean extends OrganizerBean {
     private String pollDescription;
     private String pollName;
 
-    public void init () {
-        
+    private String startPoll;
+    private String endPoll;
+
+    private SimpleDateFormat sdf = new SimpleDateFormat("MM/dd/yyyy");
+
+    public void init() {
         FacesContext facesContext = FacesContext.getCurrentInstance();
         Map<String, String> sessionMap = facesContext.getExternalContext().getRequestParameterMap();
         setParamID(sessionMap.get("id"));
-        
     }
-    
+
     public String setParamID(String paramID) {
         try {
             this.paramID = Integer.parseInt(paramID);
             pollTO = logic.getPoll(this.paramID);
-            System.out.println("pollID: "+pollTO.getId());
 
             setPollDescription(pollTO.getDescription());
             setPollName(pollTO.getName());
+
+            if (pollTO.getStartPoll() != null) {
+                setStartPoll(sdf.format(pollTO.getStartPoll()));
+            } else {
+                setStartPoll("");
+            }
+            if (pollTO.getEndPoll() != null) {
+                setEndPoll(sdf.format(pollTO.getEndPoll()));
+            } else {
+                setStartPoll("");
+            }
+
         } catch (Exception e) {
-            pollTO = null;
+            System.err.println(e);
+            pollTO = new PollTO();
         }
 
         return "edit-poll";
+    }
+
+    public String getStartPoll() {
+        return startPoll;
+    }
+
+    public void setStartPoll(String startPoll) {
+        this.startPoll = startPoll;
+    }
+
+    public String getEndPoll() {
+        return endPoll;
+    }
+
+    public void setEndPoll(String endPoll) {
+        this.endPoll = endPoll;
     }
 
     public String getPollDescription() {
@@ -66,14 +104,34 @@ public class EditPollBean extends OrganizerBean {
     }
 
     public String edit() {
-
         pollTO.setName(pollName);
         pollTO.setDescription(pollDescription);
 
+        Date startDate = null;
+        try {
+            startDate = sdf.parse(getStartPoll());
+        } catch (ParseException ex) {
+            System.err.println(ex);
+        }
+        pollTO.setStartPoll(startDate);
+
+        Date endDate = null;
+        try {
+            endDate = sdf.parse(getEndPoll());
+        } catch (ParseException ex) {
+            System.err.println(ex);
+        }
+        pollTO.setEndPoll(endDate);
+
         logic.storePoll(pollTO);
 
-        return ("my-polls");
+        pollTO = null;
 
+        setPollName("");
+        setPollDescription("");
+        setStartPoll("");
+        setEndPoll("");
+        return ("my-polls");
     }
 
 }

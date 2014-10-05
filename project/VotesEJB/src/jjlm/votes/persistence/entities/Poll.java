@@ -48,7 +48,6 @@ public class Poll extends NamedEntity<Poll, PollTO> {
         organizer = new HashSet<>();
         tokens = new HashSet<>();
         participants = new HashSet<>();
-
     }
 
     @OneToMany(mappedBy = "poll", fetch = FetchType.EAGER)
@@ -142,7 +141,7 @@ public class Poll extends NamedEntity<Poll, PollTO> {
         to.setDescription(getDescription());
         to.setEndPoll(getEndPoll());
         to.setStartPoll(getStartPoll());
-        
+
         if (getOrganizer() == null) {
             to.setOrganizer(new ArrayList<OrganizerTO>());
         } else {
