@@ -24,6 +24,12 @@ public class EditPollBean extends OrganizerBean {
     private String pollDescription;
     private String pollName;
 
+    public void init () {
+        
+        System.out.println("iniiiiiiit");
+        
+    }
+    
     public String setParamID(String paramID) {
         try {
             this.paramID = Integer.parseInt(paramID);

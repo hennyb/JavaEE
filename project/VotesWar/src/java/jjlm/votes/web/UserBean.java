@@ -21,10 +21,8 @@ import jjlm.votes.logic.to.OrganizerTO;
 @Named
 public class UserBean implements Serializable {
 
-    private boolean isLoggedIn = true;
-    private boolean isOrganizer = false;
-    private boolean isParticipant = false;
-    private String name = "Max Meffert";
+    private boolean isLoggedIn = false;
+    private String name;
     private String email;
     private String password;
 
