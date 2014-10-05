@@ -5,7 +5,9 @@
  */
 package jjlm.votes.web.organizer;
 
+import java.util.Map;
 import javax.enterprise.context.SessionScoped;
+import javax.faces.context.FacesContext;
 import javax.inject.Named;
 import jjlm.votes.logic.to.PollTO;
 import jjlm.votes.web.help.RequestParameters;
@@ -26,7 +28,9 @@ public class EditPollBean extends OrganizerBean {
 
     public void init () {
         
-        System.out.println("iniiiiiiit");
+        FacesContext facesContext = FacesContext.getCurrentInstance();
+        Map<String, String> sessionMap = facesContext.getExternalContext().getRequestParameterMap();
+        setParamID(sessionMap.get("id"));
         
     }
     
@@ -34,6 +38,7 @@ public class EditPollBean extends OrganizerBean {
         try {
             this.paramID = Integer.parseInt(paramID);
             pollTO = logic.getPoll(this.paramID);
+            System.out.println("pollID: "+pollTO.getId());
 
             setPollDescription(pollTO.getDescription());
             setPollName(pollTO.getName());
