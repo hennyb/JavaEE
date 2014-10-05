@@ -1,5 +1,6 @@
 <?xml version='1.0' encoding='UTF-8' ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
 <ui:composition 
     template="./resources/votes/jsf/organizer-poll-view.xhtml" 
     xmlns="http://www.w3.org/1999/xhtml"
@@ -8,18 +9,15 @@
     xmlns:votes="http://java.sun.com/jsf/composite/votes/jsf"
     xmlns:c="http://xmlns.jcp.org/jsp/jstl/core"
     xmlns:f="http://xmlns.jcp.org/jsf/core">
-
     
     
     <ui:define name="html-title">Edit Polls</ui:define>
     
     <ui:define name="organizer-polls-title">
         Edit Polls
-        
     </ui:define>
     
     <ui:define name="organizer-polls-content">
-
         <div class="row">
             <div class="col-md-12">
                 
@@ -40,7 +38,7 @@
                                     <label class="col-sm-2 control-label">Title</label>
                                     <div class="col-sm-10">
                                         <h:inputText 
-                                            styleClass="form-control" value="#{newPollBean.pollName}"></h:inputText>
+                                            styleClass="form-control" value="#{editPollBean.pollName}"></h:inputText>
                                     </div>
                                 </div>
 
@@ -48,7 +46,7 @@
                                     <label class="col-sm-2 control-label">Description</label>
                                     <div class="col-sm-10">
                                         <h:inputTextarea
-                                            styleClass="form-control" value="#{newPollBean.pollDescription}"></h:inputTextarea>
+                                            styleClass="form-control" value="#{editPollBean.pollDescription}"></h:inputTextarea>
                                     </div>
                                 </div>
                             
@@ -103,17 +101,14 @@
                                 <h:commandButton
                                     styleClass="btn btn-primary"
                                     value="Save"
-                                    action="#{newPollBean.save()}"></h:commandButton>
+                                    action="#{editPollBean.edit()}"></h:commandButton>
                                     
                                 <h:commandButton
                                     styleClass="btn btn-primary"
                                     value="Delete"
-                                    action="#{newPollBean.save()}"></h:commandButton>
-
-
+                                    action="#{editPollBean.edit()}"></h:commandButton>
 
                             </div>
-
                         </div>
                     </div>
 

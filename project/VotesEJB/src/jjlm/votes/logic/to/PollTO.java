@@ -34,6 +34,9 @@ public class PollTO extends NamedEntityTO {
 
     public PollTO() {
         items = new ArrayList<>();
+        organizer = new ArrayList<>();
+        tokens = new ArrayList<>();
+        participants = new ArrayList<>();
     }
 
     public String getDescription() {

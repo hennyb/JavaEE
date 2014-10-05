@@ -39,4 +39,6 @@ public interface VotesLogic {
     
     PollTO getPoll(String name, String description);
     
+    PollTO getPoll(int pollId);
+    
 }
