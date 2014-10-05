@@ -41,4 +41,6 @@ public interface VotesLogic {
     
     PollTO getPoll(int pollId);
     
+    PollState getStateOfPoll(int pollId);
+    
 }

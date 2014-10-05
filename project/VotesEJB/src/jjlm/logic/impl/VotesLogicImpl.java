@@ -5,11 +5,13 @@
  */
 package jjlm.logic.impl;
 
+import java.util.Date;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
+import jjlm.logic.PollState;
 import jjlm.logic.VotesLogic;
 import jjlm.votes.logic.to.OrganizerTO;
 import jjlm.votes.logic.to.PollTO;
@@ -121,7 +123,7 @@ public class VotesLogicImpl implements VotesLogic {
 
         System.out.println("=====================");
         System.out.println(oa);
-        
+
         if (to.getId() == null) {
             oa.create(organizer);
         } else {
@@ -178,7 +180,7 @@ public class VotesLogicImpl implements VotesLogic {
     @Override
     public PollTO addOrganizerToPoll(int organizerId, int pollId) {
         PollTO poll = pa.addOrganizerToPoll(pollId, organizerId).createTO();
-        
+
         return poll;
     }
 
@@ -190,5 +192,18 @@ public class VotesLogicImpl implements VotesLogic {
     @Override
     public PollTO getPoll(int pollId) {
         return pa.find(pollId).createTO();
+    }
+
+    @Override
+    public PollState getStateOfPoll(int pollId) {
+        PollTO pTo = getPoll(pollId);
+
+        if (pTo.getEndPoll() != null && pTo.getEndPoll().getTime() < new Date().getTime()) {
+            return PollState.FINISHED;
+        }
+        if (pTo.getStartPoll() != null && pTo.getStartPoll().getTime() > new Date().getTime()) {
+            return PollState.STARTED;
+        }
+        return PollState.PREPARED;
     }
 }

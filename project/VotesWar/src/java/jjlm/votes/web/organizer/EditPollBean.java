@@ -7,17 +7,12 @@ package jjlm.votes.web.organizer;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.Calendar;
 import java.util.Date;
 import java.util.Map;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.enterprise.context.SessionScoped;
 import javax.faces.context.FacesContext;
 import javax.inject.Named;
 import jjlm.votes.logic.to.PollTO;
-import jjlm.votes.web.help.RequestParameters;
-import org.apache.commons.lang3.time.DateUtils;
 
 /**
  *
