@@ -1,0 +1,35 @@
+<ui:composition 
+    template="./organizer-view.xhtml" 
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:h="http://xmlns.jcp.org/jsf/html"
+    xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+    xmlns:votes="http://java.sun.com/jsf/composite/votes/jsf"
+    xmlns:c="http://xmlns.jcp.org/jsp/jstl/core">
+
+    <ui:define name="html-title">Participants</ui:define>
+    
+    <ui:define name="content">
+
+        <div class="row">
+            <div class="col-md-12">
+                <h1>
+                    <ui:insert name="organizer-participantlist-title">Participants</ui:insert>
+                    <ul class="nav nav-pills pull-right">
+                        <li>
+                            <h:link class="btn" outcome="my-participantlists" value="My Participant Lists"></h:link>
+                        </li>
+                        <li>
+                            <h:link class="btn" outcome="new-participantlist" value="New Participant Lists"></h:link>
+                        </li>
+                    </ul>
+                </h1>
+                <hr></hr>
+            </div>
+        </div>
+        
+        <ui:insert name="organizer-participantlist-content"></ui:insert>
+        
+
+    </ui:define>
+
+</ui:composition>

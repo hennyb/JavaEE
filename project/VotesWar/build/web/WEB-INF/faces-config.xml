@@ -1,0 +1,56 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<faces-config version="2.2"
+              xmlns="http://xmlns.jcp.org/xml/ns/javaee"
+              xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+              xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/ns/javaee/web-facesconfig_2_2.xsd">
+    
+    <navigation-rule>
+        
+        <navigation-case>
+            <from-outcome>index</from-outcome>
+            <to-view-id>/index.html</to-view-id>
+            <ridirect/>
+        </navigation-case>
+        
+        <navigation-case>
+            <from-outcome>my-polls</from-outcome>
+            <to-view-id>/my-polls.xhtml</to-view-id>
+            <ridirect/>
+        </navigation-case>
+        <navigation-case>
+            <from-outcome>new-poll</from-outcome>
+            <to-view-id>/new-poll.xhtml</to-view-id>
+            <ridirect/>
+        </navigation-case>
+        <navigation-case>
+            <from-outcome>edit-poll</from-outcome>
+            <to-view-id>/edit-poll.xhtml</to-view-id>
+            <ridirect/>
+        </navigation-case>
+        
+        <navigation-case>
+            <from-outcome>my-participantlists</from-outcome>
+            <to-view-id>./my-participantlists.xhtml</to-view-id>
+            <ridirect/>
+        </navigation-case>
+        <navigation-case>
+            <from-outcome>new-participantlist</from-outcome>
+            <to-view-id>./new-participantlist.xhtml</to-view-id>
+            <ridirect/>
+        </navigation-case>
+        <navigation-case>
+            <from-outcome>edit-participantlist</from-outcome>
+            <to-view-id>./edit-participantlist.xhtml</to-view-id>
+            <ridirect/>
+        </navigation-case>
+        
+        <navigation-case>
+            <from-outcome>imprint</from-outcome>
+            <to-view-id>/imprint.xhtml</to-view-id>
+            <ridirect/>
+        </navigation-case>
+        
+        
+    </navigation-rule>
+    
+</faces-config>

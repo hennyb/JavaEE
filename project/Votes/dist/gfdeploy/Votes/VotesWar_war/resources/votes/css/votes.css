@@ -1,0 +1,53 @@
+/*
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+*/
+/* 
+    Created on : Sep 10, 2014, 10:24:35 PM
+    Author     : maxmeffert
+*/
+
+
+i.votes-logo {
+    
+    display: inline-block;
+    width: 16px;
+    height: 16px;
+    vertical-align: text-top;
+    background-size: 16px 16px;
+    background-repeat: no-repeat;
+    background-position: center center;
+    background-image: url(../img/votes.png);
+    
+}
+
+
+.navbar-brand {
+    
+    margin-left: 30px !important;
+    
+}
+
+.navbar-brand > i.votes-logo {
+    
+    position: fixed;
+    top: 0;
+    left: 0;
+    
+    width: 51px;
+    height: 51px;
+    background-size: 51px 51px;
+    
+}
+
+
+textarea.participantlist {
+    
+    width: 100%; 
+    resize: none; 
+    min-height: 300px; 
+    font-family: Courier;
+    
+}
+
