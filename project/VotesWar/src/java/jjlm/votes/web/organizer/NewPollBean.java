@@ -26,22 +26,22 @@ import jjlm.votes.persistence.entities.Poll;
 @SessionScoped
 public class NewPollBean extends OrganizerBean {
 
-    private String pollName;
+    private String pollTitle;
     private String pollDescription;
 
     @Inject
     EditPollBean epb;
 
-    public void setPollName(String pollName) {
-        this.pollName = pollName;
-    }
-
     public void setPollDescription(String pollDescription) {
         this.pollDescription = pollDescription;
     }
 
-    public String getPollName() {
-        return this.pollName;
+    public String getPollTitle() {
+        return pollTitle;
+    }
+
+    public void setPollTitle(String pollTitle) {
+        this.pollTitle = pollTitle;
     }
 
     public String getPollDescription() {
@@ -52,7 +52,7 @@ public class NewPollBean extends OrganizerBean {
 
         PollTO pollTO = new PollTO();
 
-        pollTO.setName(pollName);
+        pollTO.setTitle(pollTitle);
         pollTO.setDescription(pollDescription);
 
         pollTO = logic.storePoll(pollTO);
@@ -60,7 +60,7 @@ public class NewPollBean extends OrganizerBean {
         OrganizerTO o = logic.getOrganizer(user.getEmail());
         logic.addOrganizerToPoll(o.getId(), pollTO.getId());
         
-        setPollName("");
+        setPollTitle("");
         setPollDescription("");
 
         return epb.setParamID(pollTO.getId() + "");

@@ -5,6 +5,7 @@
  */
 package jjlm.votes.persistence;
 
+import java.util.List;
 import javax.ejb.LocalBean;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
@@ -18,7 +19,7 @@ import jjlm.votes.persistence.entities.Item;
  */
 @Stateless
 @LocalBean
-public class ItemAccess extends NamedAccess<Item, ItemTO> {
+public class ItemAccess extends AbstractAccess<Item, ItemTO> {
 
     @PersistenceContext(name = "VotesEJBPU")
     EntityManager em;
@@ -30,6 +31,15 @@ public class ItemAccess extends NamedAccess<Item, ItemTO> {
     @Override
     protected EntityManager getEntityManager() {
         return em;
+    }
+    
+    public List<Item> getItems(int pollId){
+        
+        return em.createQuery("SELECT i FROM Item i"
+                + " WHERE i.poll.id = :pollId", Item.class)
+                .setParameter("pollId", pollId)
+                .getResultList();
+        
     }
 
 }

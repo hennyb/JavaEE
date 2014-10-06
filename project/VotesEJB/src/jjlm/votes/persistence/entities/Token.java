@@ -14,7 +14,7 @@ import jjlm.votes.logic.to.TokenTO;
  * @author henny
  */
 @Entity
-public class Token extends NamedEntity<Token,TokenTO>{
+public class Token extends AbstractEntity<Token,TokenTO>{
     private static final long serialVersionUID = 4046280168952966572L;
     
     private String value;
@@ -22,7 +22,7 @@ public class Token extends NamedEntity<Token,TokenTO>{
     private Poll poll;
     
     public Token(){
-        
+        //this.id = UUID.randomUUID().toString();
     }
 
     @ManyToOne
@@ -53,6 +53,11 @@ public class Token extends NamedEntity<Token,TokenTO>{
     @Override
     public TokenTO createTO() {
         TokenTO to = new TokenTO();
+        to.setId(id);
+        to.setParticipant(participant);
+        to.setPoll(poll);
+        to.setValue(value);
+        
         return to;
     }
     

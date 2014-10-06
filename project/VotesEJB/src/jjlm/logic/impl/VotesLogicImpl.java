@@ -11,20 +11,20 @@ import java.util.List;
 import java.util.Set;
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
-import jjlm.logic.PollState;
+import jjlm.votes.persistence.entities.PollState;
 import jjlm.logic.VotesLogic;
+import jjlm.votes.logic.to.ItemTO;
 import jjlm.votes.logic.to.OrganizerTO;
 import jjlm.votes.logic.to.PollTO;
+import jjlm.votes.persistence.ItemAccess;
 import jjlm.votes.persistence.OrganizerAccess;
 import jjlm.votes.persistence.PollAccess;
 import jjlm.votes.persistence.entities.AbstractEntity;
+import jjlm.votes.persistence.entities.Item;
 import jjlm.votes.persistence.entities.Organizer;
 import jjlm.votes.persistence.entities.Poll;
 
-/**
- *
- * @author henny
- */
+
 @Stateless
 public class VotesLogicImpl implements VotesLogic {
 
@@ -34,35 +34,8 @@ public class VotesLogicImpl implements VotesLogic {
     @EJB
     private PollAccess pa;
 
-    @Override
-    public OrganizerTO lookupUser(String uid) {
-        return UnikoLdapLookup.lookupPerson(uid);
-    }
-
-    @Override
-    public OrganizerTO getUser(String uid) {
-        return getUserEntity(uid).createTO();
-    }
-
-    private Organizer getUserEntity(String uid) {
-        OrganizerTO ldapUser = lookupUser(uid);
-        if (ldapUser == null) {
-            return null;
-        }
-        Organizer o = oa.findByName(uid);
-        if (o == null) {
-            o = new Organizer();
-            o.setRealname(ldapUser.getRealname() + "fromldap");
-            o.setName(ldapUser.getUsername() + "fromldap");
-            o.setEmail(uid + "@uni-koblenz.de");
-            o.setUsername(uid);
-            oa.create(o);
-            return o;
-        } else {
-            o.setUsername(ldapUser.getRealname());
-            return oa.edit(o);
-        }
-    }
+    @EJB
+    private ItemAccess ia;
 
     @Override
     public OrganizerTO getOrganizer(String email) {
@@ -82,7 +55,7 @@ public class VotesLogicImpl implements VotesLogic {
         Poll poll = to.getId() == null ? new Poll() : pa.find(to.getId());
 
         poll.setId(to.getId());
-        poll.setName(to.getName());
+        poll.setTitle(to.getTitle());
         poll.setDescription(to.getDescription());
         poll.setEndPoll(to.getEndPoll());
         poll.setStartPoll(to.getStartPoll());
@@ -121,9 +94,6 @@ public class VotesLogicImpl implements VotesLogic {
         organizer.setRealname(to.getRealname());
         organizer.setUsername(to.getUsername());
 
-        System.out.println("=====================");
-        System.out.println(oa);
-
         if (to.getId() == null) {
             oa.create(organizer);
         } else {
@@ -151,13 +121,6 @@ public class VotesLogicImpl implements VotesLogic {
 
     @Override
     public List<PollTO> getAllPolls() {
-
-//        ArrayList<PollTO> result = new ArrayList<>();
-//        
-//        System.out.println("sizeee " +pa.getAllPolls().size());
-//        
-//        for(Poll poll : pa.getAllPolls())
-//            result.add(poll.createTO());
         return AbstractEntity.createTransferList(pa.getAllPolls());
     }
 
@@ -205,5 +168,29 @@ public class VotesLogicImpl implements VotesLogic {
             return PollState.STARTED;
         }
         return PollState.PREPARED;
+    }
+
+    @Override
+    public List<ItemTO> getItemsOfPoll(int poollId) {
+        return AbstractEntity.createTransferList(ia.getItems(poollId));
+    }
+
+    @Override
+    public ItemTO storeItem(ItemTO to) {
+        
+        Item item = to.getId() == null ? new Item() : ia.find(to.getId());
+        
+        item.setItemType(to.getItemType());
+        item.setTitle(to.getTitle());
+        item.setPoll(pa.find(to.getPoll().getId()));
+        
+        if (to.getId() == null) {
+            ia.create(item);
+        } else {
+            item = ia.edit(item);
+        }
+        
+        return item.createTO();
+        
     }
 }

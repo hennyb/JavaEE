@@ -14,7 +14,7 @@ import jjlm.votes.persistence.entities.Participant;
  *
  * @author henny
  */
-public class ParticipantAccess extends NamedAccess<Participant, ParticipantTO>{
+public class ParticipantAccess extends AbstractAccess<Participant, ParticipantTO>{
     
     @PersistenceContext(unitName = "VotesEJBPU")
     private EntityManager em;

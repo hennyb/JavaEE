@@ -17,7 +17,7 @@ import jjlm.votes.persistence.entities.Poll;
 
 @Stateless
 @LocalBean
-public class PollAccess extends NamedAccess<Poll, PollTO> {
+public class PollAccess extends AbstractAccess<Poll, PollTO> {
 
     @PersistenceContext(name = "VotesEJBPU")
     EntityManager em;
@@ -48,17 +48,15 @@ public class PollAccess extends NamedAccess<Poll, PollTO> {
                 .getResultList();
 
     }
-    
-    public Poll getPoll(String name, String description){
-        
+
+    public Poll getPoll(String name, String description) {
         return em.createQuery("SELECT p FROM Poll p"
                 + " where p.name=:name"
                 + " AND p.description=:description"
-                + "",Poll.class)
+                + "", Poll.class)
                 .setParameter("name", name)
                 .setParameter("description", description)
                 .getResultList().get(0);
-        
     }
 
     public List<Poll> getPolls(int organizerId, int offset, int max) {
@@ -70,7 +68,6 @@ public class PollAccess extends NamedAccess<Poll, PollTO> {
                 .setFirstResult(offset)
                 .setMaxResults(max)
                 .getResultList();
-
     }
 
     public Poll addOrganizerToPoll(int pollId, int organizerId) {

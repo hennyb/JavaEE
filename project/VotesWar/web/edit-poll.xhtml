@@ -5,7 +5,7 @@
     template="./resources/votes/jsf/organizer-poll-view.xhtml" 
     xmlns="http://www.w3.org/1999/xhtml"
     xmlns:h="http://xmlns.jcp.org/jsf/html"
-    xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+    xmlns:ui="http://java.sun.com/jsf/facelets"
     xmlns:votes="http://java.sun.com/jsf/composite/votes/jsf"
     xmlns:c="http://xmlns.jcp.org/jsp/jstl/core"
     xmlns:f="http://java.sun.com/jsf/core">
@@ -29,7 +29,20 @@
                     <div class="row">
                         <div class="col-md-12">
                             <h3>Settings
-                                <span class="label label-primary pull-right">STARTED</span>
+
+                                <div class="btn-toolbar pull-right">
+
+                                    <h:commandButton
+                                        styleClass="btn btn-primary"
+                                        value="Save"
+                                        action="#{editPollBean.edit()}"></h:commandButton>
+
+                                    <h:commandButton
+                                        styleClass="btn btn-primary"
+                                        value="Delete"
+                                        action="#{editPollBean.edit()}"></h:commandButton>
+
+                                </div>
                             </h3>
                             <hr></hr>
                         </div>
@@ -41,7 +54,7 @@
                                 <label class="col-sm-2 control-label">Title</label>
                                 <div class="col-sm-10">
                                     <h:inputText 
-                                        styleClass="form-control" value="#{editPollBean.pollName}"></h:inputText>
+                                        styleClass="form-control" value="#{editPollBean.pollTitle}"></h:inputText>
                                 </div>
                             </div>
 
@@ -73,13 +86,7 @@
                                 </div>
                             </div>
 
-                            <div class="form-group">
-                                <label class="col-sm-2 control-label">Result</label>
-                                <div class="col-sm-10">
-                                    <h:inputText 
-                                        styleClass="form-control">asdf  </h:inputText>
-                                </div>
-                            </div>
+
 
                             <script>
                                 $(document).ready(function () {
@@ -97,19 +104,87 @@
                     </div>
                     <br></br>
                     <div class="row">
-                        <div class="col-md-12 text-center">
+                        <div class="col-md-12">
 
-                            <div class="btn-toolbar ">
+                            <table class="table table-bordered table-hover">
+                                <thead>
+                                    <tr>
+                                        <th>#</th>
+                                        <th>Title</th>
+                                        <th>Type</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <ui:repeat var="item" value="#{editPollBean.pollItems}">
+
+                                        <tr>
+                                            <td> #{item.id}</td>
+                                            <td>
+                                                <h:selectBooleanCheckbox></h:selectBooleanCheckbox>
+                                                <h:link outcome="edit-item" value="#{item.title}">
+                                                    <f:param name="id" value="#{item.id}"/>
+                                                </h:link>
+                                            </td>
+                                            <td>#{item.itemType}</td>
+                                        </tr>
+
+
+                                    </ui:repeat>
+
+
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-12">
+
+                            <div class="btn-toolbar pull-right">
 
                                 <h:commandButton
                                     styleClass="btn btn-primary"
-                                    value="Save"
+                                    value="Delte Items"
                                     action="#{editPollBean.edit()}"></h:commandButton>
+
+
+                            </div>
+                        </div>
+                    </div>
+                    <br></br>
+                    <div class="row">
+                        <div class="col-md-12">
+
+                            <div class="form-group">
+                                <label class="col-sm-1 control-label">Title</label>
+                                <div class="col-sm-11">
+                                    <h:inputText 
+                                        styleClass="form-control" value="#{editPollBean.itemTitle}"></h:inputText>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-sm-1 control-label">Type</label>
+                                <div class="col-sm-11">
+
+                                    <h:selectOneMenu value="#{editPollBean.itemType}"
+                                        styleClass="col-md-12 form-control">
+                                        <f:selectItems value="#{editPollBean.itemTypes}" 
+                                                       itemLabel="#{itemType}" var="itemType" itemValue="#{itemType.ordinal()}"/>
+                                    </h:selectOneMenu>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-12">
+
+                            <div class="btn-toolbar pull-right">
 
                                 <h:commandButton
                                     styleClass="btn btn-primary"
-                                    value="Delete"
-                                    action="#{editPollBean.edit()}"></h:commandButton>
+                                    value="Add Item"
+                                    action="#{editPollBean.addItem()}"></h:commandButton>
 
                             </div>
                         </div>

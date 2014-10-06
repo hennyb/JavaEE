@@ -5,8 +5,10 @@
  */
 package jjlm.logic;
 
+import jjlm.votes.persistence.entities.PollState;
 import java.util.List;
 import javax.ejb.Remote;
+import jjlm.votes.logic.to.ItemTO;
 import jjlm.votes.logic.to.OrganizerTO;
 import jjlm.votes.logic.to.PollTO;
 
@@ -25,10 +27,6 @@ public interface VotesLogic {
     
     String getPlainString();
     
-    OrganizerTO lookupUser(String uid);
-    
-    OrganizerTO getUser(String uid);
-    
     List<PollTO> getPollsfromOrganizer(OrganizerTO to);
     
     List<PollTO> getPollsfromOrganizer(int organizerID);
@@ -42,5 +40,9 @@ public interface VotesLogic {
     PollTO getPoll(int pollId);
     
     PollState getStateOfPoll(int pollId);
+    
+    List<ItemTO> getItemsOfPoll(int poollId);
+    
+    ItemTO storeItem(ItemTO to);
     
 }

@@ -5,49 +5,25 @@
  */
 package jjlm.votes.persistence.entities;
 
-// Start of user code (user defined imports)
-import java.io.Serializable;
 import javax.persistence.Entity;
-import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
-import jjlm.votes.logic.to.VoteOptionTO;
+import jjlm.votes.logic.to.ItemOptionTO;
 
-// End of user code
-/**
- * Description of Option.
- *
- * @author Johannes
- */
 @Entity
-public class VoteOption extends NamedEntity<VoteOption, VoteOptionTO> {
-    private static final long serialVersionUID = 6340070768142841421L;
-
+public class ItemOption extends AbstractEntity<ItemOption, ItemOptionTO> {
   
     private String description;
     private Item item;
+    
+    private int count;
 
-
-    public VoteOption() {
+    public ItemOption() {
         super();
         
     }
-
-	// Start of user code (user defined methods for Option)
-    // End of user code
-    /**
-     * Returns description.
-     *
-     * @return description
-     */
     public String getDescription() {
         return this.description;
     }
-
-    /**
-     * Sets a value to attribute description.
-     *
-     * @param newDescription
-     */
     public void setDescription(String newDescription) {
         this.description = newDescription;
     }
@@ -61,9 +37,19 @@ public class VoteOption extends NamedEntity<VoteOption, VoteOptionTO> {
         this.item = item;
     }
 
+    public int getCount() {
+        return count;
+    }
+
+    public void setCount(int count) {
+        this.count = count;
+    }
+
     @Override
-    public VoteOptionTO createTO() {
-        VoteOptionTO to = new VoteOptionTO();
+    public ItemOptionTO createTO() {
+        ItemOptionTO to = new ItemOptionTO();
+        to.setItem(item.createTO());
+        to.setCount(count);
         return to;
     }
 

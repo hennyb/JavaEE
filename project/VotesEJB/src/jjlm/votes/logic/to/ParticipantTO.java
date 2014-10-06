@@ -12,7 +12,7 @@ import jjlm.votes.persistence.entities.Poll;
  *
  * @author henny
  */
-public class ParticipantTO extends NamedEntityTO{
+public class ParticipantTO extends AbstractEntityTO{
     private static final long serialVersionUID = 7757146310902670505L;
     
     private String email;

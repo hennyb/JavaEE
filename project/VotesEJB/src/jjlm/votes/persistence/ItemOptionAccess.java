@@ -9,18 +9,18 @@ import javax.ejb.LocalBean;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
-import jjlm.votes.logic.to.VoteOptionTO;
-import jjlm.votes.persistence.entities.VoteOption;
+import jjlm.votes.logic.to.ItemOptionTO;
+import jjlm.votes.persistence.entities.ItemOption;
 
 @Stateless
 @LocalBean
-public class VoteOptionAccess extends NamedAccess<VoteOption, VoteOptionTO> {
+public class ItemOptionAccess extends AbstractAccess<ItemOption, ItemOptionTO> {
 
     @PersistenceContext(name = "VotesEJBPU")
     EntityManager em;
 
-    public VoteOptionAccess() {
-        super(VoteOption.class);
+    public ItemOptionAccess() {
+        super(ItemOption.class);
     }
 
     @Override

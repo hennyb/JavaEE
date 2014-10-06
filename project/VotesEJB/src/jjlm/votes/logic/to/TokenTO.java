@@ -8,11 +8,8 @@ package jjlm.votes.logic.to;
 import jjlm.votes.persistence.entities.Participant;
 import jjlm.votes.persistence.entities.Poll;
 
-/**
- *
- * @author henny
- */
-public class TokenTO extends NamedEntityTO {
+
+public class TokenTO extends AbstractEntityTO {
     private static final long serialVersionUID = -4370022270160263849L;
     
     private String value;

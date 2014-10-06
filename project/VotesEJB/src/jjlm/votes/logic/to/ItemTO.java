@@ -7,18 +7,20 @@ package jjlm.votes.logic.to;
 
 import java.util.ArrayList;
 import java.util.List;
+import jjlm.votes.persistence.entities.ItemType;
 
 /**
  *
  * @author henny
  */
-public class ItemTO extends NamedEntityTO {
+public class ItemTO extends AbstractEntityTO {
 
     private static final long serialVersionUID = -4145396564527603179L;
 
-    private List<VoteOptionTO> options;
-    private String titel;
-    private Integer m;
+    private List<ItemOptionTO> options;
+    private String title;
+    
+    private ItemType itemType;
     
     private PollTO poll;
 
@@ -26,28 +28,28 @@ public class ItemTO extends NamedEntityTO {
         options = new ArrayList<>();
     }
 
-    public List<VoteOptionTO> getOptions() {
+    public ItemType getItemType() {
+        return itemType;
+    }
+
+    public void setItemType(ItemType itemType) {
+        this.itemType = itemType;
+    }
+
+    public List<ItemOptionTO> getOptions() {
         return options;
     }
 
-    public void setOptions(List<VoteOptionTO> options) {
+    public void setOptions(List<ItemOptionTO> options) {
         this.options = options;
     }
 
-    public String getTitel() {
-        return titel;
+    public String getTitle() {
+        return title;
     }
 
-    public void setTitel(String titel) {
-        this.titel = titel;
-    }
-
-    public Integer getM() {
-        return m;
-    }
-
-    public void setM(Integer m) {
-        this.m = m;
+    public void setTitle(String title) {
+        this.title = title;
     }
 
     public PollTO getPoll() {
@@ -57,4 +59,5 @@ public class ItemTO extends NamedEntityTO {
     public void setPoll(PollTO poll) {
         this.poll = poll;
     }
+
 }

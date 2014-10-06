@@ -8,22 +8,25 @@ package jjlm.votes.logic.to;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-import jjlm.votes.persistence.entities.Organizer;
-import jjlm.votes.persistence.entities.Participant;
-import jjlm.votes.persistence.entities.Token;
+import jjlm.votes.persistence.entities.PollState;
 
 /**
  *
  * @author henny
  */
-public class PollTO extends NamedEntityTO {
+public class PollTO extends AbstractEntityTO {
 
     private static final long serialVersionUID = 2776900162657996129L;
 
     private String description;
+    private String title;
 
     private Date startPoll;
     private Date endPoll;
+    
+    private PollState pollState;
+    
+    private boolean tracking;
 
     private List<ItemTO> items;
     
@@ -94,7 +97,29 @@ public class PollTO extends NamedEntityTO {
     public void setParticipants(List<ParticipantTO> participants) {
         this.participants = participants;
     }
-    
-    
 
+    public String getTitle() {
+        return title;
+    }
+
+    public void setTitle(String title) {
+        this.title = title;
+    }
+
+    public PollState getPollState() {
+        return pollState;
+    }
+
+    public void setPollState(PollState pollState) {
+        this.pollState = pollState;
+    }
+
+    public boolean isTracking() {
+        return tracking;
+    }
+
+    public void setTracking(boolean tracking) {
+        this.tracking = tracking;
+    }
+    
 }
