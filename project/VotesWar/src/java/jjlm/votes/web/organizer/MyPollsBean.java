@@ -39,7 +39,6 @@ public class MyPollsBean extends OrganizerBean  {
     
     public List<PollTO> getMyPolls() {
         try{
-            System.out.println("getMyPolls "+this.getOrganizer().getId()+"  "+this.getOrganizer().getEmail());
             return logic.getPollsfromOrganizer(logic.getOrganizer(this.getOrganizer().getEmail()));
         
         }catch(Exception e){

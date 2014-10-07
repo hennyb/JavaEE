@@ -5,14 +5,12 @@
  */
 package jjlm.votes.persistence;
 
-import java.util.List;
 import javax.ejb.LocalBean;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import jjlm.votes.logic.to.OrganizerTO;
 import jjlm.votes.persistence.entities.Organizer;
-import jjlm.votes.persistence.entities.Poll;
 
 @Stateless
 @LocalBean

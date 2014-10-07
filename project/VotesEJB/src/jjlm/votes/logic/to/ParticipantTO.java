@@ -5,8 +5,6 @@
  */
 package jjlm.votes.logic.to;
 
-import javax.persistence.ManyToOne;
-import jjlm.votes.persistence.entities.Poll;
 
 /**
  *
@@ -18,7 +16,7 @@ public class ParticipantTO extends AbstractEntityTO{
     private String email;
     private boolean hasVoted;
     
-    private Poll poll;
+    private PollTO poll;
     
     public ParticipantTO(){
         
@@ -39,16 +37,13 @@ public class ParticipantTO extends AbstractEntityTO{
     public void setHasVoted(boolean hasVoted) {
         this.hasVoted = hasVoted;
     }
-
-    @ManyToOne
-    public Poll getPoll() {
+    
+    public PollTO getPoll() {
         return poll;
     }
 
-    public void setPoll(Poll poll) {
+    public void setPoll(PollTO poll) {
         this.poll = poll;
     }
-    
-    
     
 }
