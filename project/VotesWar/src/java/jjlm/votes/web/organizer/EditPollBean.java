@@ -26,7 +26,7 @@ public class EditPollBean extends OrganizerBean {
 
     public void init () {
         
-        System.out.println("iniiiiiiit");
+        System.out.println(RequestParameters.get("id"));
         
     }
     
@@ -41,7 +41,7 @@ public class EditPollBean extends OrganizerBean {
             pollTO = null;
         }
 
-        return "edit-poll";
+        return "edit-poll?faces-redirect=true&id=";
     }
 
     public String getPollDescription() {
