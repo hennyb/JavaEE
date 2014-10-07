@@ -10,22 +10,18 @@ import javax.ejb.LocalBean;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
-import jjlm.votes.logic.to.ItemTO;
-import jjlm.votes.persistence.entities.Item;
+import jjlm.votes.logic.to.ItemOptionTO;
+import jjlm.votes.persistence.entities.ItemOption;
 
-/**
- *
- * @author henny
- */
 @Stateless
 @LocalBean
-public class ItemAccess extends AbstractAccess<Item, ItemTO> {
+public class ItemOptionAccess extends AbstractAccess<ItemOption, ItemOptionTO> {
 
     @PersistenceContext(name = "VotesEJBPU")
     EntityManager em;
 
-    public ItemAccess() {
-        super(Item.class);
+    public ItemOptionAccess() {
+        super(ItemOption.class);
     }
 
     @Override
@@ -33,13 +29,13 @@ public class ItemAccess extends AbstractAccess<Item, ItemTO> {
         return em;
     }
     
-    public List<Item> getItems(int pollId){
+    public List<ItemOption> getOptions(int itemId){
         
-        return em.createQuery("SELECT i FROM Item i"
-                + " WHERE i.poll.id = :pollId", Item.class)
-                .setParameter("pollId", pollId)
+        return em.createQuery("SELECT o FROM ItemOption o"
+                + " WHERE o.item.id = :itemId", ItemOption.class)
+                .setParameter("itemId", itemId)
                 .getResultList();
         
     }
-
+    
 }

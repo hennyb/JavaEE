@@ -14,7 +14,7 @@ import jjlm.votes.logic.to.ParticipantTO;
  * @author henny
  */
 @Entity
-public class Participant extends NamedEntity<Participant, ParticipantTO> {
+public class Participant extends AbstractEntity<Participant, ParticipantTO> {
 
     private static final long serialVersionUID = 3438053285465095313L;
 

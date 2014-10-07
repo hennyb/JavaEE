@@ -8,16 +8,15 @@ package jjlm.votes.logic.to;
 import jjlm.votes.persistence.entities.Participant;
 import jjlm.votes.persistence.entities.Poll;
 
-/**
- *
- * @author henny
- */
-public class TokenTO extends NamedEntityTO {
+
+public class TokenTO extends AbstractEntityTO {
     private static final long serialVersionUID = -4370022270160263849L;
     
     private String value;
     private Participant participant;
     private Poll poll;
+    
+    private boolean invalid;
     
     
     public TokenTO(){
@@ -47,5 +46,12 @@ public class TokenTO extends NamedEntityTO {
     public void setPoll(Poll poll) {
         this.poll = poll;
     }
-    
+
+    public boolean isInvalid() {
+        return invalid;
+    }
+
+    public void setInvalid(boolean invalid) {
+        this.invalid = invalid;
+    }
 }

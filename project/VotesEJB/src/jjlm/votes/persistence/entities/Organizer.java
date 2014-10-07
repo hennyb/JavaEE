@@ -5,25 +5,27 @@
  */
 package jjlm.votes.persistence.entities;
 
-import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Set;
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
-import javax.persistence.JoinTable;
+import javax.persistence.FetchType;
 import javax.persistence.ManyToMany;
+import javax.persistence.OneToMany;
 import jjlm.votes.logic.to.OrganizerTO;
-import jjlm.votes.logic.to.PollTO;
 
 /**
  *
  * @author henny
  */
 @Entity
-public class Organizer extends NamedEntity<Organizer, OrganizerTO> {
+public class Organizer extends AbstractEntity<Organizer, OrganizerTO> {
 
     private static final long serialVersionUID = 7704608960481160103L;
 
     private Set<Poll> polls;
+    private Set<ParticipantList> participantLists;
+    
     private String username;
     private String realname;
     private String email;
@@ -33,7 +35,7 @@ public class Organizer extends NamedEntity<Organizer, OrganizerTO> {
         polls = new HashSet<>();
     }
 
-    @ManyToMany(mappedBy="organizer")
+    @ManyToMany(mappedBy="organizer", cascade = CascadeType.REMOVE)
     public Set<Poll> getPolls() {
         return polls;
     }
@@ -41,6 +43,17 @@ public class Organizer extends NamedEntity<Organizer, OrganizerTO> {
     public void setPolls(Set<Poll> polls) {
         this.polls = polls;
     }
+
+    @OneToMany(mappedBy="organizer", fetch = FetchType.EAGER, cascade = CascadeType.REMOVE)
+    public Set<ParticipantList> getParticipantLists() {
+        return participantLists;
+    }
+
+    public void setParticipantLists(Set<ParticipantList> participantLists) {
+        this.participantLists = participantLists;
+    }
+    
+    
     
     public String getUsername() {
         return username;
@@ -73,6 +86,7 @@ public class Organizer extends NamedEntity<Organizer, OrganizerTO> {
     public void setEncryptedPassword(String encryptedPassword) {
         this.encryptedPassword = encryptedPassword;
     }
+    
 
     @Override
     public OrganizerTO createTO() {

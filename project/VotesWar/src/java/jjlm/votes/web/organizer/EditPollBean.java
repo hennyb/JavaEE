@@ -5,9 +5,19 @@
  */
 package jjlm.votes.web.organizer;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Date;
+import java.util.List;
+import java.util.Map;
 import javax.enterprise.context.SessionScoped;
+import javax.faces.context.FacesContext;
 import javax.inject.Named;
+import jjlm.votes.logic.to.ItemTO;
 import jjlm.votes.logic.to.PollTO;
+import jjlm.votes.persistence.entities.ItemType;
 import jjlm.votes.web.help.RequestParameters;
 
 /**
@@ -22,26 +32,107 @@ public class EditPollBean extends OrganizerBean {
     private int paramID;
 
     private String pollDescription;
-    private String pollName;
+    private String pollTitle;
 
-    public void init () {
-        
-        System.out.println(RequestParameters.get("id"));
-        
-    }
-    
-    public String setParamID(String paramID) {
+    private String startPoll;
+    private String endPoll;
+
+    private String itemTitle;
+    private String itemType;
+
+    private SimpleDateFormat sdf = new SimpleDateFormat("MM/dd/yyyy");
+
+    private List<ItemTO> pollItems;
+
+    public void init() {
+
+        pollTO = new PollTO();
+        setPollDescription("");
+        setPollTitle("");
+        setStartPoll("");
+        setEndPoll("");
+        setItemTitle("");
+        setItemType("");
+        pollItems = new ArrayList<>();
+
+        String paramString = RequestParameters.get("id");
+
+
         try {
-            this.paramID = Integer.parseInt(paramID);
+            this.paramID = Integer.parseInt(paramString);
             pollTO = logic.getPoll(this.paramID);
 
             setPollDescription(pollTO.getDescription());
-            setPollName(pollTO.getName());
+            setPollTitle(pollTO.getTitle());
+
+            pollItems = (pollTO.getId() != null
+                    ? logic.getItemsOfPoll(pollTO.getId())
+                    : new ArrayList<ItemTO>());
+
+            if (pollTO.getStartPoll() != null) {
+                setStartPoll(sdf.format(pollTO.getStartPoll()));
+            } else {
+                setStartPoll("");
+            }
+            if (pollTO.getEndPoll() != null) {
+                setEndPoll(sdf.format(pollTO.getEndPoll()));
+            } else {
+                setStartPoll("");
+            }
         } catch (Exception e) {
-            pollTO = null;
+            System.err.println(e);
+            pollTO = new PollTO();
         }
 
-        return "edit-poll?faces-redirect=true&id=";
+
+    }
+
+    public List<ItemType> getItemTypes() {
+
+        List<ItemType> values = Arrays.asList(ItemType.values());
+
+        return values;
+
+    }
+
+    public String getItemTitle() {
+        return itemTitle;
+    }
+
+    public void setItemTitle(String itemTitle) {
+        this.itemTitle = itemTitle;
+    }
+
+    public String getItemType() {
+        return itemType;
+    }
+
+    public void setItemType(String itemType) {
+        this.itemType = itemType;
+    }
+
+    public List<ItemTO> getPollItems() {
+        return this.pollItems;
+    }
+
+    public void setPollItems(List<ItemTO> pollItems) {
+        this.pollItems = pollItems;
+    }
+
+    public String getStartPoll() {
+        return startPoll;
+    }
+
+    public void setStartPoll(String startPoll) {
+        this.startPoll = startPoll;
+    }
+
+    public String getEndPoll() {
+        return endPoll;
+    }
+
+    public void setEndPoll(String endPoll) {
+        this.endPoll = endPoll;
     }
 
     public String getPollDescription() {
@@ -52,23 +143,65 @@ public class EditPollBean extends OrganizerBean {
         this.pollDescription = pollDescription;
     }
 
-    public String getPollName() {
-        return pollName;
+    public String getPollTitle() {
+        return pollTitle;
     }
 
-    public void setPollName(String pollName) {
-        this.pollName = pollName;
+    public void setPollTitle(String pollTitle) {
+        this.pollTitle = pollTitle;
     }
 
     public String edit() {
-
-        pollTO.setName(pollName);
         pollTO.setDescription(pollDescription);
+        pollTO.setTitle(pollTitle);
+
+        Date startDate = null;
+        try {
+            startDate = sdf.parse(getStartPoll());
+        } catch (ParseException ex) {
+            System.err.println(ex);
+        }
+        pollTO.setStartPoll(startDate);
+
+        Date endDate = null;
+        try {
+            endDate = sdf.parse(getEndPoll());
+        } catch (ParseException ex) {
+            System.err.println(ex);
+        }
+        pollTO.setEndPoll(endDate);
 
         logic.storePoll(pollTO);
 
-        return ("my-polls");
+        pollTO = null;
 
+        setPollTitle("");
+        setPollDescription("");
+        setStartPoll("");
+        setEndPoll("");
+        return ("my-polls");
+    }
+
+    public String addItem() {
+
+        ItemTO itemTO = new ItemTO();
+
+        itemTO.setPoll(pollTO);
+        itemTO.setTitle(itemTitle);
+        itemTO.setItemType(ItemType.values()[Integer.parseInt(itemType)]);
+
+        itemTO = logic.storeItem(itemTO);
+
+        return "edit-item?faces-redirect=true&id=" + itemTO.getId();
+    }
+
+    public String delete() {
+        logic.deletePoll(paramID);
+        return "my-polls";
+    }
+
+    public String save() {
+        return "";
     }
 
 }

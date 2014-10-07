@@ -16,7 +16,7 @@ import jjlm.votes.persistence.entities.Poll;
 
 @Stateless
 @LocalBean
-public class OrganizerAccess extends NamedAccess<Organizer, OrganizerTO>{
+public class OrganizerAccess extends AbstractAccess<Organizer, OrganizerTO>{
 
     @PersistenceContext(name="VotesEJBPU")
     EntityManager em;
