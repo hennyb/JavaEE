@@ -13,7 +13,7 @@ public class ParticipantListTO extends AbstractEntityTO{
     private String text;
     private String seperator;
     
-    private Organizer organizer;
+    private OrganizerTO organizer;
 
     public String getTitle() {
         return title;
@@ -39,14 +39,11 @@ public class ParticipantListTO extends AbstractEntityTO{
         this.seperator = seperator;
     }
 
-    public Organizer getOrganizer() {
+    public OrganizerTO getOrganizer() {
         return organizer;
     }
 
-    public void setOrganizer(Organizer organizer) {
+    public void setOrganizer(OrganizerTO organizer) {
         this.organizer = organizer;
     }
-    
-    
-    
 }

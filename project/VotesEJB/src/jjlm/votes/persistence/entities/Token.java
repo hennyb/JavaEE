@@ -5,8 +5,10 @@
  */
 package jjlm.votes.persistence.entities;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToOne;
 import jjlm.votes.logic.to.TokenTO;
 
 /**
@@ -17,14 +19,13 @@ import jjlm.votes.logic.to.TokenTO;
 public class Token extends AbstractEntity<Token,TokenTO>{
     private static final long serialVersionUID = 4046280168952966572L;
     
-    private String value;
+    private String signature;
     private Participant participant;
     private Poll poll;
     
     private boolean invalid;
     
     public Token(){
-        //this.id = UUID.randomUUID().toString();
     }
 
     @ManyToOne
@@ -35,15 +36,17 @@ public class Token extends AbstractEntity<Token,TokenTO>{
     public void setPoll(Poll poll) {
         this.poll = poll;
     }
+
+    @Column(unique = true)
+    public String getSignature() {
+        return signature;
+    }
     
-    public String getValue() {
-        return value;
+    public void setSignature(String signature) {
+        this.signature = signature;
     }
-
-    public void setValue(String value) {
-        this.value = value;
-    }
-
+    
+    @OneToOne
     public Participant getParticipant() {
         return participant;
     }
@@ -64,14 +67,12 @@ public class Token extends AbstractEntity<Token,TokenTO>{
     public TokenTO createTO() {
         TokenTO to = new TokenTO();
         to.setId(id);
-        to.setParticipant(participant);
-        to.setPoll(poll);
-        to.setValue(value);
+        to.setParticipant(participant.createTO());
+        to.setPoll(poll.createTO());
+        to.setSignature(signature);
         to.setInvalid(invalid);
         
         return to;
     }
-    
-    
     
 }

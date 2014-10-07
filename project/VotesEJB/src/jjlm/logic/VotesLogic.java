@@ -11,6 +11,7 @@ import javax.ejb.Remote;
 import jjlm.votes.logic.to.ItemOptionTO;
 import jjlm.votes.logic.to.ItemTO;
 import jjlm.votes.logic.to.OrganizerTO;
+import jjlm.votes.logic.to.ParticipantTO;
 import jjlm.votes.logic.to.PollTO;
 
 @Remote
@@ -57,4 +58,10 @@ public interface VotesLogic {
     void deleteItem(int itemId);
     
     void deletePoll(int pollId);
+    
+    List<ParticipantTO> getParticipantsOfPoll(int pollId);
+    
+    ParticipantTO storeParticipant(ParticipantTO to);
+    
+    void deleteParticipant(int participantId);
 }

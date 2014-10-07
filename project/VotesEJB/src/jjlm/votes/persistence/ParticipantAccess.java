@@ -5,17 +5,18 @@
  */
 package jjlm.votes.persistence;
 
+import java.util.List;
+import javax.ejb.LocalBean;
+import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import jjlm.votes.logic.to.ParticipantTO;
 import jjlm.votes.persistence.entities.Participant;
 
-/**
- *
- * @author henny
- */
-public class ParticipantAccess extends AbstractAccess<Participant, ParticipantTO>{
-    
+@Stateless
+@LocalBean
+public class ParticipantAccess extends AbstractAccess<Participant, ParticipantTO> {
+
     @PersistenceContext(unitName = "VotesEJBPU")
     private EntityManager em;
 
@@ -26,5 +27,12 @@ public class ParticipantAccess extends AbstractAccess<Participant, ParticipantTO
 
     public ParticipantAccess() {
         super(Participant.class);
+    }
+
+    public List<Participant> getParticipantsOfPoll(int pollId) {
+        return em.createQuery("SELECT p FROM Participant p"
+                + " WHERE p.poll.id = :pollId", Participant.class)
+                .setParameter("pollId", pollId)
+                .getResultList();
     }
 }

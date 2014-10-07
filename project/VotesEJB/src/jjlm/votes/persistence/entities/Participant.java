@@ -54,7 +54,13 @@ public class Participant extends AbstractEntity<Participant, ParticipantTO> {
 
     @Override
     public ParticipantTO createTO() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        ParticipantTO to = new ParticipantTO();
+        to.setId(id);
+        to.setEmail(email);
+        to.setHasVoted(hasVoted);
+        to.setPoll(poll.createTO());
+        
+        return to;
     }
 
 }

@@ -5,16 +5,14 @@
  */
 package jjlm.votes.logic.to;
 
-import jjlm.votes.persistence.entities.Participant;
-import jjlm.votes.persistence.entities.Poll;
 
 
 public class TokenTO extends AbstractEntityTO {
     private static final long serialVersionUID = -4370022270160263849L;
     
-    private String value;
-    private Participant participant;
-    private Poll poll;
+    private String signature;
+    private ParticipantTO participant;
+    private PollTO poll;
     
     private boolean invalid;
     
@@ -23,27 +21,27 @@ public class TokenTO extends AbstractEntityTO {
         
     }
 
-    public String getValue() {
-        return value;
+    public String getSignature() {
+        return signature;
     }
 
-    public void setValue(String value) {
-        this.value = value;
+    public void setSignature(String signature) {
+        this.signature = signature;
     }
 
-    public Participant getParticipant() {
+    public ParticipantTO getParticipant() {
         return participant;
     }
 
-    public void setParticipant(Participant participant) {
+    public void setParticipant(ParticipantTO participant) {
         this.participant = participant;
     }
 
-    public Poll getPoll() {
+    public PollTO getPoll() {
         return poll;
     }
 
-    public void setPoll(Poll poll) {
+    public void setPoll(PollTO poll) {
         this.poll = poll;
     }
 

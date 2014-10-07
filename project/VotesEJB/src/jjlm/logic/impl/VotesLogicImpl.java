@@ -9,8 +9,7 @@ import java.util.Date;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
-import java.util.logging.Level;
-import java.util.logging.Logger;
+import java.util.UUID;
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
 import jjlm.votes.persistence.entities.PollState;
@@ -18,16 +17,21 @@ import jjlm.logic.VotesLogic;
 import jjlm.votes.logic.to.ItemOptionTO;
 import jjlm.votes.logic.to.ItemTO;
 import jjlm.votes.logic.to.OrganizerTO;
+import jjlm.votes.logic.to.ParticipantTO;
 import jjlm.votes.logic.to.PollTO;
 import jjlm.votes.persistence.ItemAccess;
 import jjlm.votes.persistence.ItemOptionAccess;
 import jjlm.votes.persistence.OrganizerAccess;
+import jjlm.votes.persistence.ParticipantAccess;
 import jjlm.votes.persistence.PollAccess;
+import jjlm.votes.persistence.TokenAccess;
 import jjlm.votes.persistence.entities.AbstractEntity;
 import jjlm.votes.persistence.entities.Item;
 import jjlm.votes.persistence.entities.ItemOption;
 import jjlm.votes.persistence.entities.Organizer;
+import jjlm.votes.persistence.entities.Participant;
 import jjlm.votes.persistence.entities.Poll;
+import jjlm.votes.persistence.entities.Token;
 
 @Stateless
 public class VotesLogicImpl implements VotesLogic {
@@ -43,7 +47,12 @@ public class VotesLogicImpl implements VotesLogic {
 
     @EJB
     private ItemOptionAccess ioa;
+
+    @EJB
+    private ParticipantAccess pta;
     
+    @EJB
+    private TokenAccess ta;
 
     @Override
     public OrganizerTO getOrganizer(String email) {
@@ -241,22 +250,67 @@ public class VotesLogicImpl implements VotesLogic {
 
     @Override
     public void deleteItem(int itemId) {
-        Item item=ia.find(itemId);
-        
-        for(ItemOptionTO o:getOptionsOfItem(itemId)){
+        Item item = ia.find(itemId);
+
+        for (ItemOptionTO o : getOptionsOfItem(itemId)) {
             deleteItemOption(o.getId());
         }
-        
+
         ia.remove(item);
     }
 
     @Override
     public void deletePoll(int pollId) {
-        Poll poll =pa.find(pollId);
-        for(ItemTO item:getItemsOfPoll(pollId)){
+        Poll poll = pa.find(pollId);
+        for (ItemTO item : getItemsOfPoll(pollId)) {
             deleteItem(item.getId());
+        }
+
+        for (ParticipantTO participant : getParticipantsOfPoll(pollId)) {
+            deleteParticipant(participant.getId());
         }
         
         pa.remove(poll);
     }
+
+    @Override
+    public ParticipantTO storeParticipant(ParticipantTO to) {
+        Participant participant = to.getId() == null ? new Participant() : pta.find(to.getId());
+
+        participant.setEmail(to.getEmail());
+        participant.setPoll(pa.find(to.getPoll().getId()));
+        participant.setHasVoted(to.isHasVoted());
+        participant.setId(to.getId());
+
+        if (to.getId() == null) {
+            pta.create(participant);
+            
+            Token token = new Token();
+            token.setInvalid(false);
+            token.setPoll(participant.getPoll());
+            token.setParticipant(participant);
+            token.setSignature(UUID.randomUUID().toString());
+            
+            ta.create(token);
+            
+        } else {
+            participant = pta.edit(participant);
+        }
+
+        return participant.createTO();
+    }
+
+    @Override
+    public void deleteParticipant(int participantId) {
+        for(Token t: ta.getTokenOfParticipant(participantId)){
+            ta.remove(t);
+        }
+        pta.remove(pta.find(participantId));
+    }
+
+    @Override
+    public List<ParticipantTO> getParticipantsOfPoll(int pollId) {
+        return AbstractEntity.createTransferList(pta.getParticipantsOfPoll(pollId));
+    }
+
 }
