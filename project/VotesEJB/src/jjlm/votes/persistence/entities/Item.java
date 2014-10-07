@@ -21,13 +21,14 @@ public class Item extends AbstractEntity<Item, ItemTO> {
 
     private static final long serialVersionUID = -5062238818277568048L;
 
+    private String title;
     private Set<ItemOption> options;
 
-    private String title;
-    
     private ItemType itemType;
 
     private Poll poll;
+    
+    private boolean valid;
 
     public Item() {
         super();
@@ -84,6 +85,14 @@ public class Item extends AbstractEntity<Item, ItemTO> {
         this.poll = poll;
     }
 
+    public boolean isValid() {
+        return valid;
+    }
+
+    public void setValid(boolean valid) {
+        this.valid = valid;
+    }
+
     @Override
     public ItemTO createTO() {
         ItemTO to = new ItemTO();
@@ -91,6 +100,7 @@ public class Item extends AbstractEntity<Item, ItemTO> {
         to.setItemType(itemType);
         to.setPoll(poll.createTO());
         to.setTitle(title);
+        to.setValid(valid);
 
         return to;
     }

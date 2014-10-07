@@ -21,6 +21,8 @@ public class Token extends AbstractEntity<Token,TokenTO>{
     private Participant participant;
     private Poll poll;
     
+    private boolean invalid;
+    
     public Token(){
         //this.id = UUID.randomUUID().toString();
     }
@@ -50,6 +52,14 @@ public class Token extends AbstractEntity<Token,TokenTO>{
         this.participant = participant;
     }
 
+    public boolean isInvalid() {
+        return invalid;
+    }
+
+    public void setInvalid(boolean invalid) {
+        this.invalid = invalid;
+    }
+    
     @Override
     public TokenTO createTO() {
         TokenTO to = new TokenTO();
@@ -57,6 +67,7 @@ public class Token extends AbstractEntity<Token,TokenTO>{
         to.setParticipant(participant);
         to.setPoll(poll);
         to.setValue(value);
+        to.setInvalid(invalid);
         
         return to;
     }

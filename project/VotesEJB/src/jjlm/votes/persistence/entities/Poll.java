@@ -26,10 +26,10 @@ import jjlm.votes.logic.to.PollTO;
 public class Poll extends AbstractEntity<Poll, PollTO> {
 
     private static final long serialVersionUID = -1526570451061341296L;
-
-    private String description;
+    
     private String title;
-
+    private String description;
+    
     private Date startPoll;
     private Date endPoll;
     
@@ -41,6 +41,7 @@ public class Poll extends AbstractEntity<Poll, PollTO> {
     private Set<Token> tokens;
     private Set<Participant> participants;
     
+    private boolean valid;
     private boolean tracking;
 
     public Poll() {
@@ -159,9 +160,15 @@ public class Poll extends AbstractEntity<Poll, PollTO> {
     public void setTitle(String title) {
         this.title = title;
     }
-    
-    
 
+    public boolean isValid() {
+        return valid;
+    }
+
+    public void setValid(boolean valid) {
+        this.valid = valid;
+    }
+    
     @Override
     public PollTO createTO() {
         PollTO to = new PollTO();
@@ -171,6 +178,7 @@ public class Poll extends AbstractEntity<Poll, PollTO> {
         to.setStartPoll(getStartPoll());
         to.setTitle(title);
         to.setPollState(pollState);
+        to.setValid(valid);
 
         if (getOrganizer() == null) {
             to.setOrganizer(new ArrayList<OrganizerTO>());

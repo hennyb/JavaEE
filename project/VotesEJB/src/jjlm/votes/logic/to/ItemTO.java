@@ -23,6 +23,8 @@ public class ItemTO extends AbstractEntityTO {
     private ItemType itemType;
     
     private PollTO poll;
+    
+    private boolean valid;
 
     public ItemTO() {
         options = new ArrayList<>();
@@ -60,4 +62,11 @@ public class ItemTO extends AbstractEntityTO {
         this.poll = poll;
     }
 
+    public boolean isValid() {
+        return valid;
+    }
+
+    public void setValid(boolean valid) {
+        this.valid = valid;
+    }
 }

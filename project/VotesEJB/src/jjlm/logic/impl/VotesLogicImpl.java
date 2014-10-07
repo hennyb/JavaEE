@@ -67,6 +67,7 @@ public class VotesLogicImpl implements VotesLogic {
         poll.setDescription(to.getDescription());
         poll.setEndPoll(to.getEndPoll());
         poll.setStartPoll(to.getStartPoll());
+        poll.setValid(to.isValid());
 
         Set<Organizer> organizer = poll.getOrganizer();
         for (Organizer o : organizer) {
@@ -192,6 +193,7 @@ public class VotesLogicImpl implements VotesLogic {
         item.setTitle(to.getTitle());
         item.setPoll(pa.find(to.getPoll().getId()));
         item.setId(to.getId());
+        item.setValid(to.isValid());
 
         if (to.getId() == null) {
             ia.create(item);

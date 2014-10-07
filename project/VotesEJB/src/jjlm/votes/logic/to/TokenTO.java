@@ -16,6 +16,8 @@ public class TokenTO extends AbstractEntityTO {
     private Participant participant;
     private Poll poll;
     
+    private boolean invalid;
+    
     
     public TokenTO(){
         
@@ -44,5 +46,12 @@ public class TokenTO extends AbstractEntityTO {
     public void setPoll(Poll poll) {
         this.poll = poll;
     }
-    
+
+    public boolean isInvalid() {
+        return invalid;
+    }
+
+    public void setInvalid(boolean invalid) {
+        this.invalid = invalid;
+    }
 }

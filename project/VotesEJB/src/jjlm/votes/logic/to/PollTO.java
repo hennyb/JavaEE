@@ -18,8 +18,8 @@ public class PollTO extends AbstractEntityTO {
 
     private static final long serialVersionUID = 2776900162657996129L;
 
-    private String description;
     private String title;
+    private String description;
 
     private Date startPoll;
     private Date endPoll;
@@ -33,6 +33,8 @@ public class PollTO extends AbstractEntityTO {
     private List<OrganizerTO> organizer;
     private List<TokenTO> tokens;
     private List<ParticipantTO> participants;
+    
+    private boolean valid;
 
     public PollTO() {
         items = new ArrayList<>();
@@ -121,5 +123,15 @@ public class PollTO extends AbstractEntityTO {
     public void setTracking(boolean tracking) {
         this.tracking = tracking;
     }
+
+    public boolean isValid() {
+        return valid;
+    }
+
+    public void setValid(boolean valid) {
+        this.valid = valid;
+    }
+    
+    
     
 }
