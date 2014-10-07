@@ -5,6 +5,7 @@
  */
 package jjlm.votes.logic.to;
 
+
 /**
  *
  * @author henny
@@ -12,6 +13,7 @@ package jjlm.votes.logic.to;
 public class ItemOptionTO extends AbstractEntityTO{
     
     private String description;
+    private String title;
     private ItemTO item;
     
     private Integer count;
@@ -41,5 +43,14 @@ public class ItemOptionTO extends AbstractEntityTO{
     public void setCount(Integer count) {
         this.count = count;
     }
+
+    public String getTitle() {
+        return title;
+    }
+
+    public void setTitle(String title) {
+        this.title = title;
+    }
+    
     
 }

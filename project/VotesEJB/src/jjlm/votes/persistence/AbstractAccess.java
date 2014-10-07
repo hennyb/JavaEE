@@ -40,6 +40,7 @@ public abstract class AbstractAccess<E extends AbstractEntity<E, T>, T extends A
     public void remove(E entity) {
         getEntityManager().remove(getEntityManager().merge(entity));
         getEntityManager().flush();
+        getEntityManager().clear();
     }
 
     public E find(Object id) {

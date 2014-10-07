@@ -5,6 +5,7 @@
  */
 package jjlm.votes.persistence;
 
+import java.util.List;
 import javax.ejb.LocalBean;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
@@ -27,4 +28,14 @@ public class ItemOptionAccess extends AbstractAccess<ItemOption, ItemOptionTO> {
     protected EntityManager getEntityManager() {
         return em;
     }
+    
+    public List<ItemOption> getOptions(int itemId){
+        
+        return em.createQuery("SELECT o FROM ItemOption o"
+                + " WHERE o.item.id = :itemId", ItemOption.class)
+                .setParameter("itemId", itemId)
+                .getResultList();
+        
+    }
+    
 }

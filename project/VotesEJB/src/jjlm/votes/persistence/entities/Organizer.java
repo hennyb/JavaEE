@@ -7,6 +7,7 @@ package jjlm.votes.persistence.entities;
 
 import java.util.HashSet;
 import java.util.Set;
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.ManyToMany;
@@ -34,7 +35,7 @@ public class Organizer extends AbstractEntity<Organizer, OrganizerTO> {
         polls = new HashSet<>();
     }
 
-    @ManyToMany(mappedBy="organizer")
+    @ManyToMany(mappedBy="organizer", cascade = CascadeType.REMOVE)
     public Set<Poll> getPolls() {
         return polls;
     }
@@ -43,7 +44,7 @@ public class Organizer extends AbstractEntity<Organizer, OrganizerTO> {
         this.polls = polls;
     }
 
-    @OneToMany(mappedBy="organizer", fetch = FetchType.EAGER)
+    @OneToMany(mappedBy="organizer", fetch = FetchType.EAGER, cascade = CascadeType.REMOVE)
     public Set<ParticipantList> getParticipantLists() {
         return participantLists;
     }

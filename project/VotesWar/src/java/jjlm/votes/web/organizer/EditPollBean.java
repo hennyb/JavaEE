@@ -18,6 +18,7 @@ import javax.inject.Named;
 import jjlm.votes.logic.to.ItemTO;
 import jjlm.votes.logic.to.PollTO;
 import jjlm.votes.persistence.entities.ItemType;
+import jjlm.votes.web.help.RequestParameters;
 
 /**
  *
@@ -44,15 +45,20 @@ public class EditPollBean extends OrganizerBean {
     private List<ItemTO> pollItems;
 
     public void init() {
-        FacesContext facesContext = FacesContext.getCurrentInstance();
-        Map<String, String> sessionMap = facesContext.getExternalContext().getRequestParameterMap();
-        setParamID(sessionMap.get("id"));
 
-    }
+        pollTO = new PollTO();
+        setPollDescription("");
+        setPollTitle("");
+        setStartPoll("");
+        setEndPoll("");
+        setItemTitle("");
+        setItemType("");
+        pollItems = new ArrayList<>();
 
-    public String setParamID(String paramID) {
+        String paramString = RequestParameters.get("id");
+
         try {
-            this.paramID = Integer.parseInt(paramID);
+            this.paramID = Integer.parseInt(paramString);
             pollTO = logic.getPoll(this.paramID);
 
             setPollDescription(pollTO.getDescription());
@@ -72,14 +78,11 @@ public class EditPollBean extends OrganizerBean {
             } else {
                 setStartPoll("");
             }
-            setItemTitle("");
-            setItemType("");
         } catch (Exception e) {
             System.err.println(e);
             pollTO = new PollTO();
         }
 
-        return "edit-poll";
     }
 
     public List<ItemType> getItemTypes() {
@@ -148,6 +151,7 @@ public class EditPollBean extends OrganizerBean {
 
     public String edit() {
         pollTO.setDescription(pollDescription);
+        pollTO.setTitle(pollTitle);
 
         Date startDate = null;
         try {
@@ -187,6 +191,15 @@ public class EditPollBean extends OrganizerBean {
         itemTO = logic.storeItem(itemTO);
 
         return "edit-item?faces-redirect=true&id=" + itemTO.getId();
+    }
+
+    public String delete() {
+        logic.deletePoll(paramID);
+        return "my-polls";
+    }
+
+    public String save() {
+        return "";
     }
 
 }

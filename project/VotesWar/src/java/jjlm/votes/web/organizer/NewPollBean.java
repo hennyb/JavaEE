@@ -29,9 +29,6 @@ public class NewPollBean extends OrganizerBean {
     private String pollTitle;
     private String pollDescription;
 
-    @Inject
-    EditPollBean epb;
-
     public void setPollDescription(String pollDescription) {
         this.pollDescription = pollDescription;
     }
@@ -63,7 +60,7 @@ public class NewPollBean extends OrganizerBean {
         setPollTitle("");
         setPollDescription("");
 
-        return epb.setParamID(pollTO.getId() + "");
+        return "edit-poll?faces-redirect=true&id="+pollTO.getId();
 
     }
 

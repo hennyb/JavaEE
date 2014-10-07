@@ -9,21 +9,25 @@ import java.util.Date;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
 import jjlm.votes.persistence.entities.PollState;
 import jjlm.logic.VotesLogic;
+import jjlm.votes.logic.to.ItemOptionTO;
 import jjlm.votes.logic.to.ItemTO;
 import jjlm.votes.logic.to.OrganizerTO;
 import jjlm.votes.logic.to.PollTO;
 import jjlm.votes.persistence.ItemAccess;
+import jjlm.votes.persistence.ItemOptionAccess;
 import jjlm.votes.persistence.OrganizerAccess;
 import jjlm.votes.persistence.PollAccess;
 import jjlm.votes.persistence.entities.AbstractEntity;
 import jjlm.votes.persistence.entities.Item;
+import jjlm.votes.persistence.entities.ItemOption;
 import jjlm.votes.persistence.entities.Organizer;
 import jjlm.votes.persistence.entities.Poll;
-
 
 @Stateless
 public class VotesLogicImpl implements VotesLogic {
@@ -36,6 +40,10 @@ public class VotesLogicImpl implements VotesLogic {
 
     @EJB
     private ItemAccess ia;
+
+    @EJB
+    private ItemOptionAccess ioa;
+    
 
     @Override
     public OrganizerTO getOrganizer(String email) {
@@ -177,20 +185,76 @@ public class VotesLogicImpl implements VotesLogic {
 
     @Override
     public ItemTO storeItem(ItemTO to) {
-        
+
         Item item = to.getId() == null ? new Item() : ia.find(to.getId());
-        
+
         item.setItemType(to.getItemType());
         item.setTitle(to.getTitle());
         item.setPoll(pa.find(to.getPoll().getId()));
-        
+        item.setId(to.getId());
+
         if (to.getId() == null) {
             ia.create(item);
         } else {
             item = ia.edit(item);
         }
-        
+
         return item.createTO();
+
+    }
+
+    @Override
+    public List<ItemOptionTO> getOptionsOfItem(int itemID) {
+        return AbstractEntity.createTransferList(ioa.getOptions(itemID));
+    }
+
+    @Override
+    public ItemOptionTO storeItemOption(ItemOptionTO to) {
+        ItemOption option = to.getId() == null ? new ItemOption() : ioa.find(to.getId());
+
+        option.setDescription(to.getDescription());
+        option.setCount(to.getCount());
+        option.setItem(ia.find(to.getItem().getId()));
+        option.setTitle(to.getTitle());
+        option.setId(to.getId());
+
+        if (to.getId() == null) {
+            ioa.create(option);
+        } else {
+            option = ioa.edit(option);
+        }
+
+        return option.createTO();
+    }
+
+    @Override
+    public ItemTO getItem(int itemId) {
+        return ia.find(itemId).createTO();
+    }
+
+    @Override
+    public void deleteItemOption(int itemOptionId) {
+        ioa.remove(ioa.find(itemOptionId));
+    }
+
+    @Override
+    public void deleteItem(int itemId) {
+        Item item=ia.find(itemId);
         
+        for(ItemOptionTO o:getOptionsOfItem(itemId)){
+            deleteItemOption(o.getId());
+        }
+        
+        ia.remove(item);
+    }
+
+    @Override
+    public void deletePoll(int pollId) {
+        Poll poll =pa.find(pollId);
+        for(ItemTO item:getItemsOfPoll(pollId)){
+            deleteItem(item.getId());
+        }
+        
+        pa.remove(poll);
     }
 }

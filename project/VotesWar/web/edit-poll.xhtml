@@ -35,12 +35,12 @@
                                     <h:commandButton
                                         styleClass="btn btn-primary"
                                         value="Save"
-                                        action="#{editPollBean.edit()}"></h:commandButton>
+                                        action="#{editPollBean.save()}"></h:commandButton>
 
                                     <h:commandButton
                                         styleClass="btn btn-primary"
                                         value="Delete"
-                                        action="#{editPollBean.edit()}"></h:commandButton>
+                                        action="#{editPollBean.delete()}"></h:commandButton>
 
                                 </div>
                             </h3>
@@ -120,7 +120,6 @@
                                         <tr>
                                             <td> #{item.id}</td>
                                             <td>
-                                                <h:selectBooleanCheckbox></h:selectBooleanCheckbox>
                                                 <h:link outcome="edit-item" value="#{item.title}">
                                                     <f:param name="id" value="#{item.id}"/>
                                                 </h:link>
@@ -137,20 +136,7 @@
                         </div>
                     </div>
 
-                    <div class="row">
-                        <div class="col-md-12">
-
-                            <div class="btn-toolbar pull-right">
-
-                                <h:commandButton
-                                    styleClass="btn btn-primary"
-                                    value="Delte Items"
-                                    action="#{editPollBean.edit()}"></h:commandButton>
-
-
-                            </div>
-                        </div>
-                    </div>
+                    
                     <br></br>
                     <div class="row">
                         <div class="col-md-12">
