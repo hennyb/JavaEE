@@ -8,10 +8,127 @@
     xmlns:votes="http://java.sun.com/jsf/composite/votes/jsf"
     xmlns:f="http://java.sun.com/jsf/core">
 
+    <ui:define name="html-scripts">
+        <votes:script src="highcharts/highcharts.js"></votes:script>
+        <votes:script src="highcharts/modules/exporting.js"></votes:script>
+        
+        
+        
+        
+
+        
+
+       <script type="text/javascript">
+$(function () {
+    $('#container').highcharts({
+        chart: {
+            type: 'bar'
+        },
+        title: {
+            text: 'Historic World Population by Region'
+        },
+        subtitle: {
+            text: 'Source: Wikipedia.org'
+        },
+        xAxis: {
+            categories: [
+        <ui:repeat var="item" value="#{pollVotingBean.poll.items}">
+            <ui:repeat var="option" value="#{item.options}">
+                "#{option.title}",
+            </ui:repeat>
+        </ui:repeat>                    
+            ],
+            title: {
+                text: null
+            }
+        },
+        yAxis: {
+            min: 0,
+            title: {
+                text: 'Population (millions)',
+                align: 'high'
+            },
+            labels: {
+                overflow: 'justify'
+            }
+        },
+        tooltip: {
+            valueSuffix: ' millions'
+        },
+        plotOptions: {
+            bar: {
+                dataLabels: {
+                    enabled: true
+                }
+            }
+        },
+        legend: {
+            layout: 'vertical',
+            align: 'right',
+            verticalAlign: 'top',
+            x: -40,
+            y: 100,
+            floating: true,
+            borderWidth: 1,
+            backgroundColor: '#FFFFFF',
+            shadow: true
+        },
+        credits: {
+            enabled: false
+        },
+        series: [{
+            name: 'Year 1800',
+            data: [107, 31, 635, 203, 2]
+        }, {
+            name: 'Year 1900',
+            data: [133, 156, 947, 408, 6]
+        }, {
+            name: 'Year 2008',
+            data: [973, 914, 4054, 732, 34]
+        }]
+    });
+});
+</script> 
+        
+        
+        
+        
+        
+    </ui:define>
    
+    
+
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
     <ui:define name="html-title">Votes | Result</ui:define>
 
     <ui:define name="content">
+        
+
+        
         
         <h:form>
             
@@ -22,6 +139,10 @@
                 </div>
             </div>
 
+            
+            <div id="container" style="min-width: 310px; max-width: 800px; height: 400px; margin: 0 auto"></div>
+
+            
 
             <div class="row">
                 <div class="col-md-12">
