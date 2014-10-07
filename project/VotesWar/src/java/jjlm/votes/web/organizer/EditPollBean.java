@@ -64,6 +64,7 @@ public class EditPollBean extends OrganizerBean {
 
         paramString = RequestParameters.get("id");
 
+
         try {
             this.paramID = Integer.parseInt(paramString);
             pollTO = logic.getPoll(this.paramID);
@@ -88,6 +89,7 @@ public class EditPollBean extends OrganizerBean {
         } catch (Exception e) {
             System.err.println(e);
         }
+
 
     }
 
