@@ -24,22 +24,6 @@
 
     <ui:define name="content">
 
-        <div class="row">
-            <div class="col-md-12">
-                <h1 class="text-center">#{pollVotingBean.poll.title}</h1>
-                <hr></hr>
-            </div>
-        </div>
-
-        <div class="row">
-            <div class="col-md-12">
-                <h2 class="text-center">#{pollVotingBean.poll.startPoll} - #{pollVotingBean.poll.endPoll}</h2>
-                <br></br>
-                <b>Description:</b>
-                <p>#{pollVotingBean.poll.description}</p>
-            </div>
-        </div>
-
         <ui:repeat var="item" value="#{pollVotingBean.poll.items}">
 
             <div class="row">
@@ -70,4 +54,5 @@
         </ui:repeat>
 
     </ui:define>
+
 </ui:composition>
