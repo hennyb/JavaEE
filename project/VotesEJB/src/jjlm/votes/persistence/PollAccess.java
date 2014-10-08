@@ -14,6 +14,7 @@ import javax.persistence.PersistenceContext;
 import jjlm.votes.logic.to.PollTO;
 import jjlm.votes.persistence.entities.Organizer;
 import jjlm.votes.persistence.entities.Poll;
+import jjlm.votes.persistence.entities.PollState;
 
 @Stateless
 @LocalBean
@@ -86,6 +87,17 @@ public class PollAccess extends AbstractAccess<Poll, PollTO> {
         p = edit(p);
 
         return p;
+    }
+
+    public PollState getStateOfPoll(int pollID) {
+
+        if(em.createQuery("select count(*) = 1 from poll where"
+                + "poll.startpoll is null"
+                + "and poll.id = 1").getResultList().isEmpty()){
+            return PollState.PREPARED;
+        }
+
+        return PollState.FINISHED;
     }
 
 }

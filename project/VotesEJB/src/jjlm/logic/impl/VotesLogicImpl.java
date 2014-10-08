@@ -4,7 +4,6 @@
  * and open the template in the editor.
  */
 package jjlm.logic.impl;
-
 import java.util.Date;
 import java.util.HashSet;
 import java.util.List;
@@ -177,15 +176,7 @@ public class VotesLogicImpl implements VotesLogic {
 
     @Override
     public PollState getStateOfPoll(int pollId) {
-        PollTO pTo = getPoll(pollId);
-
-        if (pTo.getEndPoll() != null && pTo.getEndPoll().getTime() < new Date().getTime()) {
-            return PollState.FINISHED;
-        }
-        if (pTo.getStartPoll() != null && pTo.getStartPoll().getTime() > new Date().getTime()) {
-            return PollState.STARTED;
-        }
-        return PollState.PREPARED;
+        return pa.getStateOfPoll(pollId);
     }
 
     @Override
@@ -312,5 +303,4 @@ public class VotesLogicImpl implements VotesLogic {
     public List<ParticipantTO> getParticipantsOfPoll(int pollId) {
         return AbstractEntity.createTransferList(pta.getParticipantsOfPoll(pollId));
     }
-
 }
