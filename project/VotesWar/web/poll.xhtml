@@ -3,8 +3,8 @@
 <ui:composition 
     template="./resources/votes/jsf/participant-view.xhtml"
     xmlns="http://www.w3.org/1999/xhtml"
-    xmlns:h="http://xmlns.jcp.org/jsf/html"
-    xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:ui="http://java.sun.com/jsf/facelets"
     xmlns:votes="http://java.sun.com/jsf/composite/votes/jsf"
     xmlns:f="http://java.sun.com/jsf/core"
     xmlns:p="http://xmlns.jcp.org/jsf/passthrough"
@@ -15,11 +15,11 @@
         <f:viewAction action="#{pollVotingBean.init()}"></f:viewAction>
     </f:metadata>
 
-    <ui:define name="html-title">Votes | Impressum</ui:define>
+    <ui:define name="html-title">#{pollVotingBean.poll.title}</ui:define>
 
     <ui:define name="content">
 
-        <h:form>
+        <h:form id="pollForm">
 
             <div class="row">
                 <div class="col-md-12">
@@ -30,68 +30,108 @@
 
 
             <div class="row">
-                <div class="col-md-12">
+                <div class="col-md-6 col-lg-offset-3">
                     <h2 class="text-center">#{pollVotingBean.poll.startPoll} - #{pollVotingBean.poll.endPoll}</h2>
                     <br></br>
                     <b>Description:</b>
-                    <p>#{pollVotingBean.poll.description}</p>
+                    <p class="text-justify">#{pollVotingBean.poll.description}
+                    Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.
+                    </p>
                 </div>
             </div>
-
-            <ui:repeat var="item" value="#{pollVotingBean.poll.items}">
-
-                <div class="row">
-
-                    <div class="col-md-12">
-
-                        <h3>#{item.title}#{item.itemType}</h3>
-                        <p>#{item.id}</p>
-
-                    </div>
-
-                </div>
-
-                <ui:repeat var="option" value="#{item.options}">
-                    <div class="row">
-
-                        <div class="col-md-12">
-
-                            
-
-                                    <h:commandButton 
-                                        action="#{pollVotingBean.setOptionState(option.id)}"
-                                        styleClass="#{pollVotingBean.getOptionState(option.id)}"
-                                        value="#{option.title}">
-                                    </h:commandButton>
-
-
-
-                        </div>
-
-                    </div>
-                </ui:repeat>
-
-
-
-            </ui:repeat>
-
-
-
-            <hr></hr>
-
+            
+            
             <div class="row">
-                <div class="col-md-12 center">
+                <div class="col-md-12 text-center">
 
                     <div class="btn-toolbar">
 
                         <h:commandButton
                             styleClass="btn btn-primary"
-                            value="Submit" action="#{pollVotingBean.print()}"></h:commandButton>
+                            value="Abstain" 
+                            action="#{pollVotingBean.abstain()}"></h:commandButton>
+                            
+                        <h:commandButton
+                            styleClass="btn btn-primary"
+                            value="Cancel"
+                            action="#{pollVotingBean.cancel()}"></h:commandButton>
 
+                    </div>
+
+                </div>
+            </div>
+            
+            <hr></hr>
+                        
+            <h:panelGroup id="itemsPanelGroup">
+                
+                <ui:repeat var="item" value="#{pollVotingBean.poll.items}">
+
+                    <div class="alert alert-info">
+
+                    <div class="row">
+
+                        <div class="col-md-12">
+
+                            <h3>#{item.title} #{item.itemType}</h3>
+
+                        </div>
+
+                    </div>
+
+                        <ui:repeat var="option" value="#{item.options}" >
+
+                            <div class="row">
+
+                                <div class="col-md-1 text-center">
+                                    <h:commandLink 
+                                        action="#{pollVotingBean.updateOptionState(option.id)}"
+                                        styleClass="#{pollVotingBean.getOptionStyleClass(option.id)}">
+                                        <f:ajax execute="@this" render=":pollForm:itemsPanelGroup"/>
+                                        <span class="#{pollVotingBean.getOptionGlyphicon(option.id)}"></span>
+                                    </h:commandLink>
+
+                                </div>
+                                <div class="col-md-11">
+
+                                    <b>#{option.title}</b>
+                                    <p>#{option.description}</p>
+
+                                </div>
+
+                            </div>
+                            <br></br>
+
+                        </ui:repeat>
+                        
+                    </div>
+
+                </ui:repeat>
+                
+            </h:panelGroup>
+
+
+            <hr></hr>
+
+            <div class="row">
+                <div class="col-md-12 text-center">
+
+                    <div class="btn-toolbar">
 
                         <h:commandButton
                             styleClass="btn btn-primary"
-                            value="Cancel"></h:commandButton>
+                            value="Submit" 
+                            action="#{pollVotingBean.submit()}"></h:commandButton>
+
+                        <h:commandButton
+                            styleClass="btn btn-primary"
+                            value="Abstain" 
+                            action="#{pollVotingBean.abstain()}"></h:commandButton>
+                            
+                        <h:commandButton
+                            styleClass="btn btn-primary"
+                            value="Cancel"
+                            action="#{pollVotingBean.cancel()}"></h:commandButton>
 
                     </div>
 
@@ -101,7 +141,8 @@
 
         </h:form>
 
-
+        <br></br>
+        <br></br>
 
     </ui:define>
 

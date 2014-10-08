@@ -171,6 +171,11 @@ public class VotesLogicImpl implements VotesLogic {
 
     @Override
     public PollTO getPoll(int pollId) {
+        
+        // PollTO poll = pa.find(pollId).createTO();
+        // this.storePoll(poll);
+        // return poll;
+        
         return pa.find(pollId).createTO();
     }
 

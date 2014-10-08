@@ -6,19 +6,19 @@
 package jjlm.votes.web;
 
 import java.io.Serializable;
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import javax.ejb.EJB;
-import javax.enterprise.context.RequestScoped;
 import javax.enterprise.context.SessionScoped;
 import javax.inject.Named;
 import jjlm.logic.VotesLogic;
 import jjlm.votes.logic.to.ItemOptionTO;
 import jjlm.votes.logic.to.ItemTO;
 import jjlm.votes.logic.to.PollTO;
+import jjlm.votes.logic.to.TokenTO;
 import jjlm.votes.persistence.entities.ItemType;
+
 
 @Named
 @SessionScoped
@@ -28,72 +28,32 @@ public class PollVotingBean implements Serializable {
     protected VotesLogic logic;
 
     private PollTO poll;
-
-    private List<String> selectedOptions;
+    private TokenTO token;
     private Map<Integer, OptionState> optionStates;
 
     public PollVotingBean() {
         
-        optionStates = new HashMap<>();
+        optionStates = new HashMap<Integer, OptionState>();
         
-    }
-
-    public void init() {
-
-        System.out.println("iiinit");
-        poll = logic.getPoll(1);
-        System.out.println("iiinit1");
-        poll.setItems(logic.getItemsOfPoll(poll.getId()));
-        System.out.println("iiinit2");
-        System.out.println("iiinit3");
-
-        
-        for (ItemTO item : poll.getItems()) {
-            item.setOptions(logic.getOptionsOfItem(item.getId()));
-        }
-        
-           
-            if (this.optionStates.size() == 0) {
-         for (ItemTO item : poll.getItems()) {
-                
-                
-            for (ItemOptionTO io : item.getOptions()) {
-                OptionState opState = new OptionState();
-                opState.setItem(item);
-                opState.setSelected(false);
-                optionStates.put(io.getId(), opState);
-            }
-                
-            }
-            
-            
-            
-        }
-
-    }
-
-    public List<String> getSelectedOptions() {
-        return selectedOptions;
-    }
-
-    public void setSelectedOptions(List<String> selectedOptions) {
-
-        this.selectedOptions = selectedOptions;
-    }
-
-    private void setPoll(PollTO poll) {
-        this.poll = poll;
     }
 
     public PollTO getPoll() {
-        if (poll == null) {
-            setPoll(new PollTO());
-        }
-
         return poll;
     }
 
-    public String setOptionState(int optionId) {
+    public void setPoll(PollTO poll) {
+        this.poll = poll;
+    }
+
+    public TokenTO getToken() {
+        return token;
+    }
+
+    public void setToken(TokenTO token) {
+        this.token = token;
+    }
+
+    public String updateOptionState(int optionId) {
 
         OptionState opState = this.optionStates.get(optionId);
         System.out.println("setOptionSate");
@@ -121,32 +81,107 @@ public class PollVotingBean implements Serializable {
         
         System.out.println(this.optionStates);
 
-        return "poll?faces-redirect=true";
+        return "poll";
 
     }
 
-    public String getOptionState(int optionId) {
-        System.out.println(optionId);
-        System.out.println(optionStates);
-        System.out.println(this.optionStates.containsKey(optionId));
+    public String getOptionStyleClass(int optionId) {
+        
         if (this.optionStates.get(optionId).isSelected()) {
-           return "btn btn-success";
+        
+            return "btn btn-success";
+        
         }
         else {
+        
             return "btn btn-primary";
+        
         }
 
-    }
-
-    public boolean treu(int jo){
-        System.out.println("joo"+jo);
-        return true;
     }
     
-    public void print() {
-        for (String item : selectedOptions) {
-            System.out.println(item);
+    public String getOptionGlyphicon (int optionId) {
+        
+        if (this.optionStates.get(optionId).isSelected()) {
+        
+            return "glyphicon glyphicon-ok";
+        
         }
+        else {
+        
+            return "glyphicon glyphicon-remove";
+        
+        }
+        
     }
+    
+    /**
+     * initialize bean on request
+     */
+    public void init() {
+
+        poll = logic.getPoll(1);
+        poll.setItems(logic.getItemsOfPoll(poll.getId()));
+
+        
+        for (ItemTO item : poll.getItems()) {
+            item.setOptions(logic.getOptionsOfItem(item.getId()));
+        }
+        
+           
+        if (this.optionStates.size() == 0) {
+            
+            for (ItemTO item : poll.getItems()) {
+                    
+                for (ItemOptionTO io : item.getOptions()) {
+                    
+                    OptionState opState = new OptionState();
+                    opState.setItem(item);
+                    opState.setSelected(false);
+                    optionStates.put(io.getId(), opState);
+                    
+                }
+                
+            }
+            
+        }
+
+    }
+    
+    public String submit () {
+     
+        return "poll";
+        
+    }
+    
+    public String abstain () {
+     
+        return "poll";
+        
+    }
+    
+    public String cancel () {
+     
+        return "poll";
+        
+    }
+
+    
+    
+    private boolean foo = false;
+    
+    public void toggleFoo () {
+        
+        System.out.println(this.foo);
+        this.foo = !this.foo;
+        
+    }
+    
+    public boolean getFoo () {
+        
+        return this.foo;
+        
+    }
+
 
 }
