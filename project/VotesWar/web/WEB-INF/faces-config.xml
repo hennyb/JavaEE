@@ -29,6 +29,12 @@
         </navigation-case>
         
         <navigation-case>
+            <from-outcome>edit-item</from-outcome>
+            <to-view-id>/edit-item.xhtml</to-view-id>
+            <ridirect/>
+        </navigation-case>
+        
+        <navigation-case>
             <from-outcome>my-participantlists</from-outcome>
             <to-view-id>./my-participantlists.xhtml</to-view-id>
             <ridirect/>
@@ -47,6 +53,12 @@
         <navigation-case>
             <from-outcome>imprint</from-outcome>
             <to-view-id>/imprint.xhtml</to-view-id>
+            <ridirect/>
+        </navigation-case>
+        
+        <navigation-case>
+            <from-outcome>poll</from-outcome>
+            <to-view-id>/poll.xhtml</to-view-id>
             <ridirect/>
         </navigation-case>
         

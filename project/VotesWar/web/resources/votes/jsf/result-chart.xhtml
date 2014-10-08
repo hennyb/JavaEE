@@ -1,0 +1,75 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:component 
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:h="http://xmlns.jcp.org/jsf/html"
+    xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+    xmlns:votes="http://java.sun.com/jsf/composite/votes/jsf"
+    xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:fn="http://java.sun.com/jsp/jstl/functions">
+    
+    <script type="text/javascript">
+     $(function () {
+         $('#container-#{item.id}').highcharts({
+             chart: {
+                 type: 'bar',
+                 height: #{ fn:length(item.options)} * 40 + 120
+             },
+             title: {
+                 text: '#{item.title}'
+             },
+             subtitle: {
+                 text: '#{item.itemType}'
+             },
+             xAxis: {
+                 categories: [
+                 <ui:repeat var="option" value="#{item.options}">
+                     "#{option.title}",
+                 </ui:repeat>               
+                 ],
+                 title: {
+                     text: null
+                 }
+             },
+             yAxis: {
+                 min: 0,
+                 title: {
+                     text: 'Number of Votes',
+                     align: 'high'
+                 },
+                 labels: {
+                     overflow: 'justify'
+                 }
+             },
+             tooltip: {
+                 valueSuffix: ''
+             },
+             plotOptions: {
+                 bar: {
+                     dataLabels: {
+                         enabled: true
+                     }
+                 }
+             },
+             credits: {
+                 enabled: false
+             },
+
+      series: [{
+            name: 'Number of votes',
+            pointWidth: 20,
+            data: [
+                <ui:repeat var="option" value="#{item.options}">
+                     ['"#{option.title}"', 123],
+                 </ui:repeat>
+            ]
+        }],
+        
+        legend: {
+            enabled: false
+        },
+
+         });
+     });
+    </script> 
+</ui:component>

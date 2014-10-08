@@ -5,43 +5,46 @@
  */
 package jjlm.votes.persistence.entities;
 
-// Start of user code (user defined imports)
-import java.io.Serializable;
 import java.util.HashSet;
 import java.util.Set;
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.FetchType;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
-import javax.persistence.OneToOne;
 import jjlm.votes.logic.to.ItemTO;
 
-// End of user code
-/**
- * Description of Item.
- *
- * @author Johannes
- */
 @Entity
-public class Item extends NamedEntity<Item, ItemTO> {
+public class Item extends AbstractEntity<Item, ItemTO> {
 
     private static final long serialVersionUID = -5062238818277568048L;
 
-    private Set<VoteOption> options;
-    
-    private String titel;
-    private Integer m;
-    
+    private String title;
+    private Set<ItemOption> options;
+
+    private ItemType itemType;
+
     private Poll poll;
+    
+    private boolean valid;
 
     public Item() {
         super();
-        
+
         options = new HashSet<>();
 
+    }
+    
+    
+    @Enumerated(EnumType.STRING)
+    public ItemType getItemType() {
+        return itemType;
+    }
+
+    public void setItemType(ItemType itemType) {
+        this.itemType = itemType;
     }
 
     // Start of user code (user defined methods for Item)
@@ -52,7 +55,7 @@ public class Item extends NamedEntity<Item, ItemTO> {
      * @return options
      */
     @OneToMany(mappedBy = "item", fetch = FetchType.EAGER)
-    public Set<VoteOption> getOptions() {
+    public Set<ItemOption> getOptions() {
         return this.options;
     }
 
@@ -61,47 +64,18 @@ public class Item extends NamedEntity<Item, ItemTO> {
      *
      * @param newOptions
      */
-    public void setOptions(Set<VoteOption> newOptions) {
+    public void setOptions(Set<ItemOption> newOptions) {
         this.options = newOptions;
     }
 
-    /**
-     * Returns titel.
-     *
-     * @return titel
-     */
-    public String getTitel() {
-        return this.titel;
+    public String getTitle() {
+        return title;
     }
 
-    /**
-     * Sets a value to attribute titel.
-     *
-     * @param newTitel
-     */
-    public void setTitel(String newTitel) {
-        this.titel = newTitel;
+    public void setTitle(String title) {
+        this.title = title;
     }
 
-    /**
-     * Returns m.
-     *
-     * @return m
-     */
-    public Integer getM() {
-        return this.m;
-    }
-
-    /**
-     * Sets a value to attribute m.
-     *
-     * @param newM
-     */
-    public void setM(Integer newM) {
-        this.m = newM;
-    }
-
-    
     @ManyToOne
     public Poll getPoll() {
         return poll;
@@ -110,12 +84,23 @@ public class Item extends NamedEntity<Item, ItemTO> {
     public void setPoll(Poll poll) {
         this.poll = poll;
     }
-    
-    
+
+    public boolean isValid() {
+        return valid;
+    }
+
+    public void setValid(boolean valid) {
+        this.valid = valid;
+    }
 
     @Override
     public ItemTO createTO() {
         ItemTO to = new ItemTO();
+        to.setId(id);
+        to.setItemType(itemType);
+        to.setPoll(poll.createTO());
+        to.setTitle(title);
+        to.setValid(valid);
 
         return to;
     }

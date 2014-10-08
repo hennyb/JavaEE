@@ -17,20 +17,20 @@
         </thead>
 
         <tbody>
-            <h:form>
                 <ui:repeat var="poll" varStatus="status" value="#{myPollsBean.myPolls}">
 
                     <tr>
                         <td>#{status.index+1}</td>
                         <td>
-                            <h:commandLink value="#{poll.description}" action="#{editPollBean.setParamID(poll.id)}" ></h:commandLink>
+                            <!--<h:commandLink value="#{poll.description}" action="#{editPollBean.setParamID(poll.id)}" ></h:commandLink> -->
+                            <h:link outcome="edit-poll" value="#{poll.title} "><f:param name="id" value="#{poll.id}"/></h:link>
+                            
                         </td>
                         <td>2014-2015</td>
-                        <td>asdf</td>
+                        <td>#{myPollsBean.getPollState(poll.id)}</td>
                     </tr>
 
                 </ui:repeat>
-            </h:form>
         </tbody>
 
     </table>
