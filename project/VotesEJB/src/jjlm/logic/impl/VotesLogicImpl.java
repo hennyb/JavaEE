@@ -50,7 +50,7 @@ public class VotesLogicImpl implements VotesLogic {
 
     @EJB
     private ParticipantAccess pta;
-    
+
     @EJB
     private TokenAccess ta;
 
@@ -172,19 +172,20 @@ public class VotesLogicImpl implements VotesLogic {
 
     @Override
     public PollTO getPoll(int pollId) {
-        return pa.find(pollId).createTO();
+        return pa.getPoll(pollId).createTO();
     }
 
     @Override
     public PollState getStateOfPoll(int pollId) {
         PollTO pTo = getPoll(pollId);
-
+        // TODO: Correct!
         if (pTo.getEndPoll() != null && pTo.getEndPoll().getTime() < new Date().getTime()) {
             return PollState.FINISHED;
         }
         if (pTo.getStartPoll() != null && pTo.getStartPoll().getTime() > new Date().getTime()) {
             return PollState.STARTED;
         }
+    
         return PollState.PREPARED;
     }
 
@@ -269,7 +270,7 @@ public class VotesLogicImpl implements VotesLogic {
         for (ParticipantTO participant : getParticipantsOfPoll(pollId)) {
             deleteParticipant(participant.getId());
         }
-        
+
         pa.remove(poll);
     }
 
@@ -284,15 +285,15 @@ public class VotesLogicImpl implements VotesLogic {
 
         if (to.getId() == null) {
             pta.create(participant);
-            
+
             Token token = new Token();
             token.setInvalid(false);
             token.setPoll(participant.getPoll());
             token.setParticipant(participant);
             token.setSignature(UUID.randomUUID().toString());
-            
+
             ta.create(token);
-            
+
         } else {
             participant = pta.edit(participant);
         }
@@ -302,7 +303,7 @@ public class VotesLogicImpl implements VotesLogic {
 
     @Override
     public void deleteParticipant(int participantId) {
-        for(Token t: ta.getTokenOfParticipant(participantId)){
+        for (Token t : ta.getTokenOfParticipant(participantId)) {
             ta.remove(t);
         }
         pta.remove(pta.find(participantId));
@@ -311,6 +312,20 @@ public class VotesLogicImpl implements VotesLogic {
     @Override
     public List<ParticipantTO> getParticipantsOfPoll(int pollId) {
         return AbstractEntity.createTransferList(pta.getParticipantsOfPoll(pollId));
+    }
+
+    @Override
+    public boolean uniquePollTitle(PollTO poll) {
+        for (Poll current : pa.getAllPolls()) {
+            if (current.getId() == poll.getId()) {
+                continue;
+            }
+            if (current.getTitle().equals(poll.getTitle())) {
+                return false;
+            }
+        }
+        // Poll has no conflicting titel.
+        return true;
     }
 
 }

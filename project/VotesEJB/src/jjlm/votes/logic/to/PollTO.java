@@ -24,7 +24,7 @@ public class PollTO extends AbstractEntityTO {
     private Date startPoll;
     private Date endPoll;
     
-    private PollState pollState;
+    //private PollState pollState;
     
     private boolean tracking;
 
@@ -108,13 +108,13 @@ public class PollTO extends AbstractEntityTO {
         this.title = title;
     }
 
-    public PollState getPollState() {
-        return pollState;
-    }
-
-    public void setPollState(PollState pollState) {
-        this.pollState = pollState;
-    }
+//    public PollState getPollState() {
+//        return pollState;
+//    }
+//
+//    public void setPollState(PollState pollState) {
+//        this.pollState = pollState;
+//    }
 
     public boolean isTracking() {
         return tracking;

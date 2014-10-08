@@ -5,6 +5,7 @@
  */
 package jjlm.votes.persistence;
 
+import java.util.ArrayList;
 import java.util.List;
 import javax.ejb.EJB;
 import javax.ejb.LocalBean;
@@ -35,39 +36,72 @@ public class PollAccess extends AbstractAccess<Poll, PollTO> {
     }
 
     public List<Poll> getAllPolls() {
-        return em.createQuery("SELECT p FROM Poll p "
+        return getPolls();
+    }
+
+    public List<Poll> getPolls() {
+        List<Poll> result =  em.createQuery("SELECT p FROM Poll p "
                 + "", Poll.class).getResultList();
+        
+        return result;
     }
 
+    public Poll getPoll(int pollId) {
+        for (Poll poll : getPolls()) {
+            if (poll.getId() == pollId) {
+                return poll;
+            }
+        }
+        return null;
+    }
+
+    /**
+     * Returns all polls with this organizer.
+     *
+     * @param organizerId
+     * @return
+     */
     public List<Poll> getPolls(int organizerId) {
-        System.out.println("oid: " + organizerId);
-        return em.createQuery("SELECT p FROM Poll p, IN(p.organizer) o"
-                + " where o.id= :organizerId"
-                + "", Poll.class)
-                .setParameter("organizerId", organizerId)
-                .getResultList();
 
+        List<Poll> result = new ArrayList();
+
+        for (Poll poll : getPolls()) {
+            for (Organizer organiser : poll.getOrganizer()) {
+                if (organiser.getId() == organizerId) {
+                    result.add(poll);
+                    break;
+                }
+            }
+        }
+        return result;
     }
 
-    public Poll getPoll(String name, String description) {
-        return em.createQuery("SELECT p FROM Poll p"
-                + " where p.name=:name"
-                + " AND p.description=:description"
-                + "", Poll.class)
-                .setParameter("name", name)
-                .setParameter("description", description)
-                .getResultList().get(0);
+    /**
+     * Get poll with titel and description.
+     * @param titel
+     * @param description
+     * @return 
+     */
+    public Poll getPoll(String titel, String description) {
+        for (Poll poll : getPolls()) {
+            if (poll.getDescription().equals(description) && poll.getTitle().equals(titel)) {
+                return poll;
+            }
+        }
+        return null;
     }
 
+    /**
+     * Get Polls of organizer with of organizer with offset and max.
+     * @param organizerId
+     * @param offset
+     * @param max
+     * @return 
+     */
     public List<Poll> getPolls(int organizerId, int offset, int max) {
-        System.out.println("oid: " + organizerId);
-        return em.createQuery("SELECT p FROM Poll p, IN(p.organizer) o"
-                + " where o.id= :organizerId"
-                + "", Poll.class)
-                .setParameter("organizerId", organizerId)
-                .setFirstResult(offset)
-                .setMaxResults(max)
-                .getResultList();
+        List<Poll> polls = getPolls(organizerId);
+        
+        return polls.subList(offset,offset + max);
     }
 
     public Poll addOrganizerToPoll(int pollId, int organizerId) {

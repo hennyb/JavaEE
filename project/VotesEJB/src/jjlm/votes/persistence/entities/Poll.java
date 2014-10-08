@@ -33,7 +33,7 @@ public class Poll extends AbstractEntity<Poll, PollTO> {
     private Date startPoll;
     private Date endPoll;
     
-    private PollState pollState;
+   // private PollState pollState;
 
     private Set<Item> items;
 
@@ -61,14 +61,14 @@ public class Poll extends AbstractEntity<Poll, PollTO> {
         this.tracking = tracking;
     }
     
-    @Enumerated(EnumType.STRING)
-    public PollState getPollState() {
-        return pollState;
-    }
-
-    public void setPollState(PollState pollState) {
-        this.pollState = pollState;
-    }
+//    @Enumerated(EnumType.STRING)
+//    public PollState getPollState() {
+//        return pollState;
+//    }
+//
+//    public void setPollState(PollState pollState) {
+//        this.pollState = pollState;
+//    }
     
     @OneToMany(mappedBy = "poll", fetch = FetchType.EAGER)
     public Set<Token> getTokens() {
@@ -177,7 +177,7 @@ public class Poll extends AbstractEntity<Poll, PollTO> {
         to.setEndPoll(getEndPoll());
         to.setStartPoll(getStartPoll());
         to.setTitle(title);
-        to.setPollState(pollState);
+        //to.setPollState(pollState);
         to.setValid(valid);
 
         if (getOrganizer() == null) {
