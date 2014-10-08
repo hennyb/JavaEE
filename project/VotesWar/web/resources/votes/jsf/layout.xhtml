@@ -2,9 +2,10 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
-      xmlns:votes="http://java.sun.com/jsf/composite/votes/jsf">
+      xmlns:votes="http://java.sun.com/jsf/composite/votes/jsf"
+      xmlns:h="http://xmlns.jcp.org/jsf/html">
 
-    <head>
+    <h:head>
         <votes:favicon src="votes/img/votes.png"></votes:favicon>
         <votes:stylesheet src="bootstrap/bootstrap-3.2.0-dist/css/bootstrap.min.css"></votes:stylesheet>
         <votes:stylesheet src="jquery/jquery-ui-bootstrap-theme/jquery-ui-1.10.0.custom.css"></votes:stylesheet>
@@ -13,12 +14,9 @@
         <votes:script src="jquery/jquery-1.11.1.min.js"></votes:script>
         <votes:script src="jquery/jquery-ui-1.11.1/jquery-ui.min.js"></votes:script>
         <votes:script src="bootstrap/bootstrap-3.2.0-dist/js/bootstrap.min.js"></votes:script>
-         
-
-
         <ui:insert name="html-scripts"></ui:insert>
         <title><ui:insert name="html-title">Votes</ui:insert></title>
-    </head>
+    </h:head>
 
     <body>
         

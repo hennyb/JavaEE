@@ -34,7 +34,7 @@ public class UserBean implements Serializable {
     }
 
     public String getName() {
-        return name;1
+        return name;
     }
 
     public void setName(String name) {
