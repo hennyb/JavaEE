@@ -1,31 +1,32 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
+///*
+// * To change this license header, choose License Headers in Project Properties.
+// * To change this template file, choose Tools | Templates
+// * and open the template in the editor.
+// */
 //package jjlm.votes.web;
 //
 //import java.io.Serializable;
+//import java.util.ArrayList;
+//import java.util.List;
 //import javax.ejb.EJB;
+//import javax.enterprise.context.RequestScoped;
 //import javax.enterprise.context.SessionScoped;
-//import javax.faces.context.FacesContext;
-//import javax.inject.Inject;
 //import javax.inject.Named;
 //import jjlm.logic.VotesLogic;
 //import jjlm.votes.logic.to.OrganizerTO;
+//import jjlm.votes.logic.to.PollTO;
 //
-//@SessionScoped
+//@RequestScoped
 //@Named
 //public class OrganizerBean extends AbstractBackingBean implements Serializable {
 //
 //    private static final long serialVersionUID = -452973949961650456L;
-//
+//    
 //    @EJB
 //    private VotesLogic logic;
 //
 //    private OrganizerTO organizer = null;
 //
-//    private String name = "henny@uni-koblenz.de";
 //    private String email;
 //
 //    public OrganizerBean() {
@@ -46,9 +47,9 @@
 //    }
 //
 //    public void setOrganizer(String email) {
-//        organizer = logic.getOrganizer(email);
+//        organizer = logic.getUser(email);
 //    }
-//
+//    
 //    public void setEmail(String email) {
 //        this.email = email;
 //    }
@@ -61,9 +62,23 @@
 //
 //        System.out.println("--------------");
 //        if (email != null) {
-//            return logic.getOrganizer(email).getRealname();
+//            return logic.getOrganizer(email).getEncryptedPassword();
 //        }
 //        return "";
+//    }
+//    
+//    public List<PollTO> getPolls(){
+//        return logic.getPollsfromOrganizer(23);
+//    }
+//    
+//    public String getPollString(){
+//        StringBuilder sb = new StringBuilder();
+//        
+//        for(PollTO poll: organizer.getPolls()){
+//            sb.append(poll.getDescription());
+//        }
+//        
+//        return sb.toString();
 //    }
 //
 //}

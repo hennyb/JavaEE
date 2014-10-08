@@ -13,12 +13,12 @@ import jjlm.votes.persistence.entities.Poll;
  *
  * @author henny
  */
-public class OrganizerTO extends NamedEntityTO{
+public class OrganizerTO extends AbstractEntityTO{
     private static final long serialVersionUID = 6430614517398735844L;
     
      
-    private List<Poll> polls;
-    private String username = "asdf";
+    private List<PollTO> polls;
+    private String username ;
     private String realname;
     private String email;
     private String encryptedPassword;
@@ -27,11 +27,11 @@ public class OrganizerTO extends NamedEntityTO{
         polls = new ArrayList<>();
     }
 
-    public List<Poll> getPolls() {
+    public List<PollTO> getPolls() {
         return polls;
     }
 
-    public void setPolls(List<Poll> polls) {
+    public void setPolls(List<PollTO> polls) {
         this.polls = polls;
     }
 

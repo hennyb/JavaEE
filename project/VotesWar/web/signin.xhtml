@@ -1,0 +1,48 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition 
+    template="./resources/votes/jsf/participant-view.xhtml"
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:h="http://xmlns.jcp.org/jsf/html"
+    xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+    xmlns:votes="http://java.sun.com/jsf/composite/votes/jsf">
+
+    <ui:define name="html-title">Votes | Sign In</ui:define>
+
+    <ui:define name="content">
+
+        <div class="row">
+            <div class="col-md-12">
+                <h1 class="text-center">Sign In</h1>
+                <hr></hr>
+            </div>
+        </div>
+        
+        <div class="row">
+
+            <div class="col-md-12">
+
+                <div class="">
+
+                    <votes:image styleClass="col-md-4 col-sm-3 col-xs-4 img-responsive" src="votes/img/votes.png"></votes:image>
+
+                    <div class="col-md-8">
+                        
+                        <ui:include src="./resources/votes/jsf/signin-form.xhtml"></ui:include>
+                        
+                    </div>
+                    
+                    
+
+                </div>
+
+            </div>
+
+
+
+        </div>
+        
+        
+    </ui:define>
+
+</ui:composition>

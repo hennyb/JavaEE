@@ -14,10 +14,11 @@ import jjlm.votes.persistence.entities.Organizer;
 
 @Stateless
 @LocalBean
-public class OrganizerAccess extends NamedAccess<Organizer, OrganizerTO>{
+public class OrganizerAccess extends AbstractAccess<Organizer, OrganizerTO>{
 
     @PersistenceContext(name="VotesEJBPU")
     EntityManager em;
+    
     
     public OrganizerAccess() {
         super(Organizer.class);
@@ -31,9 +32,7 @@ public class OrganizerAccess extends NamedAccess<Organizer, OrganizerTO>{
     
     public Organizer findOrganizer(String email){
         Organizer o = null;
-        
         o = findBy("email", email);
-        
         return o;
     }
     

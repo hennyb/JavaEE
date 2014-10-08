@@ -1,22 +1,108 @@
 <?xml version='1.0' encoding='UTF-8' ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <ui:composition 
-    template="./resources/votes/jsf/user.xhtml" 
+    template="./resources/votes/jsf/participant-view.xhtml"
     xmlns="http://www.w3.org/1999/xhtml"
     xmlns:h="http://xmlns.jcp.org/jsf/html"
     xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
     xmlns:votes="http://java.sun.com/jsf/composite/votes/jsf"
-    xmlns:c="http://xmlns.jcp.org/jsp/jstl/core"
-    xmlns:f="http://xmlns.jcp.org/jsf/core">
-    
+    xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:p="http://xmlns.jcp.org/jsf/passthrough"
+    xmlns:c="http://java.sun.com/jsp/jstl/core">
+
+
     <f:metadata>
-        <f:viewParam name="pollid" value="#{pollBean.pollId}"></f:viewParam>    
+        <f:viewAction action="#{pollVotingBean.init()}"></f:viewAction>
     </f:metadata>
-    
+
+    <ui:define name="html-title">Votes | Impressum</ui:define>
+
     <ui:define name="content">
-        <h1>#{request.getParameter("pollid")}</h1>
+
+        <h:form>
+
+            <div class="row">
+                <div class="col-md-12">
+                    <h1 class="text-center">#{pollVotingBean.poll.title}</h1>
+                    <hr></hr>
+                </div>
+            </div>
+
+
+            <div class="row">
+                <div class="col-md-12">
+                    <h2 class="text-center">#{pollVotingBean.poll.startPoll} - #{pollVotingBean.poll.endPoll}</h2>
+                    <br></br>
+                    <b>Description:</b>
+                    <p>#{pollVotingBean.poll.description}</p>
+                </div>
+            </div>
+
+            <ui:repeat var="item" value="#{pollVotingBean.poll.items}">
+
+                <div class="row">
+
+                    <div class="col-md-12">
+
+                        <h3>#{item.title}#{item.itemType}</h3>
+                        <p>#{item.id}</p>
+
+                    </div>
+
+                </div>
+
+                <ui:repeat var="option" value="#{item.options}">
+                    <div class="row">
+
+                        <div class="col-md-12">
+
+                            
+
+                                    <h:commandButton 
+                                        action="#{pollVotingBean.setOptionState(option.id)}"
+                                        styleClass="#{pollVotingBean.getOptionState(option.id)}"
+                                        value="#{option.title}">
+                                    </h:commandButton>
+
+
+
+                        </div>
+
+                    </div>
+                </ui:repeat>
+
+
+
+            </ui:repeat>
+
+
+
+            <hr></hr>
+
+            <div class="row">
+                <div class="col-md-12 center">
+
+                    <div class="btn-toolbar">
+
+                        <h:commandButton
+                            styleClass="btn btn-primary"
+                            value="Submit" action="#{pollVotingBean.print()}"></h:commandButton>
+
+
+                        <h:commandButton
+                            styleClass="btn btn-primary"
+                            value="Cancel"></h:commandButton>
+
+                    </div>
+
+                </div>
+            </div>
+
+
+        </h:form>
+
+
+
     </ui:define>
-    
-    
-    
+
 </ui:composition>

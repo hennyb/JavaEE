@@ -1,22 +1,68 @@
 <?xml version='1.0' encoding='UTF-8' ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<ui:composition 
-    template="./votes-disclaimer.xhtml"
-    xmlns="http://www.w3.org/1999/xhtml"
-    xmlns:cc="http://xmlns.jcp.org/jsf/composite"
-    xmlns:h="http://xmlns.jcp.org/jsf/html"
-    xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
-
-    <ui:define name="disclaimer-content">
-        
-        <div class="row">
-            <div class="col-md-12">
-                <h1>Willkommen bei Votes!</h1>
-            </div>
+<ui:component
+        xmlns="http://www.w3.org/1999/xhtml"
+        xmlns:h="http://xmlns.jcp.org/jsf/html"
+        xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+        xmlns:votes="http://java.sun.com/jsf/composite/votes/jsf">
+  
+    <div class="row">
+        <div class="col-md-12">
+            <h1 class="text-center">Welcome to Votes!</h1>
+            <hr></hr>
         </div>
+    </div>
+
+    
+    <div class="row">
+
+        <div class="col-md-12">
+
+            <div class="">
+
+                <votes:image styleClass="col-md-4 col-sm-3 col-xs-4 img-responsive" src="votes/img/votes.png"></votes:image>
+                
+                <div class="col-md-8 col-sm-9 col-xs-8">
+
+                    <h:form styleClass="form-horizontal">
+
+                        <div class="row">
+                            <div class="col-md-12">
+
+                                    <div class="form-group">
+                                        <label class="col-sm-2 control-label">Email</label>
+                                        <div class="col-sm-4">
+                                            <h:inputText 
+                                                styleClass="form-control" 
+                                                value="#{userBean.email}"></h:inputText>
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label class="col-sm-2 control-label">Password</label>
+                                        <div class="col-sm-4">
+                                            <h:inputSecret 
+                                                styleClass="form-control" 
+                                                value="#{userBean.password}"></h:inputSecret>
+                                        </div>
+                                    </div>
+
+                                    <h:commandButton 
+                                        styleClass="btn btn-primary"
+                                        value="Anmelden"  
+                                        action="#{userBean.login()}"></h:commandButton>
+
+                            </div>
+                        </div>
+
+                    </h:form>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
         
-        <ui:include src="./forms/login.xhtml"></ui:include>
-        
-    </ui:define>
-          
-</ui:composition>
+</ui:component>

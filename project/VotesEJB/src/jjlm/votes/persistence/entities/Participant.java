@@ -14,7 +14,7 @@ import jjlm.votes.logic.to.ParticipantTO;
  * @author henny
  */
 @Entity
-public class Participant extends NamedEntity<Participant, ParticipantTO> {
+public class Participant extends AbstractEntity<Participant, ParticipantTO> {
 
     private static final long serialVersionUID = 3438053285465095313L;
 
@@ -54,7 +54,13 @@ public class Participant extends NamedEntity<Participant, ParticipantTO> {
 
     @Override
     public ParticipantTO createTO() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        ParticipantTO to = new ParticipantTO();
+        to.setId(id);
+        to.setEmail(email);
+        to.setHasVoted(hasVoted);
+        to.setPoll(poll.createTO());
+        
+        return to;
     }
 
 }

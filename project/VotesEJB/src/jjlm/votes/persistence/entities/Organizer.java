@@ -5,10 +5,13 @@
  */
 package jjlm.votes.persistence.entities;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.HashSet;
+import java.util.Set;
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.ManyToMany;
+import javax.persistence.OneToMany;
 import jjlm.votes.logic.to.OrganizerTO;
 
 /**
@@ -16,28 +19,41 @@ import jjlm.votes.logic.to.OrganizerTO;
  * @author henny
  */
 @Entity
-public class Organizer extends NamedEntity<Organizer, OrganizerTO> {
+public class Organizer extends AbstractEntity<Organizer, OrganizerTO> {
 
     private static final long serialVersionUID = 7704608960481160103L;
 
-    private List<Poll> polls;
+    private Set<Poll> polls;
+    private Set<ParticipantList> participantLists;
+    
     private String username;
     private String realname;
     private String email;
     private String encryptedPassword;
 
     public Organizer() {
-        polls = new ArrayList<>();
+        polls = new HashSet<>();
     }
 
-    @ManyToMany
-    public List<Poll> getPolls() {
+    @ManyToMany(mappedBy="organizer", cascade = CascadeType.REMOVE)
+    public Set<Poll> getPolls() {
         return polls;
     }
 
-    public void setPolls(List<Poll> polls) {
+    public void setPolls(Set<Poll> polls) {
         this.polls = polls;
     }
+
+    @OneToMany(mappedBy="organizer", fetch = FetchType.EAGER, cascade = CascadeType.REMOVE)
+    public Set<ParticipantList> getParticipantLists() {
+        return participantLists;
+    }
+
+    public void setParticipantLists(Set<ParticipantList> participantLists) {
+        this.participantLists = participantLists;
+    }
+    
+    
     
     public String getUsername() {
         return username;
@@ -70,17 +86,18 @@ public class Organizer extends NamedEntity<Organizer, OrganizerTO> {
     public void setEncryptedPassword(String encryptedPassword) {
         this.encryptedPassword = encryptedPassword;
     }
+    
 
     @Override
     public OrganizerTO createTO() {
+       
         OrganizerTO to = new OrganizerTO();
-        //to.setPolls(polls);
+        
+        to.setId(getId());
         to.setEmail(email);
         to.setEncryptedPassword(encryptedPassword);
         to.setRealname(realname);
         to.setUsername(username);
-        
-        System.out.println(to.getUsername());
         
         return to;
     }
