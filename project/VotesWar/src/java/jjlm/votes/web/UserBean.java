@@ -28,7 +28,7 @@ public class UserBean  implements Serializable {
     }
     
     public String getName() {
-        return name;
+        return name;1
     }
 
     public void setName(String name) {
