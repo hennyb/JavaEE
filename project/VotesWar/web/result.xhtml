@@ -28,11 +28,15 @@
     <ui:define name="html-title">Votes | Result</ui:define>
 
     <ui:define name="content">
+        
+        <h3>#{resultPollBean.poll.title}</h3>
+    
+        
         <ui:repeat var="item" value="#{resultPollBean.poll.items}">
 
             <div class="row">
                 <div class="col-md-12">
-                    <h1>#{resultPollBean.poll.title}</h1>
+                    <h1>#{item.title}</h1>
                 </div>
             </div>
 
