@@ -25,7 +25,8 @@
                  categories: [
                  <ui:repeat var="option" value="#{item.options}">
                      "#{option.title}",
-                 </ui:repeat>               
+                 </ui:repeat>
+                 "abstained"
                  ],
                  title: {
                      text: null
@@ -60,8 +61,9 @@
             pointWidth: 20,
             data: [
                 <ui:repeat var="option" value="#{item.options}">
-                     ['"#{option.title}"', 123],
+                     ['#{option.title}', #{option.count}],
                  </ui:repeat>
+                ['abstained', #{item.abstainedCount}]
             ]
         }],
         

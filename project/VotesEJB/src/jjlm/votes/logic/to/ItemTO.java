@@ -82,7 +82,7 @@ public class ItemTO extends AbstractEntityTO {
     }
 
     public int getAbstainedCount() {
-        return abstainedCount;
+        return this.abstainedCount;
     }
 
     public void setAbstainedCount(int abstainedCount) {

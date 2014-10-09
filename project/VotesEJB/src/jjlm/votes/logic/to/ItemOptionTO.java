@@ -37,7 +37,7 @@ public class ItemOptionTO extends AbstractEntityTO{
     }
 
     public Integer getCount() {
-        return count;
+        return this.count;
     }
 
     public void setCount(Integer count) {
