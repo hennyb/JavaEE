@@ -31,6 +31,8 @@ public class EditItemBean extends OrganizerBean {
 
     private ItemTO item;
 
+    private int itemM;
+
     public void init() {
 
         setItemTitle("");
@@ -47,6 +49,22 @@ public class EditItemBean extends OrganizerBean {
         } catch (Exception e) {
 
         }
+    }
+
+    public ItemTO getItem() {
+        return item;
+    }
+
+    public void setItem(ItemTO item) {
+        this.item = item;
+    }
+
+    public int getItemM() {
+        return itemM;
+    }
+
+    public void setItemM(int itemM) {
+        this.itemM = itemM;
     }
 
     public int getItemType() {
@@ -92,6 +110,9 @@ public class EditItemBean extends OrganizerBean {
     public String save() {
         item.setItemType(ItemType.values()[getItemType()]);
         item.setTitle(itemTitle);
+        if (item.getItemType() == ItemType.M_OF_N) {
+            item.setM(itemM);
+        }
         logic.storeItem(item);
 
         return "edit-item?faces-redirect=true&id=" + getItemId();

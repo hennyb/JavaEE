@@ -41,5 +41,13 @@ public class ItemAccess extends AbstractAccess<Item, ItemTO> {
                 .getResultList();
         
     }
+    
+    public void resetAbstainedCount(int pollId){
+        
+        em.createQuery("update Item set abstainedCount=0"
+                + " Where poll.id = :pollId")
+                .setParameter("pollId", pollId).executeUpdate();
+        
+    }
 
 }

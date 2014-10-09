@@ -5,6 +5,8 @@
  */
 package jjlm.logic.impl;
 
+import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -18,6 +20,7 @@ import jjlm.votes.logic.to.ItemTO;
 import jjlm.votes.logic.to.OrganizerTO;
 import jjlm.votes.logic.to.ParticipantTO;
 import jjlm.votes.logic.to.PollTO;
+import jjlm.votes.logic.to.TokenTO;
 import jjlm.votes.persistence.ItemAccess;
 import jjlm.votes.persistence.ItemOptionAccess;
 import jjlm.votes.persistence.OrganizerAccess;
@@ -49,7 +52,7 @@ public class VotesLogicImpl implements VotesLogic {
 
     @EJB
     private ParticipantAccess pta;
-    
+
     @EJB
     private TokenAccess ta;
 
@@ -87,6 +90,12 @@ public class VotesLogicImpl implements VotesLogic {
             Organizer o = oa.find(oto.getId());
             organizer.add(o);
             o.getPolls().add(poll);
+        }
+
+        poll.setPollState(to.getPollState());
+
+        if (to.getStartPoll() == null || to.getPollState() == null) {
+            poll.setPollState(PollState.PREPARED);
         }
 
         if (to.getId() == null) {
@@ -137,18 +146,8 @@ public class VotesLogicImpl implements VotesLogic {
     }
 
     @Override
-    public List<PollTO> getAllPolls() {
-        return AbstractEntity.createTransferList(pa.getAllPolls());
-    }
-
-    @Override
     public List<PollTO> getPollsfromOrganizer(int organizerID) {
-        return AbstractEntity.createTransferList(pa.getPolls(1));
-    }
-
-    @Override
-    public List<PollTO> getPollsfromOrganizer(OrganizerTO to) {
-        return AbstractEntity.createTransferList(pa.getPolls(to.getId()));
+        return AbstractEntity.createTransferList(pa.getPolls(organizerID));
     }
 
     @Override
@@ -160,22 +159,15 @@ public class VotesLogicImpl implements VotesLogic {
     @Override
     public PollTO addOrganizerToPoll(int organizerId, int pollId) {
         PollTO poll = pa.addOrganizerToPoll(pollId, organizerId).createTO();
-
         return poll;
     }
 
     @Override
-    public PollTO getPoll(String name, String description) {
-        return pa.getPoll(name, description).createTO();
-    }
-
-    @Override
     public PollTO getPoll(int pollId) {
-        
+
         // PollTO poll = pa.find(pollId).createTO();
         // this.storePoll(poll);
         // return poll;
-        
         return pa.find(pollId).createTO();
     }
 
@@ -200,8 +192,11 @@ public class VotesLogicImpl implements VotesLogic {
         item.setPoll(pa.find(to.getPoll().getId()));
         item.setId(to.getId());
         item.setValid(to.isValid());
+        item.setM(to.getM());
+        item.setAbstainedCount(to.getAbstainedCount());
 
         if (to.getId() == null) {
+            item.setAbstainedCount(0);
             ia.create(item);
         } else {
             item = ia.edit(item);
@@ -227,6 +222,7 @@ public class VotesLogicImpl implements VotesLogic {
         option.setId(to.getId());
 
         if (to.getId() == null) {
+            option.setCount(0);
             ioa.create(option);
         } else {
             option = ioa.edit(option);
@@ -266,7 +262,11 @@ public class VotesLogicImpl implements VotesLogic {
         for (ParticipantTO participant : getParticipantsOfPoll(pollId)) {
             deleteParticipant(participant.getId());
         }
-        
+
+        for (TokenTO token : getTokensOfPoll(pollId)) {
+            deleteToken(token.getId());
+        }
+
         pa.remove(poll);
     }
 
@@ -281,15 +281,7 @@ public class VotesLogicImpl implements VotesLogic {
 
         if (to.getId() == null) {
             pta.create(participant);
-            
-            Token token = new Token();
-            token.setInvalid(false);
-            token.setPoll(participant.getPoll());
-            token.setParticipant(participant);
-            token.setSignature(UUID.randomUUID().toString());
-            
-            ta.create(token);
-            
+
         } else {
             participant = pta.edit(participant);
         }
@@ -299,7 +291,7 @@ public class VotesLogicImpl implements VotesLogic {
 
     @Override
     public void deleteParticipant(int participantId) {
-        for(Token t: ta.getTokenOfParticipant(participantId)){
+        for (Token t : ta.getTokenOfParticipant(participantId)) {
             ta.remove(t);
         }
         pta.remove(pta.find(participantId));
@@ -318,5 +310,72 @@ public class VotesLogicImpl implements VotesLogic {
     @Override
     public boolean uniquePollTitle(String title, int pollId) {
         return pa.uniqueTitle(title, pollId);
+    }
+
+    @Override
+    public List<TokenTO> getTokensOfPoll(int pollId) {
+        return AbstractEntity.createTransferList(ta.getTokensOfPoll(pollId));
+    }
+
+    @Override
+    public void deleteToken(int tokenId) {
+        ta.remove(ta.find(tokenId));
+    }
+
+    @Override
+    public void deleteTokensOfPoll(int pollId) {
+        for (TokenTO token : getTokensOfPoll(pollId)) {
+            deleteToken(token.getId());
+        }
+    }
+
+    @Override
+    public void resetPoll(int pollId) {
+
+        PollTO to = getPoll(pollId);
+        to.setStartPoll(null);
+        to.setPollState(PollState.PREPARED);
+
+        storePoll(to);
+
+        ioa.resetCount(pollId);
+        ia.resetAbstainedCount(pollId);
+        deleteTokensOfPoll(pollId);
+
+    }
+
+    @Override
+    public List<TokenTO> createTokensForPoll(int pollId) {
+        List<Token> tokens = new ArrayList<>();
+
+        for (Participant participant : pta.getParticipantsOfPoll(pollId)) {
+
+            Token token = new Token();
+            token.setInvalid(false);
+            token.setPoll(participant.getPoll());
+            token.setParticipant(participant);
+            token.setSignature(UUID.randomUUID().toString());
+
+            ta.create(token);
+
+            tokens.add(token);
+
+        }
+
+        return AbstractEntity.createTransferList(tokens);
+
+    }
+
+    @Override
+    public List<TokenTO> startPoll(int pollId) {
+
+        PollTO poll = getPoll(pollId);
+        poll.setStartPoll(new Date());
+        poll.setPollState(PollState.STARTED);
+        
+        storePoll(poll);
+
+        return createTokensForPoll(pollId);
+
     }
 }

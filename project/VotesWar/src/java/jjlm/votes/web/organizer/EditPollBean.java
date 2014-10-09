@@ -5,14 +5,12 @@
  */
 package jjlm.votes.web.organizer;
 
-import com.sun.javafx.scene.control.skin.VirtualFlow;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
-import java.util.Map;
 import javax.enterprise.context.SessionScoped;
 import javax.faces.application.FacesMessage;
 import javax.faces.component.UIComponent;
@@ -23,9 +21,8 @@ import jjlm.votes.logic.to.ItemOptionTO;
 import jjlm.votes.logic.to.ItemTO;
 import jjlm.votes.logic.to.ParticipantTO;
 import jjlm.votes.logic.to.PollTO;
-import jjlm.votes.persistence.entities.ItemOption;
 import jjlm.votes.persistence.entities.ItemType;
-import jjlm.votes.persistence.entities.Participant;
+import jjlm.votes.persistence.entities.PollState;
 import jjlm.votes.web.help.RequestParameters;
 import jjlm.votes.web.logic.ParticipantListParser;
 
@@ -56,6 +53,10 @@ public class EditPollBean extends OrganizerBean {
     private List<ItemTO> pollItems;
 
     private String paramString;
+
+    private String notificationText;
+    
+    private String pollState;
 
     public void init() {
 
@@ -95,6 +96,14 @@ public class EditPollBean extends OrganizerBean {
             System.err.println(e);
         }
 
+    }
+
+    public String getNotificationText() {
+        return notificationText;
+    }
+
+    public void setNotificationText(String notificationText) {
+        this.notificationText = notificationText;
     }
 
     public List<ItemType> getItemTypes() {
@@ -173,6 +182,33 @@ public class EditPollBean extends OrganizerBean {
         return logic.getParticipantsOfPoll(paramID);
     }
 
+    public String getPollState() {
+        return this.pollTO.getPollState().toString();
+    }
+
+    
+    public boolean isStarted () {
+        return pollTO.getPollState() == PollState.STARTED;
+    }
+    
+    public boolean isPrepared () {
+        
+        return pollTO.getPollState() == PollState.PREPARED;
+        
+    }
+    
+    
+    public boolean isVoting () {
+        
+        return pollTO.getPollState() == PollState.VOTING;
+        
+    }
+    public boolean isFinished () {
+        
+        return pollTO.getPollState() == PollState.FINISHED;
+        
+    }
+    
     public String addParticipants() {
 
         if (getParticipantsText() != null) {
@@ -203,17 +239,25 @@ public class EditPollBean extends OrganizerBean {
         return "edit-poll?faces-redirect=true&id=" + paramString;
     }
 
+    public String start() {
+        edit();
+        logic.startPoll(paramID);
+        
+
+        return "edit-poll?faces-redirect=true&id=" + paramString;
+    }
+    
+    public String stop() {
+        
+        logic.resetPoll(paramID);
+        
+
+        return "edit-poll?faces-redirect=true&id=" + paramString;
+    }
+
     public String edit() {
         pollTO.setDescription(pollDescription);
         pollTO.setTitle(pollTitle);
-
-        Date startDate = null;
-        try {
-            startDate = sdf.parse(getStartPoll());
-        } catch (ParseException ex) {
-            System.err.println(ex);
-        }
-        pollTO.setStartPoll(startDate);
 
         Date endDate = null;
         try {
@@ -243,7 +287,7 @@ public class EditPollBean extends OrganizerBean {
         itemTO.setItemType(ItemType.values()[Integer.parseInt(itemType)]);
 
         itemTO = logic.storeItem(itemTO);
-        
+
         if (itemTO.getItemType() == ItemType.YES_NO) {
             ItemOptionTO yes = new ItemOptionTO();
             yes.setCount(0);
@@ -279,7 +323,7 @@ public class EditPollBean extends OrganizerBean {
 
         String title = (String) value;
 
-        if (!logic.uniquePollTitle(title,pollTO.getId())) {
+        if (!logic.uniquePollTitle(title, pollTO.getId())) {
             FacesMessage message = new FacesMessage("The title is not unique. Please choose another one");
             message.setSeverity(FacesMessage.SEVERITY_ERROR);
             context.addMessage(component.getClientId(), message);

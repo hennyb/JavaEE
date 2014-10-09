@@ -13,6 +13,7 @@ import jjlm.votes.logic.to.ItemTO;
 import jjlm.votes.logic.to.OrganizerTO;
 import jjlm.votes.logic.to.ParticipantTO;
 import jjlm.votes.logic.to.PollTO;
+import jjlm.votes.logic.to.TokenTO;
 
 @Remote
 public interface VotesLogic {
@@ -29,15 +30,9 @@ public interface VotesLogic {
     
     String getPlainString();
     
-    List<PollTO> getPollsfromOrganizer(OrganizerTO to);
-    
     List<PollTO> getPollsfromOrganizer(int organizerID);
     
     List<PollTO> getPollsfromOrganizer(int organizerID, int from, int to);
-    
-    List<PollTO> getAllPolls();
-    
-    PollTO getPoll(String name, String description);
     
     PollTO getPoll(int pollId);
     
@@ -68,4 +63,16 @@ public interface VotesLogic {
     boolean uniquePollTitle(String title);
     
     boolean uniquePollTitle(String title, int pollId);
+    
+    List<TokenTO> getTokensOfPoll(int pollId);
+    
+    void deleteToken(int tokenId);
+    
+    void deleteTokensOfPoll(int pollId);
+    
+    List<TokenTO> startPoll(int pollId);
+    
+    void resetPoll(int pollId);
+    
+    List<TokenTO> createTokensForPoll(int pollId);
 }
