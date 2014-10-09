@@ -3,10 +3,12 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package jjlm.votes.web.organizer;
+package jjlm.votes.web;
 
+import java.util.List;
 import javax.enterprise.context.SessionScoped;
 import javax.inject.Named;
+import jjlm.votes.logic.to.ItemTO;
 import jjlm.votes.logic.to.PollTO;
 import jjlm.votes.web.help.RequestParameters;
 import jjlm.votes.web.organizer.OrganizerBean;
@@ -19,7 +21,7 @@ import jjlm.votes.web.organizer.OrganizerBean;
 @SessionScoped
 public class ResultPollBean extends OrganizerBean {
 
-    private PollTO pollTO;
+    private PollTO poll;
     private int paramID;
     private String paramString;
 
@@ -27,11 +29,27 @@ public class ResultPollBean extends OrganizerBean {
         paramString = RequestParameters.get("id");
         try {
             this.paramID = Integer.parseInt(paramString);
-            pollTO = logic.getPoll(this.paramID);
+            this.poll = logic.getPoll(this.paramID);
+    
+            List<ItemTO> items = logic.getItemsOfPoll(this.paramID);
+            for (ItemTO item : items) {
+              item.setOptions(logic.getOptionsOfItem(item.getId()));
+             }
+            
+            this.poll.setItems(items);
+
         } catch (Exception e) {
             System.err.println(e);
         }
 
+    }
+    
+    public PollTO getPoll() {
+        return this.poll;
+    }
+
+    public void setPoll(PollTO poll) {
+        this.poll = poll;
     }
 
 }

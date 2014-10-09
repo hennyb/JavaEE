@@ -17,7 +17,7 @@
         <votes:script src="highcharts/highcharts.js"></votes:script>
         <votes:script src="highcharts/modules/exporting.js"></votes:script>
 
-        <ui:repeat var="item" value="#{pollVotingBean.poll.items}">
+        <ui:repeat var="item" value="#{resultPollBean.poll.items}">
             <ui:include src="./resources/votes/jsf/result-chart.xhtml">
                 <ui:param name="actionBean" value="#{item}}" />
             </ui:include>
@@ -28,12 +28,11 @@
     <ui:define name="html-title">Votes | Result</ui:define>
 
     <ui:define name="content">
-
-        <ui:repeat var="item" value="#{pollVotingBean.poll.items}">
+        <ui:repeat var="item" value="#{resultPollBean.poll.items}">
 
             <div class="row">
                 <div class="col-md-12">
-                    <h1>#{pollVotingBean.poll.title}</h1>
+                    <h1>#{resultPollBean.poll.title}</h1>
                 </div>
             </div>
 
