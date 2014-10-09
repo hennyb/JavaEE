@@ -4,7 +4,7 @@
  * and open the template in the editor.
  */
 package jjlm.logic.impl;
-import java.util.Date;
+
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -181,6 +181,7 @@ public class VotesLogicImpl implements VotesLogic {
 
     @Override
     public PollState getStateOfPoll(int pollId) {
+        //return PollState.FINISHED;
         return pa.getStateOfPoll(pollId);
     }
 
@@ -307,5 +308,10 @@ public class VotesLogicImpl implements VotesLogic {
     @Override
     public List<ParticipantTO> getParticipantsOfPoll(int pollId) {
         return AbstractEntity.createTransferList(pta.getParticipantsOfPoll(pollId));
+    }
+
+    @Override
+    public boolean uniquePollTitle(String title) {
+        return pa.uniqueTitle(title);
     }
 }
