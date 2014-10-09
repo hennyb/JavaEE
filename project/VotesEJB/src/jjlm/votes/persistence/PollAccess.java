@@ -42,8 +42,8 @@ public class PollAccess extends AbstractAccess<Poll, PollTO> {
 
     public List<Poll> getPolls(int organizerId) {
         System.out.println("oid: " + organizerId);
-        return em.createQuery("SELECT p FROM Poll p, IN(p.organizer) o"
-                + " where o.id= :organizerId"
+        return em.createQuery("SELECT p FROM Poll p"
+                + " where p.organizer.id= :organizerId"
                 + "", Poll.class)
                 .setParameter("organizerId", organizerId)
                 .getResultList();
@@ -60,34 +60,17 @@ public class PollAccess extends AbstractAccess<Poll, PollTO> {
                 .getResultList().get(0);
     }
 
-    public List<Poll> getPolls(int organizerId, int offset, int max) {
+    public List<Poll> getPolls(int organizerId, int offset, int limit) {
         System.out.println("oid: " + organizerId);
-        return em.createQuery("SELECT p FROM Poll p, IN(p.organizer) o"
-                + " where o.id= :organizerId"
+        return em.createQuery("SELECT p FROM Poll p"
+                + " where p.organizer.id= :organizerId"
                 + "", Poll.class)
                 .setParameter("organizerId", organizerId)
                 .setFirstResult(offset)
-                .setMaxResults(max)
+                .setMaxResults(limit)
                 .getResultList();
     }
 
-    public Poll addOrganizerToPoll(int pollId, int organizerId) {
-        Poll p = find(pollId);
-        Organizer o = oa.find(organizerId);
-
-        for (Poll currentPoll : o.getPolls()) {
-            if (currentPoll.equals(p)) {
-                return p;
-            }
-        }
-        o.getPolls().add(p);
-        p.getOrganizer().add(o);
-
-        oa.edit(o);
-        p = edit(p);
-
-        return p;
-    }
 
     public PollState getStateOfPoll(int pollId) {
 

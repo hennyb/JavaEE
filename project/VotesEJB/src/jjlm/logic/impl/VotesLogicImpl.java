@@ -80,18 +80,7 @@ public class VotesLogicImpl implements VotesLogic {
         poll.setStartPoll(to.getStartPoll());
         poll.setValid(to.isValid());
 
-        Set<Organizer> organizer = poll.getOrganizer();
-        for (Organizer o : organizer) {
-            o.getPolls().remove(poll);
-        }
-        organizer.clear();
-
-        for (OrganizerTO oto : to.getOrganizer()) {
-            Organizer o = oa.find(oto.getId());
-            organizer.add(o);
-            o.getPolls().add(poll);
-        }
-
+        poll.setOrganizer(oa.find(to.getOrganizer().getId()));
         poll.setPollState(to.getPollState());
 
         if (to.getStartPoll() == null || to.getPollState() == null) {
@@ -154,12 +143,6 @@ public class VotesLogicImpl implements VotesLogic {
     public List<PollTO> getPollsfromOrganizer(int organizerID, int offset, int max) {
         System.out.println("listsize: " + pa.getAllPolls().size());
         return AbstractEntity.createTransferList(pa.getAllPolls());
-    }
-
-    @Override
-    public PollTO addOrganizerToPoll(int organizerId, int pollId) {
-        PollTO poll = pa.addOrganizerToPoll(pollId, organizerId).createTO();
-        return poll;
     }
 
     @Override

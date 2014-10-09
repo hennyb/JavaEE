@@ -68,16 +68,10 @@ public class NewPollBean extends OrganizerBean {
         pollTO.setTitle(pollTitle);
         pollTO.setDescription(pollDescription);
 
-        pollTO = logic.storePoll(pollTO);
-        
-        
+        pollTO.setOrganizer(this.getOrganizer());
+        pollTO = logic.storePoll(pollTO);        
 
-        OrganizerTO o = logic.getOrganizer(user.getEmail());
         
-        logic.addOrganizerToPoll(o.getId(), pollTO.getId());
-        
-                
-
         setPollTitle("");
         setPollDescription("");
 

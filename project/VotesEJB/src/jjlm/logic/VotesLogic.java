@@ -26,7 +26,6 @@ public interface VotesLogic {
     
     PollTO storePoll(PollTO to);
     
-    PollTO addOrganizerToPoll(int organizerId, int pollId);
     
     String getPlainString();
     
