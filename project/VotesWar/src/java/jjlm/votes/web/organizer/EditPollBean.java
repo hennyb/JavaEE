@@ -5,6 +5,7 @@
  */
 package jjlm.votes.web.organizer;
 
+import com.sun.javafx.scene.control.skin.VirtualFlow;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -15,9 +16,11 @@ import java.util.Map;
 import javax.enterprise.context.SessionScoped;
 import javax.faces.context.FacesContext;
 import javax.inject.Named;
+import jjlm.votes.logic.to.ItemOptionTO;
 import jjlm.votes.logic.to.ItemTO;
 import jjlm.votes.logic.to.ParticipantTO;
 import jjlm.votes.logic.to.PollTO;
+import jjlm.votes.persistence.entities.ItemOption;
 import jjlm.votes.persistence.entities.ItemType;
 import jjlm.votes.persistence.entities.Participant;
 import jjlm.votes.web.help.RequestParameters;
@@ -64,7 +67,6 @@ public class EditPollBean extends OrganizerBean {
 
         paramString = RequestParameters.get("id");
 
-
         try {
             this.paramID = Integer.parseInt(paramString);
             pollTO = logic.getPoll(this.paramID);
@@ -76,20 +78,19 @@ public class EditPollBean extends OrganizerBean {
                     ? logic.getItemsOfPoll(pollTO.getId())
                     : new ArrayList<ItemTO>());
 
-            if (pollTO.getStartPoll() != null && !pollTO.getStartPoll().equals("")) {
+            if (pollTO.getStartPoll() != null) {
                 setStartPoll(sdf.format(pollTO.getStartPoll()));
             } else {
                 setStartPoll("");
             }
-            if (pollTO.getEndPoll() != null && !pollTO.getEndPoll().equals("")) {
+            if (pollTO.getEndPoll() != null) {
                 setEndPoll(sdf.format(pollTO.getEndPoll()));
             } else {
-                setStartPoll("");
+                setEndPoll("");
             }
         } catch (Exception e) {
             System.err.println(e);
         }
-
 
     }
 
@@ -191,11 +192,11 @@ public class EditPollBean extends OrganizerBean {
 
         return "edit-poll?faces-redirect=true&id=" + paramString;
     }
-    
-    public String deleteParticipant(int participantId){
-        
+
+    public String deleteParticipant(int participantId) {
+
         logic.deleteParticipant(participantId);
-        
+
         return "edit-poll?faces-redirect=true&id=" + paramString;
     }
 
@@ -237,6 +238,22 @@ public class EditPollBean extends OrganizerBean {
         itemTO.setPoll(pollTO);
         itemTO.setTitle(itemTitle);
         itemTO.setItemType(ItemType.values()[Integer.parseInt(itemType)]);
+
+        if (itemTO.getItemType() == ItemType.YES_NO) {
+            ItemOptionTO yes = new ItemOptionTO();
+            yes.setCount(0);
+            yes.setTitle("Yes");
+
+            ItemOptionTO no = new ItemOptionTO();
+            no.setCount(0);
+            no.setTitle("No");
+
+            List<ItemOptionTO> items = new ArrayList<>();
+            items.add(yes);
+            items.add(no);
+
+            itemTO.setOptions(items);
+        }
 
         itemTO = logic.storeItem(itemTO);
 

@@ -24,7 +24,6 @@ public class NewItemBean extends OrganizerBean {
     public List<ItemType> getItemTypes() {
 
         List<ItemType> values = Arrays.asList(ItemType.values());
-
         return values;
 
     }

@@ -64,4 +64,6 @@ public interface VotesLogic {
     ParticipantTO storeParticipant(ParticipantTO to);
     
     void deleteParticipant(int participantId);
+    
+    boolean uniquePollTitle(String title);
 }
