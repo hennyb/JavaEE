@@ -8,6 +8,11 @@
     xmlns:votes="http://java.sun.com/jsf/composite/votes/jsf"
     xmlns:f="http://java.sun.com/jsf/core">
 
+    <f:metadata>
+        <f:viewAction action="#{resultPollBean.init()}"></f:viewAction>
+    </f:metadata>
+    
+    
     <ui:define name="html-scripts">
         <votes:script src="highcharts/highcharts.js"></votes:script>
         <votes:script src="highcharts/modules/exporting.js"></votes:script>
