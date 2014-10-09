@@ -129,15 +129,23 @@ public class PollAccess extends AbstractAccess<Poll, PollTO> {
     }
 
     public boolean uniqueTitle(String title) {
-        if (em.createQuery("SELECT COUNT(p) FROM Poll p"
+        return em.createQuery("SELECT COUNT(p) FROM Poll p"
                 + " WHERE p.title = :title"
                 + "", Long.class)
                 .setParameter("title", title)
-                .getSingleResult() == 0) {
-            return true;
-        }
-        return false;
+                .getSingleResult() == 0;
     }
+
+    public boolean uniqueTitle(String title, int pollId) {
+        return em.createQuery("SELECT COUNT(p) FROM Poll p"
+                + " WHERE p.title = :title"
+                + " and p.id != :pollId"
+                + "", Long.class)
+                .setParameter("title", title)
+                .setParameter("pollId", pollId)
+                .getSingleResult() == 0;
+    }
+
 
     /*
      if (hideEmptyTeams) {

@@ -66,4 +66,6 @@ public interface VotesLogic {
     void deleteParticipant(int participantId);
     
     boolean uniquePollTitle(String title);
+    
+    boolean uniquePollTitle(String title, int pollId);
 }

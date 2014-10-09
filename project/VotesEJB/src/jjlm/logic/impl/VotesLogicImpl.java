@@ -314,4 +314,9 @@ public class VotesLogicImpl implements VotesLogic {
     public boolean uniquePollTitle(String title) {
         return pa.uniqueTitle(title);
     }
+
+    @Override
+    public boolean uniquePollTitle(String title, int pollId) {
+        return pa.uniqueTitle(title, pollId);
+    }
 }

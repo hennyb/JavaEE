@@ -14,7 +14,10 @@ import java.util.Date;
 import java.util.List;
 import java.util.Map;
 import javax.enterprise.context.SessionScoped;
+import javax.faces.application.FacesMessage;
+import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
+import javax.faces.validator.ValidatorException;
 import javax.inject.Named;
 import jjlm.votes.logic.to.ItemOptionTO;
 import jjlm.votes.logic.to.ItemTO;
@@ -239,23 +242,26 @@ public class EditPollBean extends OrganizerBean {
         itemTO.setTitle(itemTitle);
         itemTO.setItemType(ItemType.values()[Integer.parseInt(itemType)]);
 
+        itemTO = logic.storeItem(itemTO);
+        
         if (itemTO.getItemType() == ItemType.YES_NO) {
             ItemOptionTO yes = new ItemOptionTO();
             yes.setCount(0);
             yes.setTitle("Yes");
+            yes.setItem(itemTO);
+            yes.setDescription("");
+
+            logic.storeItemOption(yes);
 
             ItemOptionTO no = new ItemOptionTO();
             no.setCount(0);
             no.setTitle("No");
+            no.setItem(itemTO);
+            yes.setDescription("");
 
-            List<ItemOptionTO> items = new ArrayList<>();
-            items.add(yes);
-            items.add(no);
-
-            itemTO.setOptions(items);
+            logic.storeItemOption(no);
+            return "edit-poll?faces-redirect=true&id=" + paramString;
         }
-
-        itemTO = logic.storeItem(itemTO);
 
         return "edit-item?faces-redirect=true&id=" + itemTO.getId();
     }
@@ -267,6 +273,19 @@ public class EditPollBean extends OrganizerBean {
 
     public String save() {
         return "";
+    }
+
+    public void validateTitle(FacesContext context, UIComponent component, Object value) throws ValidatorException {
+
+        String title = (String) value;
+
+        if (!logic.uniquePollTitle(title,pollTO.getId())) {
+            FacesMessage message = new FacesMessage("The title is not unique. Please choose another one");
+            message.setSeverity(FacesMessage.SEVERITY_ERROR);
+            context.addMessage(component.getClientId(), message);
+            throw new ValidatorException(message);
+        }
+
     }
 
 }
