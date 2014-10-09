@@ -41,7 +41,6 @@ public class PollAccess extends AbstractAccess<Poll, PollTO> {
     }
 
     public List<Poll> getPolls(int organizerId) {
-        System.out.println("oid: " + organizerId);
         return em.createQuery("SELECT p FROM Poll p"
                 + " where p.organizer.id= :organizerId"
                 + "", Poll.class)
@@ -70,7 +69,6 @@ public class PollAccess extends AbstractAccess<Poll, PollTO> {
                 .setMaxResults(limit)
                 .getResultList();
     }
-
 
     public PollState getStateOfPoll(int pollId) {
 
@@ -129,6 +127,23 @@ public class PollAccess extends AbstractAccess<Poll, PollTO> {
                 .getSingleResult() == 0;
     }
 
+    public boolean allItemsValid(int pollId) {
+
+        return em.createQuery("Select count(i) FROM Item i"
+                + " Where i.poll.id = :pollId"
+                + " and i.valid = 0", Long.class)
+                .setParameter("pollId", pollId)
+                .getSingleResult() == 0;
+    }
+
+    public boolean isTitleUnique(int pollId, String title) {
+        return em.createQuery("select count(p) From Poll p"
+                + " Where p.id = :pollId"
+                + " and p.title = :title", Long.class)
+                .setParameter("pollId", pollId)
+                .setParameter("title", title)
+                .getSingleResult() == 0;
+    }
 
     /*
      if (hideEmptyTeams) {

@@ -55,8 +55,12 @@
                                 <label class="col-sm-1 control-label">Title</label>
                                 <div class="col-sm-11">
                                     <h:inputText 
-                                        styleClass="form-control" value="#{editItemBean.itemTitle}"></h:inputText>
+                                        id="itemTitle"
+                                        styleClass="form-control" 
+                                        validator ="#{editItemBean.validateItemTitle}"
+                                        value="#{editItemBean.itemTitle}"></h:inputText>
                                 </div>
+                                <h:message for="itemTitle"/>
                             </div>
                             <div class="form-group">
                                 <label class="col-sm-1 control-label">Type</label>
