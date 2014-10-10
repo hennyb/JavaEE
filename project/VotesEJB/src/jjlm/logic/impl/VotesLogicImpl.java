@@ -135,12 +135,27 @@ public class VotesLogicImpl implements VotesLogic {
 
     @Override
     public List<PollTO> getPollsfromOrganizer(int organizerID) {
+        for (PollTO p : AbstractEntity.createTransferList(pa.getPolls(organizerID))) {
+            if (p.getPollState() != null
+                    && p.getEndPoll() != null
+                    && p.getPollState() != PollState.FINISHED && p.getEndPoll().getTime() < new Date().getTime()) {
+                p.setPollState(PollState.FINISHED);
+                storePoll(p);
+            }
+        }
         return AbstractEntity.createTransferList(pa.getPolls(organizerID));
     }
 
     @Override
     public List<PollTO> getPollsfromOrganizer(int organizerID, int offset, int max) {
-        System.out.println("listsize: " + pa.getAllPolls().size());
+        for (PollTO p : AbstractEntity.createTransferList(pa.getPolls(organizerID))) {
+            if (p.getPollState() != null
+                    && p.getEndPoll() != null
+                    && p.getPollState() != PollState.FINISHED && p.getEndPoll().getTime() < new Date().getTime()) {
+                p.setPollState(PollState.FINISHED);
+                storePoll(p);
+            }
+        }
         return AbstractEntity.createTransferList(pa.getAllPolls());
     }
 
@@ -151,6 +166,14 @@ public class VotesLogicImpl implements VotesLogic {
         // this.storePoll(poll);
         // return poll;
         Poll poll = pa.find(pollId);
+
+        if (poll.getEndPoll() != null && poll.getEndPoll().getTime() < new Date().getTime()) {
+            if (poll.getPollState() != null && poll.getPollState() != PollState.FINISHED) {
+                poll.setPollState(PollState.FINISHED);
+                storePoll(poll.createTO());
+            }
+
+        }
 
         return pa.find(pollId).createTO();
     }
@@ -339,7 +362,7 @@ public class VotesLogicImpl implements VotesLogic {
         storePoll(to);
 
         ioa.resetCount(pollId);
-        ia.resetAbstainedCount(pollId);
+        ia.resetAbstainedVotes(pollId);
         deleteTokensOfPoll(pollId);
 
     }

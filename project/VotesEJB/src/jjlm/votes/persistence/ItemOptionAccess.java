@@ -40,7 +40,7 @@ public class ItemOptionAccess extends AbstractAccess<ItemOption, ItemOptionTO> {
 
     public void resetCount(int pollID) {
 
-        em.createQuery("update ItemOption set count=0"
+        em.createQuery("update ItemOption set votes=0"
                 + " Where item.poll.id = :pollId")
                 .setParameter("pollId", pollID).executeUpdate();
     }

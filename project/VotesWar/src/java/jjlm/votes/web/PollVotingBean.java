@@ -20,6 +20,7 @@ import jjlm.votes.logic.to.PollTO;
 import jjlm.votes.logic.to.TokenTO;
 import jjlm.votes.persistence.entities.Item;
 import jjlm.votes.persistence.entities.ItemType;
+import jjlm.votes.persistence.entities.PollState;
 
 @Named
 @SessionScoped
@@ -236,10 +237,22 @@ public class PollVotingBean implements Serializable {
             ParticipantTO participant = token.getParticipant();
             participant.setHasVoted(true);
             logic.storeParticipant(participant);
-            
+
+            long participation = logic.getParticipation(token.getPoll().getId());
+            int participants = logic.getParticipantsOfPoll(token.getPoll().getId()).size();
+
+            if (participation == participants) {
+                token.getPoll().setPollState(PollState.FINISHED);
+            } else {
+
+                token.getPoll().setPollState(PollState.VOTING);
+            }
+
+            logic.storePoll(token.getPoll());
+
             token.setInvalid(true);
             logic.storeToken(token);
-            
+
             for (Integer i : itemStates.keySet()) {
 
                 ItemState is = itemStates.get(i);
@@ -260,9 +273,8 @@ public class PollVotingBean implements Serializable {
                 }
             }
         }
-        verified=false;
-        tokenSignature="";
-        
+        verified = false;
+        tokenSignature = "";
 
         return "poll";
 
@@ -275,10 +287,10 @@ public class PollVotingBean implements Serializable {
     }
 
     public String cancel() {
-        
-        verified=false;
-        tokenSignature="";
-        
+
+        verified = false;
+        tokenSignature = "";
+
         return "poll";
 
     }
