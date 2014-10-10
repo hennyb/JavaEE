@@ -5,6 +5,7 @@
  */
 package jjlm.logic.impl;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashSet;
@@ -36,6 +37,8 @@ import jjlm.votes.persistence.entities.Token;
 
 @Stateless
 public class VotesLogicImpl implements VotesLogic {
+
+    private SimpleDateFormat sdf = new SimpleDateFormat("MM/dd/yyyy");
 
     @EJB
     private OrganizerAccess oa;
@@ -518,6 +521,27 @@ public class VotesLogicImpl implements VotesLogic {
         }
 
         return t.createTO();
+    }
+
+    @Override
+    public boolean isValidEndDate(int paramID, String endDate) {
+        Poll poll = pa.find(paramID);
+        try {
+            //if not parseable
+            Date date = sdf.parse(endDate);
+            //if enddate in the past
+            if(date.getTime()<new Date().getTime()){
+                return false;
+            }
+        } catch (Exception e) {
+            return false;
+        }
+        //if pollend before pollstart
+        if (poll.getStartPoll() != null && poll.getStartPoll().getTime() > poll.getEndPoll().getTime()) {
+            return false;
+        }
+
+        return true;
     }
 
 }
