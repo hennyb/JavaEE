@@ -5,7 +5,7 @@
  */
 package jjlm.votes.web.organizer;
 
-import com.sun.javafx.scene.control.skin.VirtualFlow;
+//import com.sun.javafx.scen.econtrol.skin.VirtualFlow;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
