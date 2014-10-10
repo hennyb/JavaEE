@@ -90,4 +90,6 @@ public interface VotesLogic {
 
     TokenTO storeToken(TokenTO token);
 
+    public boolean isValidEndDate(int paramID, String endDate);
+
 }

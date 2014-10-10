@@ -375,5 +375,18 @@ public class EditPollBean extends OrganizerBean {
         }
 
     }
+    
+    public void validateEndDate(FacesContext context, UIComponent component, Object value) throws ValidatorException {
+
+        String endDate = (String) value;
+
+        if (!logic.isValidEndDate(paramID, endDate)) {
+            FacesMessage message = new FacesMessage("The End-Date is not valid. Please choose another.");
+            message.setSeverity(FacesMessage.SEVERITY_ERROR);
+            context.addMessage(component.getClientId(), message);
+            throw new ValidatorException(message);
+        }
+
+    }
 
 }
