@@ -21,6 +21,51 @@
 
         <h:form id="pollForm">
 
+            <c:choose>
+                
+                <c:when test="#{not pollVotingBean.verified}">
+            
+                    <div class="row">
+                        <div class="col-md-12">
+                            <h1 class="text-center">Verify Your Token</h1>
+                            <hr></hr>
+                        </div>
+                    </div>
+
+
+                    <div class="row">
+                        <div class="col-md-6 col-lg-offset-3">
+                            <div class="form-group">
+                                <div class="col-sm-12">
+                                    <h:inputText 
+                                        id="inputTextToken"
+                                        styleClass="form-control text-center" 
+                                        value="#{pollVotingBean.tokenSignature}">
+                                    </h:inputText>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <br></br>
+                    <div class="row">
+                        <div class="col-md-12">
+                            
+                            <div class="btn-toolbar text-center">
+                                
+                                <h:commandButton
+                                    value="Verify"
+                                    styleClass="btn btn-primary"
+                                    action="#{pollVotingBean.verify()}"></h:commandButton>
+                                
+                            </div>
+                            
+                        </div>
+                    </div>
+                    
+                </c:when>
+                
+                <c:when test="#{pollVotingBean.verified}">
+                    
             <div class="row">
                 <div class="col-md-12">
                     <h1 class="text-center">#{pollVotingBean.poll.title}</h1>
@@ -67,13 +112,14 @@
                 
                 <ui:repeat var="item" value="#{pollVotingBean.poll.items}">
 
-                    <div class="alert alert-info">
+                    <div class="alert #{pollVotingBean.itemIsAbstained(item.id) ? 'alert-warning' : 'alert-primary'}">
 
                     <div class="row">
 
-                        <div class="col-md-12">
+                        <div class="col-md-12 ">
 
-                            <h3>#{item.title} #{item.itemType}</h3>
+                            <h3>#{item.title} 
+                                (min #{item.m})</h3>
 
                         </div>
 
@@ -83,16 +129,19 @@
 
                             <div class="row">
 
-                                <div class="col-md-1 text-center">
+                                <div class="col-sm-1 text-center">
+                                    
+                                   
                                     <h:commandLink 
                                         action="#{pollVotingBean.updateOptionState(option.id)}"
                                         styleClass="#{pollVotingBean.getOptionStyleClass(option.id)}">
                                         <f:ajax execute="@this" render=":pollForm:itemsPanelGroup"/>
                                         <span class="#{pollVotingBean.getOptionGlyphicon(option.id)}"></span>
                                     </h:commandLink>
+                                            
 
                                 </div>
-                                <div class="col-md-11">
+                                <div class="col-sm-11">
 
                                     <b>#{option.title}</b>
                                     <p>#{option.description}</p>
@@ -103,6 +152,18 @@
                             <br></br>
 
                         </ui:repeat>
+                        
+
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <h:commandLink
+                                        action="#{pollVotingBean.abstainItem(item.id)}"
+                                        styleClass="btn btn-primary">
+                                        <f:ajax execute="@this" render=":pollForm:itemsPanelGroup"/>
+                                        #{pollVotingBean.itemIsAbstained(item.id) ? "Re-Enable Item" : "Abstain Item"}
+                                    </h:commandLink>
+                                </div>
+                            </div>                        
                         
                     </div>
 
@@ -137,7 +198,14 @@
 
                 </div>
             </div>
-
+                  
+                    
+                </c:when>
+                
+            </c:choose>
+            
+            
+  
 
         </h:form>
 

@@ -117,6 +117,8 @@ public class EditItemBean extends OrganizerBean {
         item.setTitle(itemTitle);
         if (item.getItemType() == ItemType.M_OF_N) {
             item.setM(itemM);
+        } else {
+            item.setM(1);
         }
 
         logic.storeItem(item);
@@ -136,7 +138,7 @@ public class EditItemBean extends OrganizerBean {
         to.setItem(item);
         to.setTitle(optionTitle);
         to.setDescription(optionDescription);
-        to.setCount(0);
+        to.setVotes(0);
 
         logic.storeItemOption(to);
 

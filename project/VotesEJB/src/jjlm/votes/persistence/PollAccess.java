@@ -12,9 +12,7 @@ import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import jjlm.votes.logic.to.PollTO;
-import jjlm.votes.persistence.entities.Organizer;
 import jjlm.votes.persistence.entities.Poll;
-import jjlm.votes.persistence.entities.PollState;
 
 @Stateless
 @LocalBean
@@ -49,16 +47,6 @@ public class PollAccess extends AbstractAccess<Poll, PollTO> {
 
     }
 
-    public Poll getPoll(String name, String description) {
-        return em.createQuery("SELECT p FROM Poll p"
-                + " where p.name=:name"
-                + " AND p.description=:description"
-                + "", Poll.class)
-                .setParameter("name", name)
-                .setParameter("description", description)
-                .getResultList().get(0);
-    }
-
     public List<Poll> getPolls(int organizerId, int offset, int limit) {
         System.out.println("oid: " + organizerId);
         return em.createQuery("SELECT p FROM Poll p"
@@ -68,45 +56,6 @@ public class PollAccess extends AbstractAccess<Poll, PollTO> {
                 .setFirstResult(offset)
                 .setMaxResults(limit)
                 .getResultList();
-    }
-
-    public PollState getStateOfPoll(int pollId) {
-
-        if (!em.createNativeQuery("select id from poll p where"
-                + " p.startpoll is null"
-                + " and p.id = " + pollId)
-                .getResultList().isEmpty()) {
-            return PollState.PREPARED;
-        }
-
-        if (em.createNativeQuery("select p.id from poll p, participant"
-                + " where p.id = participant.poll_id"
-                + " and p.startpoll >= current_date"
-                + " and participant.hasvoted = 0"
-                + " and p.id = " + pollId)
-                .getResultList().isEmpty()) {
-            return PollState.STARTED;
-        }
-
-        if (!em.createNativeQuery("select p.id from poll p, participant"
-                + " where p.id = participant.poll_id"
-                + " and p.startpoll >= current_date"
-                + " and participant.hasvoted = 1"
-                + " and p.id = " + pollId)
-                .getResultList().isEmpty()) {
-            return PollState.VOTING;
-        }
-
-        if (em.createNativeQuery("select p.id from poll p, participant"
-                + " where p.id = participant.POLL_ID"
-                + " and p.endpoll >= current_date"
-                + " and participant.hasvoted = 0"
-                + " and p.id = " + pollId)
-                .getResultList().isEmpty()) {
-            return PollState.FINISHED;
-        }
-
-        return PollState.PREPARED;
     }
 
     public boolean uniqueTitle(String title) {
@@ -145,14 +94,12 @@ public class PollAccess extends AbstractAccess<Poll, PollTO> {
                 .getSingleResult() == 0;
     }
 
-    /*
-     if (hideEmptyTeams) {
-     return em.createQuery("SELECT COUNT(t) FROM Team t"
-     + " WHERE t.course.id = :courseId "
-     + " AND t.members IS NOT EMPTY",
-     Long.class)
-     .setParameter("courseId", courseId)
-     .getSingleResult();
-     }
-     */
+    public long getParticipation(int pollId) {
+        return em.createQuery("SELECT COUNT(p) FROM Participant p"
+                + " WHERE p.poll.id = :pollId"
+                + " and p.hasVoted = 1"
+                + "", Long.class)
+                .setParameter("pollId", pollId)
+                .getSingleResult();
+    }
 }

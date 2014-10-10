@@ -316,7 +316,8 @@ public class EditPollBean extends OrganizerBean {
 
         if (itemTO.getItemType() == ItemType.YES_NO) {
             ItemOptionTO yes = new ItemOptionTO();
-            yes.setCount(0);
+            yes.setVotes(0);
+            
             yes.setTitle("Yes");
             yes.setItem(itemTO);
             yes.setDescription("");
@@ -324,12 +325,16 @@ public class EditPollBean extends OrganizerBean {
             logic.storeItemOption(yes);
 
             ItemOptionTO no = new ItemOptionTO();
-            no.setCount(0);
+            no.setVotes(0);
             no.setTitle("No");
             no.setItem(itemTO);
             yes.setDescription("");
-
+            
             logic.storeItemOption(no);
+            
+            
+            itemTO.setM(1);
+            itemTO = logic.storeItem(itemTO);
             return "edit-poll?faces-redirect=true&id=" + paramString;
         }
 

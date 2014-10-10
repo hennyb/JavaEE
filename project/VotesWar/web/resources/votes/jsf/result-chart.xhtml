@@ -61,9 +61,9 @@
             pointWidth: 20,
             data: [
                 <ui:repeat var="option" value="#{item.options}">
-                     ['#{option.title}', #{option.count}],
+                     ['#{option.title}', #{option.votes}],
                  </ui:repeat>
-                ['abstained', #{item.abstainedCount}]
+                ['abstained', #{item.abstainedVotes}]
             ]
         }],
         

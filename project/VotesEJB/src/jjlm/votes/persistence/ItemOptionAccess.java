@@ -44,5 +44,12 @@ public class ItemOptionAccess extends AbstractAccess<ItemOption, ItemOptionTO> {
                 + " Where item.poll.id = :pollId")
                 .setParameter("pollId", pollID).executeUpdate();
     }
+    
+    public void incrementCount(int optionId){
+        em.createQuery("update ItemOption i"
+                + " set i.votes=i.votes+1"
+                + " Where i.id = :optionId")
+                .setParameter("optionId", optionId).executeUpdate();
+    }
 
 }

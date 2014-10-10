@@ -10,15 +10,8 @@ import java.util.Date;
 import java.util.HashSet;
 import java.util.List;
 import java.util.UUID;
-import javax.annotation.Resource;
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
-import javax.mail.Message;
-import javax.mail.MessagingException;
-import javax.mail.Session;
-import javax.mail.Transport;
-import javax.mail.internet.InternetAddress;
-import javax.mail.internet.MimeMessage;
 import jjlm.votes.persistence.entities.PollState;
 import jjlm.logic.VotesLogic;
 import jjlm.votes.logic.to.ItemOptionTO;
@@ -163,12 +156,6 @@ public class VotesLogicImpl implements VotesLogic {
     }
 
     @Override
-    public PollState getStateOfPoll(int pollId) {
-        //return PollState.FINISHED;
-        return pa.getStateOfPoll(pollId);
-    }
-
-    @Override
     public List<ItemTO> getItemsOfPoll(int poollId) {
         return AbstractEntity.createTransferList(ia.getItems(poollId));
     }
@@ -186,10 +173,10 @@ public class VotesLogicImpl implements VotesLogic {
         item.setId(to.getId());
         item.setValid(to.isValid());
         item.setM(to.getM());
-        item.setAbstainedCount(to.getAbstainedCount());
+        item.setAbstainedVotes(to.getAbstainedVotes());
 
         if (to.getId() == null) {
-            item.setAbstainedCount(0);
+            item.setAbstainedVotes(0);
             ia.create(item);
         } else {
             item = ia.edit(item);
@@ -212,13 +199,13 @@ public class VotesLogicImpl implements VotesLogic {
         ItemOption option = to.getId() == null ? new ItemOption() : ioa.find(to.getId());
         Item item = ia.find(to.getItem().getId());
         option.setDescription(to.getDescription());
-        option.setCount(to.getCount());
+        option.setVotes(to.getVotes());
         option.setItem(item);
         option.setTitle(to.getTitle());
         option.setId(to.getId());
 
         if (to.getId() == null) {
-            option.setCount(0);
+            option.setVotes(0);
             ioa.create(option);
         } else {
             option = ioa.edit(option);
@@ -458,6 +445,56 @@ public class VotesLogicImpl implements VotesLogic {
     @Override
     public boolean isItemTitleUnique(int pollId, int itemId, String title) {
         return ia.isItemTitleUnique(pollId, itemId, title);
+    }
+
+    @Override
+    public TokenTO getTokenBySignature(String signature) {
+        TokenTO t = ta.getTokenBySignature(signature).createTO();
+        t.getPoll().setItems(getItemsOfPoll(t.getPoll().getId()));
+        for (ItemTO item : t.getPoll().getItems()) {
+            item.setOptions(getOptionsOfItem(item.getId()));
+        }
+        return t;
+    }
+
+    @Override
+    public void incrementItemOptionCount(int optionId) {
+        ioa.incrementCount(optionId);
+    }
+
+    @Override
+    public void incrementAbstainedItem(int itemId) {
+
+        ItemTO item = getItem(itemId);
+        item.setAbstainedVotes(item.getAbstainedVotes() + 1);
+
+        storeItem(item);
+
+    }
+
+    @Override
+    public long getParticipation(int pollId) {
+        return pa.getParticipation(pollId);
+    }
+
+    @Override
+    public TokenTO storeToken(TokenTO to) {
+        Token t = to.getId() == null ? new Token() : ta.find(to.getId());
+
+        t.setId(to.getId());
+        t.setInvalid(to.isInvalid());
+        t.setParticipant(pta.find(to.getParticipant().getId()));
+        t.setSignature(to.getSignature());
+        t.setPoll(pa.find(to.getPoll().getId()));
+
+        if (to.getId() == null) {
+            ta.create(t);
+
+        } else {
+            t = ta.edit(t);
+        }
+
+        return t.createTO();
     }
 
 }

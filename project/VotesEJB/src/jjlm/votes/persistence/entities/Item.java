@@ -29,7 +29,7 @@ public class Item extends AbstractEntity<Item, ItemTO> {
     private Poll poll;
     
     private Integer m;
-    private Integer abstainedCount;
+    private Integer abstainedVotes;
     
     private boolean valid;
 
@@ -48,13 +48,15 @@ public class Item extends AbstractEntity<Item, ItemTO> {
         this.m = m;
     }
 
-    public Integer getAbstainedCount() {
-        return abstainedCount;
+    public Integer getAbstainedVotes() {
+        return abstainedVotes;
     }
 
-    public void setAbstainedCount(Integer abstainedCount) {
-        this.abstainedCount = abstainedCount;
+    public void setAbstainedVotes(Integer abstainedVotes) {
+        this.abstainedVotes = abstainedVotes;
     }
+
+    
 
     @Enumerated(EnumType.STRING)
     public ItemType getItemType() {
@@ -119,7 +121,7 @@ public class Item extends AbstractEntity<Item, ItemTO> {
         to.setPoll(poll.createTO());
         to.setTitle(title);
         to.setValid(valid);
-        to.setAbstainedCount(abstainedCount);
+        to.setAbstainedVotes(abstainedVotes);
         to.setM(m);
 
         return to;

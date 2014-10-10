@@ -16,7 +16,7 @@ public class ItemOptionTO extends AbstractEntityTO{
     private String title;
     private ItemTO item;
     
-    private Integer count;
+    private Integer votes;
     
     private static final long serialVersionUID = 639616302059355682L;
 
@@ -36,12 +36,12 @@ public class ItemOptionTO extends AbstractEntityTO{
         this.item = item;
     }
 
-    public Integer getCount() {
-        return this.count;
+    public Integer getVotes() {
+        return votes;
     }
 
-    public void setCount(Integer count) {
-        this.count = count;
+    public void setVotes(Integer votes) {
+        this.votes = votes;
     }
 
     public String getTitle() {

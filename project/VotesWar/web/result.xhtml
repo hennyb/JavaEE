@@ -6,13 +6,14 @@
     xmlns:h="http://java.sun.com/jsf/html"
     xmlns:ui="http://java.sun.com/jsf/facelets"
     xmlns:votes="http://java.sun.com/jsf/composite/votes/jsf"
-    xmlns:f="http://java.sun.com/jsf/core">
+    xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:c="http://xmlns.jcp.org/jsp/jstl/core">
 
     <f:metadata>
         <f:viewAction action="#{resultPollBean.init()}"></f:viewAction>
     </f:metadata>
-    
-    
+
+
     <ui:define name="html-scripts">
         <votes:script src="highcharts/highcharts.js"></votes:script>
         <votes:script src="highcharts/modules/exporting.js"></votes:script>
@@ -28,38 +29,49 @@
     <ui:define name="html-title">Votes | Result</ui:define>
 
     <ui:define name="content">
-        
+
         <h3>#{resultPollBean.poll.title}</h3>
-    
-        
-        <ui:repeat var="item" value="#{resultPollBean.poll.items}">
 
-            <div class="row">
-                <div class="col-md-12">
-                    <h1>#{item.title}</h1>
-                </div>
-            </div>
+        <c:choose>
+            <c:when test = "#{resultPollBean.showResult()}">
 
-            <div class="row">
-                <div class="col-md-8">
-                    <div id="container-#{item.id}" style="width:100%; height:100%;"></div>
-                </div>
+                <ui:repeat var="item" value="#{resultPollBean.poll.items}">
 
-                <div class="col-md-4">
-                    <ui:repeat var="option" value="#{item.options}">
-                        <div class="row">
-                            <div class="col-md-4">
-                                #{option.title}
-                            </div>
-                            <div class="col-md-8">
-                                <small>#{option.description}</small>
-                            </div>
+                    <div class="row">
+                        <div class="col-md-12">
+                            <h1>#{item.title}</h1>
                         </div>
-                        <hr />
-                    </ui:repeat>
-                </div>
-            </div>          
-        </ui:repeat>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-8">
+                            <div id="container-#{item.id}" style="width:100%; height:100%;"></div>
+                        </div>
+
+                        <div class="col-md-4">
+                            <ui:repeat var="option" value="#{item.options}">
+                                <div class="row">
+                                    <div class="col-md-4">
+                                        #{option.title}
+                                    </div>
+                                    <div class="col-md-8">
+                                        <small>#{option.description}</small>
+                                    </div>
+                                </div>
+                                <hr />
+                            </ui:repeat>
+                        </div>
+                    </div>          
+                </ui:repeat>
+
+
+            </c:when>
+            <c:otherwise>
+                The poll is not finished yet.
+            </c:otherwise>
+
+        </c:choose>
+
 
     </ui:define>
 

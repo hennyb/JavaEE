@@ -10,6 +10,7 @@ import javax.enterprise.context.SessionScoped;
 import javax.inject.Named;
 import jjlm.votes.logic.to.ItemTO;
 import jjlm.votes.logic.to.PollTO;
+import jjlm.votes.persistence.entities.PollState;
 import jjlm.votes.web.help.RequestParameters;
 import jjlm.votes.web.organizer.OrganizerBean;
 
@@ -30,12 +31,12 @@ public class ResultPollBean extends OrganizerBean {
         try {
             this.paramID = Integer.parseInt(paramString);
             this.poll = logic.getPoll(this.paramID);
-    
+
             List<ItemTO> items = logic.getItemsOfPoll(this.paramID);
             for (ItemTO item : items) {
-              item.setOptions(logic.getOptionsOfItem(item.getId()));
-             }
-            
+                item.setOptions(logic.getOptionsOfItem(item.getId()));
+            }
+
             this.poll.setItems(items);
 
         } catch (Exception e) {
@@ -43,7 +44,15 @@ public class ResultPollBean extends OrganizerBean {
         }
 
     }
-    
+
+    public boolean showResult() {
+
+        boolean result = poll.getPollState() == PollState.FINISHED;
+        result &= logic.getParticipation(paramID) >= 3;
+
+        return result;
+    }
+
     public PollTO getPoll() {
         return this.poll;
     }

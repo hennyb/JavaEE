@@ -56,7 +56,7 @@ public class ItemAccess extends AbstractAccess<Item, ItemTO> {
                 + " and i.title = :title", Long.class)
                 .setParameter("pollId", pollId)
                 .setParameter("title", title).getSingleResult() == 0;
-        
+
     }
 
     public boolean isItemTitleUnique(int pollId, int itemId, String title) {
@@ -67,8 +67,8 @@ public class ItemAccess extends AbstractAccess<Item, ItemTO> {
                 .setParameter("pollId", pollId)
                 .setParameter("title", title)
                 .setParameter("itemId", itemId)
-                .getSingleResult()== 0;
-
+                .getSingleResult() == 0;
     }
+
 
 }

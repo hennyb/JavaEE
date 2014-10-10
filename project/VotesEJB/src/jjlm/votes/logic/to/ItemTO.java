@@ -27,7 +27,7 @@ public class ItemTO extends AbstractEntityTO {
     private boolean valid;
     
     private int m;
-    private int abstainedCount;
+    private int abstainedVotes;
 
     public ItemTO() {
         options = new ArrayList<>();
@@ -81,13 +81,14 @@ public class ItemTO extends AbstractEntityTO {
         this.m = m;
     }
 
-    public int getAbstainedCount() {
-        return this.abstainedCount;
+    public int getAbstainedVotes() {
+        return abstainedVotes;
     }
 
-    public void setAbstainedCount(int abstainedCount) {
-        this.abstainedCount = abstainedCount;
+    public void setAbstainedVotes(int abstainedVotes) {
+        this.abstainedVotes = abstainedVotes;
     }
+
     
     
 }

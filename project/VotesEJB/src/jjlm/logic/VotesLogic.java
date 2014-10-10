@@ -34,8 +34,6 @@ public interface VotesLogic {
 
     PollTO getPoll(int pollId);
 
-    PollState getStateOfPoll(int pollId);
-
     List<ItemTO> getItemsOfPoll(int poollId);
 
     ItemTO getItem(int itemId);
@@ -80,5 +78,14 @@ public interface VotesLogic {
     
     boolean isItemTitleUnique(int pollId, int itemId, String title);
     
+    TokenTO getTokenBySignature(String signature);
+    
+    void incrementItemOptionCount(int optionId);
+    
+    void incrementAbstainedItem(int itemId);
+    
+    long getParticipation(int pollId);
+
+    TokenTO storeToken(TokenTO token);
 
 }
