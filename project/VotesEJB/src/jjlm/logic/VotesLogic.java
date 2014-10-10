@@ -80,6 +80,8 @@ public interface VotesLogic {
     
     TokenTO getTokenBySignature(String signature);
     
+    TokenTO getTokensOfPollAndParticipant(int pollId, int participantId);
+    
     void incrementItemOptionCount(int optionId);
     
     void incrementAbstainedItem(int itemId);

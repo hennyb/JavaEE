@@ -480,6 +480,10 @@ public class VotesLogicImpl implements VotesLogic {
         return t;
     }
 
+    public TokenTO getTokensOfPollAndParticipant(int pollId, int participantId) {
+        return ta.getTokensOfPollAndParticipant(pollId, participantId).createTO();
+    }
+    
     @Override
     public void incrementItemOptionCount(int optionId) {
         ioa.incrementCount(optionId);

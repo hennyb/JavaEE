@@ -10,13 +10,14 @@ package jjlm.votes.logic.to;
  *
  * @author henny
  */
-public class ParticipantTO extends AbstractEntityTO{
+public class ParticipantTO extends AbstractEntityTO {
     private static final long serialVersionUID = 7757146310902670505L;
     
     private String email;
     private boolean hasVoted;
     
     private PollTO poll;
+    private TokenTO token;
     
     public ParticipantTO(){
         
@@ -44,6 +45,14 @@ public class ParticipantTO extends AbstractEntityTO{
 
     public void setPoll(PollTO poll) {
         this.poll = poll;
+    }
+    
+    public TokenTO getToken() {
+        return token;
+    }
+
+    public void setToken(TokenTO token) {
+        this.token = token;
     }
     
 }
