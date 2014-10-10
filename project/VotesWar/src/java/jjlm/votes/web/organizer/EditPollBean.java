@@ -5,14 +5,13 @@
  */
 package jjlm.votes.web.organizer;
 
-//import com.sun.javafx.scen.econtrol.skin.VirtualFlow;
+
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
-import java.util.Map;
 import javax.enterprise.context.SessionScoped;
 import javax.faces.application.FacesMessage;
 import javax.faces.component.UIComponent;
@@ -23,9 +22,8 @@ import jjlm.votes.logic.to.ItemOptionTO;
 import jjlm.votes.logic.to.ItemTO;
 import jjlm.votes.logic.to.ParticipantTO;
 import jjlm.votes.logic.to.PollTO;
-import jjlm.votes.persistence.entities.ItemOption;
 import jjlm.votes.persistence.entities.ItemType;
-import jjlm.votes.persistence.entities.Participant;
+import jjlm.votes.persistence.entities.PollState;
 import jjlm.votes.web.help.RequestParameters;
 import jjlm.votes.web.logic.ParticipantListParser;
 
@@ -37,7 +35,7 @@ import jjlm.votes.web.logic.ParticipantListParser;
 @SessionScoped
 public class EditPollBean extends OrganizerBean {
 
-    private PollTO pollTO;
+    private PollTO poll;
     private int paramID;
 
     private String pollDescription;
@@ -57,9 +55,13 @@ public class EditPollBean extends OrganizerBean {
 
     private String paramString;
 
+    private String notificationText;
+
+    private String pollState;
+
     public void init() {
 
-        pollTO = new PollTO();
+        poll = new PollTO();
         setPollDescription("");
         setPollTitle("");
         setStartPoll("");
@@ -72,22 +74,24 @@ public class EditPollBean extends OrganizerBean {
 
         try {
             this.paramID = Integer.parseInt(paramString);
-            pollTO = logic.getPoll(this.paramID);
+            poll = logic.getPoll(this.paramID);
 
-            setPollDescription(pollTO.getDescription());
-            setPollTitle(pollTO.getTitle());
+            setPollDescription(poll.getDescription());
+            setPollTitle(poll.getTitle());
 
-            pollItems = (pollTO.getId() != null
-                    ? logic.getItemsOfPoll(pollTO.getId())
+            pollItems = (poll.getId() != null
+                    ? logic.getItemsOfPoll(poll.getId())
                     : new ArrayList<ItemTO>());
 
-            if (pollTO.getStartPoll() != null) {
-                setStartPoll(sdf.format(pollTO.getStartPoll()));
+            poll.setItems(pollItems);
+
+            if (poll.getStartPoll() != null) {
+                setStartPoll(sdf.format(poll.getStartPoll()));
             } else {
                 setStartPoll("");
             }
-            if (pollTO.getEndPoll() != null) {
-                setEndPoll(sdf.format(pollTO.getEndPoll()));
+            if (poll.getEndPoll() != null) {
+                setEndPoll(sdf.format(poll.getEndPoll()));
             } else {
                 setEndPoll("");
             }
@@ -95,6 +99,18 @@ public class EditPollBean extends OrganizerBean {
             System.err.println(e);
         }
 
+    }
+
+    public PollTO getPollTO() {
+        return poll;
+    }
+
+    public String getNotificationText() {
+        return notificationText;
+    }
+
+    public void setNotificationText(String notificationText) {
+        this.notificationText = notificationText;
     }
 
     public List<ItemType> getItemTypes() {
@@ -122,7 +138,7 @@ public class EditPollBean extends OrganizerBean {
     }
 
     public List<ItemTO> getPollItems() {
-        return this.pollItems;
+        return this.poll.getItems();
     }
 
     public void setPollItems(List<ItemTO> pollItems) {
@@ -173,19 +189,57 @@ public class EditPollBean extends OrganizerBean {
         return logic.getParticipantsOfPoll(paramID);
     }
 
+    public String getPollState() {
+        return this.poll.getPollState().toString();
+    }
+
+    public boolean isStarted() {
+        return poll.getPollState() == PollState.STARTED;
+    }
+
+    public boolean isPrepared() {
+
+        return poll.getPollState() == PollState.PREPARED;
+
+    }
+
+    public boolean isVoting() {
+
+        return poll.getPollState() == PollState.VOTING;
+
+    }
+
+    public boolean isFinished() {
+
+        return poll.getPollState() == PollState.FINISHED;
+
+    }
+
     public String addParticipants() {
 
         if (getParticipantsText() != null) {
 
             ParticipantListParser plp = new ParticipantListParser();
 
-            ArrayList<String> emails = (ArrayList<String>) plp.parse(getParticipantsText());
+            List<String> emails = plp.parse(getParticipantsText());
+            List<ParticipantTO> participants = logic.getParticipantsOfPoll(poll.getId());
+
+            for (ParticipantTO participant : participants) {
+
+                int i;
+                while ((i = emails.indexOf(participant.getEmail())) != -1) {
+
+                    emails.remove(i);
+
+                }
+
+            }
 
             for (String email : emails) {
 
                 ParticipantTO participantTO = new ParticipantTO();
                 participantTO.setEmail(email);
-                participantTO.setPoll(pollTO);
+                participantTO.setPoll(poll);
                 participantTO.setHasVoted(false);
 
                 logic.storeParticipant(participantTO);
@@ -203,17 +257,33 @@ public class EditPollBean extends OrganizerBean {
         return "edit-poll?faces-redirect=true&id=" + paramString;
     }
 
-    public String edit() {
-        pollTO.setDescription(pollDescription);
-        pollTO.setTitle(pollTitle);
+    public String start() {
+        edit();
+        logic.startPoll(paramID);
 
-        Date startDate = null;
-        try {
-            startDate = sdf.parse(getStartPoll());
-        } catch (ParseException ex) {
-            System.err.println(ex);
+        return "edit-poll?faces-redirect=true&id=" + paramString;
+    }
+
+    public String stop() {
+
+        logic.resetPoll(paramID);
+
+        return "edit-poll?faces-redirect=true&id=" + paramString;
+    }
+
+    public String edit() {
+        poll.setDescription(pollDescription);
+        poll.setTitle(pollTitle);
+
+        boolean valid = poll.getItems().size() > 0;
+
+        for (ItemTO item : poll.getItems()) {
+
+            valid = valid && item.isValid();
+
         }
-        pollTO.setStartPoll(startDate);
+
+        poll.setValid(valid);
 
         Date endDate = null;
         try {
@@ -221,32 +291,34 @@ public class EditPollBean extends OrganizerBean {
         } catch (ParseException ex) {
             System.err.println(ex);
         }
-        pollTO.setEndPoll(endDate);
+        poll.setEndPoll(endDate);
 
-        logic.storePoll(pollTO);
+        logic.storePoll(poll);
 
-        pollTO = null;
+        poll = null;
 
         setPollTitle("");
         setPollDescription("");
         setStartPoll("");
         setEndPoll("");
-        return "my-polls";
+
+        return "edit-poll?faces-redirect=true&id=" + paramString;
     }
 
     public String addItem() {
 
         ItemTO itemTO = new ItemTO();
 
-        itemTO.setPoll(pollTO);
+        itemTO.setPoll(poll);
         itemTO.setTitle(itemTitle);
         itemTO.setItemType(ItemType.values()[Integer.parseInt(itemType)]);
 
         itemTO = logic.storeItem(itemTO);
-        
+
         if (itemTO.getItemType() == ItemType.YES_NO) {
             ItemOptionTO yes = new ItemOptionTO();
-            yes.setCount(0);
+            yes.setVotes(0);
+            
             yes.setTitle("Yes");
             yes.setItem(itemTO);
             yes.setDescription("");
@@ -254,12 +326,16 @@ public class EditPollBean extends OrganizerBean {
             logic.storeItemOption(yes);
 
             ItemOptionTO no = new ItemOptionTO();
-            no.setCount(0);
+            no.setVotes(0);
             no.setTitle("No");
             no.setItem(itemTO);
             yes.setDescription("");
-
+            
             logic.storeItemOption(no);
+            
+            
+            itemTO.setM(1);
+            itemTO = logic.storeItem(itemTO);
             return "edit-poll?faces-redirect=true&id=" + paramString;
         }
 
@@ -279,8 +355,21 @@ public class EditPollBean extends OrganizerBean {
 
         String title = (String) value;
 
-        if (!logic.uniquePollTitle(title,pollTO.getId())) {
+        if (!logic.uniquePollTitle(title, poll.getId())) {
             FacesMessage message = new FacesMessage("The title is not unique. Please choose another one");
+            message.setSeverity(FacesMessage.SEVERITY_ERROR);
+            context.addMessage(component.getClientId(), message);
+            throw new ValidatorException(message);
+        }
+
+    }
+
+    public void validateItemTitle(FacesContext context, UIComponent component, Object value) throws ValidatorException {
+
+        String title = (String) value;
+
+        if (!logic.isItemTitleUnique(paramID, title) && !title.equals("")) {
+            FacesMessage message = new FacesMessage("The item-title is not unique. Please choose another one");
             message.setSeverity(FacesMessage.SEVERITY_ERROR);
             context.addMessage(component.getClientId(), message);
             throw new ValidatorException(message);

@@ -7,6 +7,10 @@ package jjlm.votes.web.organizer;
 
 import java.util.List;
 import javax.enterprise.context.SessionScoped;
+import javax.faces.application.FacesMessage;
+import javax.faces.component.UIComponent;
+import javax.faces.context.FacesContext;
+import javax.faces.validator.ValidatorException;
 import javax.inject.Named;
 import jjlm.votes.logic.to.ItemOptionTO;
 import jjlm.votes.logic.to.ItemTO;
@@ -31,6 +35,8 @@ public class EditItemBean extends OrganizerBean {
 
     private ItemTO item;
 
+    private int itemM;
+
     public void init() {
 
         setItemTitle("");
@@ -42,11 +48,28 @@ public class EditItemBean extends OrganizerBean {
         try {
             setItemId(Integer.parseInt(RequestParameters.get("id")));
             item = logic.getItem(itemId);
+            item.setOptions(logic.getOptionsOfItem(itemId));
             setItemTitle(item.getTitle());
             setItemType(item.getItemType().ordinal());
         } catch (Exception e) {
 
         }
+    }
+
+    public ItemTO getItem() {
+        return item;
+    }
+
+    public void setItem(ItemTO item) {
+        this.item = item;
+    }
+
+    public int getItemM() {
+        return itemM;
+    }
+
+    public void setItemM(int itemM) {
+        this.itemM = itemM;
     }
 
     public int getItemType() {
@@ -92,6 +115,12 @@ public class EditItemBean extends OrganizerBean {
     public String save() {
         item.setItemType(ItemType.values()[getItemType()]);
         item.setTitle(itemTitle);
+        if (item.getItemType() == ItemType.M_OF_N) {
+            item.setM(itemM);
+        } else {
+            item.setM(1);
+        }
+
         logic.storeItem(item);
 
         return "edit-item?faces-redirect=true&id=" + getItemId();
@@ -109,7 +138,7 @@ public class EditItemBean extends OrganizerBean {
         to.setItem(item);
         to.setTitle(optionTitle);
         to.setDescription(optionDescription);
-        to.setCount(0);
+        to.setVotes(0);
 
         logic.storeItemOption(to);
 
@@ -123,6 +152,19 @@ public class EditItemBean extends OrganizerBean {
     public String deleteOption(int optionid) {
         logic.deleteItemOption(optionid);
         return "edit-item?faces-redirect=true&id=" + getItemId();
+    }
+
+    public void validateItemTitle(FacesContext context, UIComponent component, Object value) throws ValidatorException {
+
+        String title = (String) value;
+
+        if (!logic.isItemTitleUnique(item.getPoll().getId(), item.getId(), title) && !title.equals("")) {
+            FacesMessage message = new FacesMessage("The item-title is not unique. Please choose another one");
+            message.setSeverity(FacesMessage.SEVERITY_ERROR);
+            context.addMessage(component.getClientId(), message);
+            throw new ValidatorException(message);
+        }
+
     }
 
 }

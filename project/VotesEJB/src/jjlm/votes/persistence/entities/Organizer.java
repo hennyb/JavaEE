@@ -35,7 +35,7 @@ public class Organizer extends AbstractEntity<Organizer, OrganizerTO> {
         polls = new HashSet<>();
     }
 
-    @ManyToMany(mappedBy="organizer", cascade = CascadeType.REMOVE)
+    @OneToMany(mappedBy="organizer", cascade = CascadeType.REMOVE)
     public Set<Poll> getPolls() {
         return polls;
     }

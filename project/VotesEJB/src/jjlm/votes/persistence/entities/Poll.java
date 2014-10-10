@@ -15,6 +15,7 @@ import javax.persistence.Enumerated;
 import javax.persistence.FetchType;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Temporal;
 import jjlm.votes.logic.to.OrganizerTO;
@@ -36,7 +37,7 @@ public class Poll extends AbstractEntity<Poll, PollTO> {
 
     private Set<Item> items;
 
-    private Set<Organizer> organizer;
+    private Organizer organizer;
     private Set<Token> tokens;
     private Set<Participant> participants;
     
@@ -47,7 +48,6 @@ public class Poll extends AbstractEntity<Poll, PollTO> {
         super();
 
         items = new HashSet<>();
-        organizer = new HashSet<>();
         tokens = new HashSet<>();
         participants = new HashSet<>();
     }
@@ -87,13 +87,12 @@ public class Poll extends AbstractEntity<Poll, PollTO> {
         this.participants = participants;
     }
 
-    @ManyToMany
-    @JoinTable(name = "POLL_ORGANIZER")
-    public Set<Organizer> getOrganizer() {
+    @ManyToOne
+    public Organizer getOrganizer() {
         return organizer;
     }
 
-    public void setOrganizer(Set<Organizer> organizer) {
+    public void setOrganizer(Organizer organizer) {
         this.organizer = organizer;
     }
 
@@ -178,12 +177,7 @@ public class Poll extends AbstractEntity<Poll, PollTO> {
         to.setTitle(title);
         to.setPollState(pollState);
         to.setValid(valid);
-
-        if (getOrganizer() == null) {
-            to.setOrganizer(new ArrayList<OrganizerTO>());
-        } else {
-            to.setOrganizer(createTransferList(getOrganizer()));
-        }
+        to.setOrganizer(getOrganizer().createTO());
 
         return to;
     }

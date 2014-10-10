@@ -13,59 +13,79 @@ import jjlm.votes.logic.to.ItemTO;
 import jjlm.votes.logic.to.OrganizerTO;
 import jjlm.votes.logic.to.ParticipantTO;
 import jjlm.votes.logic.to.PollTO;
+import jjlm.votes.logic.to.TokenTO;
 
 @Remote
 public interface VotesLogic {
-    
+
     OrganizerTO getOrganizer(String email);
-    
+
     OrganizerTO findFirst();
-    
+
     OrganizerTO storeOrganizer(OrganizerTO to);
-    
+
     PollTO storePoll(PollTO to);
-    
-    PollTO addOrganizerToPoll(int organizerId, int pollId);
-    
+
     String getPlainString();
-    
-    List<PollTO> getPollsfromOrganizer(OrganizerTO to);
-    
+
     List<PollTO> getPollsfromOrganizer(int organizerID);
-    
+
     List<PollTO> getPollsfromOrganizer(int organizerID, int from, int to);
-    
-    List<PollTO> getAllPolls();
-    
-    PollTO getPoll(String name, String description);
-    
+
     PollTO getPoll(int pollId);
-    
-    PollState getStateOfPoll(int pollId);
-    
+
     List<ItemTO> getItemsOfPoll(int poollId);
-    
+
     ItemTO getItem(int itemId);
-    
+
     ItemTO storeItem(ItemTO to);
-    
+
     List<ItemOptionTO> getOptionsOfItem(int itemID);
-    
+
     ItemOptionTO storeItemOption(ItemOptionTO to);
-    
+
     void deleteItemOption(int itemOptionId);
-    
+
     void deleteItem(int itemId);
-    
+
     void deletePoll(int pollId);
-    
+
     List<ParticipantTO> getParticipantsOfPoll(int pollId);
-    
+
     ParticipantTO storeParticipant(ParticipantTO to);
-    
+
     void deleteParticipant(int participantId);
-    
+
     boolean uniquePollTitle(String title);
-    
+
     boolean uniquePollTitle(String title, int pollId);
+
+    List<TokenTO> getTokensOfPoll(int pollId);
+
+    void deleteToken(int tokenId);
+
+    void deleteTokensOfPoll(int pollId);
+
+    List<TokenTO> startPoll(int pollId);
+
+    void resetPoll(int pollId);
+
+    List<TokenTO> createTokensForPoll(int pollId);
+
+    void sendTeamInformationMail(int courseId);
+
+    boolean isItemTitleUnique(int pollId, String title);
+    
+    boolean isItemTitleUnique(int pollId, int itemId, String title);
+    
+    TokenTO getTokenBySignature(String signature);
+    
+    void incrementItemOptionCount(int optionId);
+    
+    void incrementAbstainedItem(int itemId);
+    
+    long getParticipation(int pollId);
+
+    TokenTO storeToken(TokenTO token);
+
 }

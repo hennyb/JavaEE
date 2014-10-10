@@ -55,20 +55,32 @@
                                 <label class="col-sm-1 control-label">Title</label>
                                 <div class="col-sm-11">
                                     <h:inputText 
-                                        styleClass="form-control" value="#{editItemBean.itemTitle}"></h:inputText>
+                                        id="itemTitle"
+                                        styleClass="form-control" 
+                                        validator ="#{editItemBean.validateItemTitle}"
+                                        value="#{editItemBean.itemTitle}"></h:inputText>
+                                </div>
+                                <h:message for="itemTitle"/>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-sm-1 control-label">Type</label>
+                                <div class="col-sm-11">
+
+                                    <h:selectOneMenu value="#{editItemBean.itemType}"
+                                                     styleClass="col-md-12 form-control">
+                                        <f:selectItems value="#{editPollBean.itemTypes}" 
+                                                       itemLabel="#{itemType}" var="itemType" itemValue="#{itemType.ordinal()}"/>
+                                    </h:selectOneMenu>
                                 </div>
                             </div>
                             <c:choose>
-                                <c:when test="#{editItemBean.itemType!=0}">
+                                <c:when test="#{editItemBean.itemType==2}">
                                     <div class="form-group">
-                                        <label class="col-sm-1 control-label">Type</label>
-                                        <div class="col-sm-11">
+                                        <label class="col-sm-1 control-label">M</label>
 
-                                            <h:selectOneMenu value="#{editItemBean.itemType}"
-                                                             styleClass="col-md-12 form-control">
-                                                <f:selectItems value="#{editPollBean.itemTypes}" 
-                                                               itemLabel="#{itemType}" var="itemType" itemValue="#{itemType.ordinal()}"/>
-                                            </h:selectOneMenu>
+                                        <div class="col-sm-11">
+                                            <h:inputText 
+                                                styleClass="form-control" value="#{editItemBean.itemM}"></h:inputText>
                                         </div>
                                     </div>
                                 </c:when>

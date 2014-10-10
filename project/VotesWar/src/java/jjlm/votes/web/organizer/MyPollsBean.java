@@ -26,11 +26,6 @@ public class MyPollsBean extends OrganizerBean  {
     private int max;
     
 
-    public String getPollState(String id) {
-        return logic.getStateOfPoll(Integer.parseInt(id)).toString();
-    }
-    
-    
     
     public MyPollsBean() {
         
@@ -39,7 +34,7 @@ public class MyPollsBean extends OrganizerBean  {
     
     public List<PollTO> getMyPolls() {
         try{
-            return logic.getPollsfromOrganizer(logic.getOrganizer(this.getOrganizer().getEmail()));
+            return logic.getPollsfromOrganizer(this.getOrganizer().getId());
         
         }catch(Exception e){
             

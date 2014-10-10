@@ -5,9 +5,10 @@
  */
 package jjlm.logic.impl;
 
+import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 import java.util.UUID;
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
@@ -18,6 +19,7 @@ import jjlm.votes.logic.to.ItemTO;
 import jjlm.votes.logic.to.OrganizerTO;
 import jjlm.votes.logic.to.ParticipantTO;
 import jjlm.votes.logic.to.PollTO;
+import jjlm.votes.logic.to.TokenTO;
 import jjlm.votes.persistence.ItemAccess;
 import jjlm.votes.persistence.ItemOptionAccess;
 import jjlm.votes.persistence.OrganizerAccess;
@@ -49,7 +51,7 @@ public class VotesLogicImpl implements VotesLogic {
 
     @EJB
     private ParticipantAccess pta;
-    
+
     @EJB
     private TokenAccess ta;
 
@@ -77,16 +79,11 @@ public class VotesLogicImpl implements VotesLogic {
         poll.setStartPoll(to.getStartPoll());
         poll.setValid(to.isValid());
 
-        Set<Organizer> organizer = poll.getOrganizer();
-        for (Organizer o : organizer) {
-            o.getPolls().remove(poll);
-        }
-        organizer.clear();
+        poll.setOrganizer(oa.find(to.getOrganizer().getId()));
+        poll.setPollState(to.getPollState());
 
-        for (OrganizerTO oto : to.getOrganizer()) {
-            Organizer o = oa.find(oto.getId());
-            organizer.add(o);
-            o.getPolls().add(poll);
+        if (to.getStartPoll() == null || to.getPollState() == null) {
+            poll.setPollState(PollState.PREPARED);
         }
 
         if (to.getId() == null) {
@@ -137,52 +134,48 @@ public class VotesLogicImpl implements VotesLogic {
     }
 
     @Override
-    public List<PollTO> getAllPolls() {
-        return AbstractEntity.createTransferList(pa.getAllPolls());
-    }
-
-    @Override
     public List<PollTO> getPollsfromOrganizer(int organizerID) {
-        return AbstractEntity.createTransferList(pa.getPolls(1));
-    }
-
-    @Override
-    public List<PollTO> getPollsfromOrganizer(OrganizerTO to) {
-        return AbstractEntity.createTransferList(pa.getPolls(to.getId()));
+        for (PollTO p : AbstractEntity.createTransferList(pa.getPolls(organizerID))) {
+            if (p.getPollState() != null
+                    && p.getEndPoll() != null
+                    && p.getPollState() != PollState.FINISHED && p.getEndPoll().getTime() < new Date().getTime()) {
+                p.setPollState(PollState.FINISHED);
+                storePoll(p);
+            }
+        }
+        return AbstractEntity.createTransferList(pa.getPolls(organizerID));
     }
 
     @Override
     public List<PollTO> getPollsfromOrganizer(int organizerID, int offset, int max) {
-        System.out.println("listsize: " + pa.getAllPolls().size());
+        for (PollTO p : AbstractEntity.createTransferList(pa.getPolls(organizerID))) {
+            if (p.getPollState() != null
+                    && p.getEndPoll() != null
+                    && p.getPollState() != PollState.FINISHED && p.getEndPoll().getTime() < new Date().getTime()) {
+                p.setPollState(PollState.FINISHED);
+                storePoll(p);
+            }
+        }
         return AbstractEntity.createTransferList(pa.getAllPolls());
     }
 
     @Override
-    public PollTO addOrganizerToPoll(int organizerId, int pollId) {
-        PollTO poll = pa.addOrganizerToPoll(pollId, organizerId).createTO();
-
-        return poll;
-    }
-
-    @Override
-    public PollTO getPoll(String name, String description) {
-        return pa.getPoll(name, description).createTO();
-    }
-
-    @Override
     public PollTO getPoll(int pollId) {
-        
+
         // PollTO poll = pa.find(pollId).createTO();
         // this.storePoll(poll);
         // return poll;
-        
-        return pa.find(pollId).createTO();
-    }
+        Poll poll = pa.find(pollId);
 
-    @Override
-    public PollState getStateOfPoll(int pollId) {
-        //return PollState.FINISHED;
-        return pa.getStateOfPoll(pollId);
+        if (poll.getEndPoll() != null && poll.getEndPoll().getTime() < new Date().getTime()) {
+            if (poll.getPollState() != null && poll.getPollState() != PollState.FINISHED) {
+                poll.setPollState(PollState.FINISHED);
+                storePoll(poll.createTO());
+            }
+
+        }
+
+        return pa.find(pollId).createTO();
     }
 
     @Override
@@ -195,17 +188,25 @@ public class VotesLogicImpl implements VotesLogic {
 
         Item item = to.getId() == null ? new Item() : ia.find(to.getId());
 
+        Poll poll = pa.find(to.getPoll().getId());
+
         item.setItemType(to.getItemType());
         item.setTitle(to.getTitle());
-        item.setPoll(pa.find(to.getPoll().getId()));
+        item.setPoll(poll);
         item.setId(to.getId());
         item.setValid(to.isValid());
+        item.setM(to.getM());
+        item.setAbstainedVotes(to.getAbstainedVotes());
 
         if (to.getId() == null) {
+            item.setAbstainedVotes(0);
             ia.create(item);
         } else {
             item = ia.edit(item);
         }
+
+        validateItem(item.getId());
+        validatePoll(poll.getId());
 
         return item.createTO();
 
@@ -219,30 +220,41 @@ public class VotesLogicImpl implements VotesLogic {
     @Override
     public ItemOptionTO storeItemOption(ItemOptionTO to) {
         ItemOption option = to.getId() == null ? new ItemOption() : ioa.find(to.getId());
-
+        Item item = ia.find(to.getItem().getId());
         option.setDescription(to.getDescription());
-        option.setCount(to.getCount());
-        option.setItem(ia.find(to.getItem().getId()));
+        option.setVotes(to.getVotes());
+        option.setItem(item);
         option.setTitle(to.getTitle());
         option.setId(to.getId());
 
         if (to.getId() == null) {
+            option.setVotes(0);
             ioa.create(option);
         } else {
             option = ioa.edit(option);
         }
+        validateItem(item.getId());
+        validatePoll(item.getPoll().getId());
 
         return option.createTO();
     }
 
     @Override
     public ItemTO getItem(int itemId) {
-        return ia.find(itemId).createTO();
+        Item item = ia.find(itemId);
+        return item.createTO();
     }
 
     @Override
     public void deleteItemOption(int itemOptionId) {
+        ItemOption io = ioa.find(itemOptionId);
+        Item item = ia.find(io.getItem().getId());
+
         ioa.remove(ioa.find(itemOptionId));
+
+        validateItem(item.getId());
+        validatePoll(item.getPoll().getId());
+
     }
 
     @Override
@@ -252,8 +264,9 @@ public class VotesLogicImpl implements VotesLogic {
         for (ItemOptionTO o : getOptionsOfItem(itemId)) {
             deleteItemOption(o.getId());
         }
-
         ia.remove(item);
+
+        validatePoll(item.getPoll().getId());
     }
 
     @Override
@@ -266,7 +279,11 @@ public class VotesLogicImpl implements VotesLogic {
         for (ParticipantTO participant : getParticipantsOfPoll(pollId)) {
             deleteParticipant(participant.getId());
         }
-        
+
+        for (TokenTO token : getTokensOfPoll(pollId)) {
+            deleteToken(token.getId());
+        }
+
         pa.remove(poll);
     }
 
@@ -274,22 +291,16 @@ public class VotesLogicImpl implements VotesLogic {
     public ParticipantTO storeParticipant(ParticipantTO to) {
         Participant participant = to.getId() == null ? new Participant() : pta.find(to.getId());
 
+        Poll poll = pa.find(to.getPoll().getId());
         participant.setEmail(to.getEmail());
-        participant.setPoll(pa.find(to.getPoll().getId()));
+        participant.setPoll(poll);
         participant.setHasVoted(to.isHasVoted());
         participant.setId(to.getId());
 
         if (to.getId() == null) {
             pta.create(participant);
-            
-            Token token = new Token();
-            token.setInvalid(false);
-            token.setPoll(participant.getPoll());
-            token.setParticipant(participant);
-            token.setSignature(UUID.randomUUID().toString());
-            
-            ta.create(token);
-            
+            validatePoll(poll.getId());
+
         } else {
             participant = pta.edit(participant);
         }
@@ -299,10 +310,14 @@ public class VotesLogicImpl implements VotesLogic {
 
     @Override
     public void deleteParticipant(int participantId) {
-        for(Token t: ta.getTokenOfParticipant(participantId)){
+        Participant participant = pta.find(participantId);
+        for (Token t : ta.getTokenOfParticipant(participantId)) {
             ta.remove(t);
         }
-        pta.remove(pta.find(participantId));
+        pta.remove(participant);
+
+        validatePoll(participant.getPoll().getId());
+
     }
 
     @Override
@@ -319,4 +334,190 @@ public class VotesLogicImpl implements VotesLogic {
     public boolean uniquePollTitle(String title, int pollId) {
         return pa.uniqueTitle(title, pollId);
     }
+
+    @Override
+    public List<TokenTO> getTokensOfPoll(int pollId) {
+        return AbstractEntity.createTransferList(ta.getTokensOfPoll(pollId));
+    }
+
+    @Override
+    public void deleteToken(int tokenId) {
+        ta.remove(ta.find(tokenId));
+    }
+
+    @Override
+    public void deleteTokensOfPoll(int pollId) {
+        for (TokenTO token : getTokensOfPoll(pollId)) {
+            deleteToken(token.getId());
+        }
+    }
+
+    @Override
+    public void resetPoll(int pollId) {
+
+        PollTO to = getPoll(pollId);
+        to.setStartPoll(null);
+        to.setPollState(PollState.PREPARED);
+
+        storePoll(to);
+
+        ioa.resetCount(pollId);
+        ia.resetAbstainedVotes(pollId);
+        deleteTokensOfPoll(pollId);
+
+    }
+
+    @Override
+    public List<TokenTO> createTokensForPoll(int pollId) {
+        List<Token> tokens = new ArrayList<>();
+
+        for (Participant participant : pta.getParticipantsOfPoll(pollId)) {
+
+            Token token = new Token();
+            token.setInvalid(false);
+            token.setPoll(participant.getPoll());
+            token.setParticipant(participant);
+            token.setSignature(UUID.randomUUID().toString());
+
+            ta.create(token);
+
+            tokens.add(token);
+
+        }
+
+        return AbstractEntity.createTransferList(tokens);
+
+    }
+
+    @Override
+    public List<TokenTO> startPoll(int pollId) {
+
+        PollTO poll = getPoll(pollId);
+        poll.setStartPoll(new Date());
+        poll.setPollState(PollState.STARTED);
+
+        storePoll(poll);
+
+        return createTokensForPoll(pollId);
+
+    }
+
+    @Override
+    public void sendTeamInformationMail(int courseId) {
+//        try {
+//            Message msg = new MimeMessage(mailSession);
+//            msg.setSubject("Test vom Glassfish äöüÄÖÜß€µ∫");
+//            msg.setSentDate(new Date());
+//            msg.setReplyTo(InternetAddress.parse("riediger@uni-koblenz.de", false));
+//            msg.setRecipients(Message.RecipientType.TO,
+//                    InternetAddress.parse("riediger@uni-koblenz.de", false));
+//            msg.setText("Test\n\nUmlaute: äöüÄÖÜß€µ∫\n\n-- \n"
+//                    + "Viele Grüße: Volker Riediger");
+//            Transport.send(msg);
+//        } catch (MessagingException ex) {
+//
+//        }
+    }
+
+    private void validateItem(int itemId) {
+
+        System.out.println(itemId);
+
+        Item item = ia.find(itemId);
+        List<ItemOptionTO> options = this.getOptionsOfItem(itemId);
+
+        boolean valid
+                = 0 <= item.getM() && item.getM() <= options.size()
+                && 2 <= options.size();
+
+        if (valid != item.isValid()) {
+
+            item.setValid(valid);
+            ia.edit(item);
+
+        }
+
+    }
+
+    private void validatePoll(int pollId) {
+        Poll poll = pa.find(pollId);
+
+        boolean b = getItemsOfPoll(poll.getId()).size() > 0 && pa.allItemsValid(poll.getId());
+
+        b &= getParticipantsOfPoll(pollId).size() >= 3;
+
+        if (poll.getPollState() == PollState.PREPARED) {
+
+            b &= new Date().getTime() < poll.getEndPoll().getTime();
+
+        }
+
+        if (b != poll.isValid()) {
+
+            poll.setValid(b);
+            pa.edit(poll);
+
+        }
+    }
+
+    @Override
+    public boolean isItemTitleUnique(int pollId, String title) {
+        return ia.isItemTitleUnique(pollId, title);
+    }
+
+    @Override
+    public boolean isItemTitleUnique(int pollId, int itemId, String title) {
+        return ia.isItemTitleUnique(pollId, itemId, title);
+    }
+
+    @Override
+    public TokenTO getTokenBySignature(String signature) {
+        TokenTO t = ta.getTokenBySignature(signature).createTO();
+        t.getPoll().setItems(getItemsOfPoll(t.getPoll().getId()));
+        for (ItemTO item : t.getPoll().getItems()) {
+            item.setOptions(getOptionsOfItem(item.getId()));
+        }
+        return t;
+    }
+
+    @Override
+    public void incrementItemOptionCount(int optionId) {
+        ioa.incrementCount(optionId);
+    }
+
+    @Override
+    public void incrementAbstainedItem(int itemId) {
+
+        ItemTO item = getItem(itemId);
+        item.setAbstainedVotes(item.getAbstainedVotes() + 1);
+
+        storeItem(item);
+
+    }
+
+    @Override
+    public long getParticipation(int pollId) {
+        return pa.getParticipation(pollId);
+    }
+
+    @Override
+    public TokenTO storeToken(TokenTO to) {
+        Token t = to.getId() == null ? new Token() : ta.find(to.getId());
+
+        t.setId(to.getId());
+        t.setInvalid(to.isInvalid());
+        t.setParticipant(pta.find(to.getParticipant().getId()));
+        t.setSignature(to.getSignature());
+        t.setPoll(pa.find(to.getPoll().getId()));
+
+        if (to.getId() == null) {
+            ta.create(t);
+
+        } else {
+            t = ta.edit(t);
+        }
+
+        return t.createTO();
+    }
+
 }

@@ -5,7 +5,6 @@
  */
 package jjlm.votes.persistence.entities;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.ManyToOne;
 import jjlm.votes.logic.to.ItemOptionTO;
@@ -18,12 +17,22 @@ public class ItemOption extends AbstractEntity<ItemOption, ItemOptionTO> {
     
     private Item item;
     
-    private int count;
+    private Integer votes;
 
     public ItemOption() {
         super();
         
     }
+
+    public Integer getVotes() {
+        return votes;
+    }
+
+    public void setVotes(Integer votes) {
+        this.votes = votes;
+    }
+    
+    
     public String getDescription() {
         return this.description;
     }
@@ -38,14 +47,6 @@ public class ItemOption extends AbstractEntity<ItemOption, ItemOptionTO> {
 
     public void setItem(Item item) {
         this.item = item;
-    }
-
-    public int getCount() {
-        return count;
-    }
-
-    public void setCount(int count) {
-        this.count = count;
     }
 
     public String getTitle() {
@@ -63,7 +64,7 @@ public class ItemOption extends AbstractEntity<ItemOption, ItemOptionTO> {
         to.setId(id);
         to.setItem(item.createTO());
         to.setDescription(description);
-        to.setCount(count);
+        to.setVotes(votes);
         to.setTitle(title);
         return to;
     }

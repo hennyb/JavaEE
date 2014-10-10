@@ -34,6 +34,7 @@ public abstract class AbstractAccess<E extends AbstractEntity<E, T>, T extends A
     public E edit(E entity) {
         E result = getEntityManager().merge(entity);
         getEntityManager().flush();
+        getEntityManager().clear();
         return result;
     }
 

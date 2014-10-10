@@ -30,7 +30,7 @@ public class PollTO extends AbstractEntityTO {
 
     private List<ItemTO> items;
     
-    private List<OrganizerTO> organizer;
+    private OrganizerTO organizer;
     private List<TokenTO> tokens;
     private List<ParticipantTO> participants;
     
@@ -38,7 +38,6 @@ public class PollTO extends AbstractEntityTO {
 
     public PollTO() {
         items = new ArrayList<>();
-        organizer = new ArrayList<>();
         tokens = new ArrayList<>();
         participants = new ArrayList<>();
     }
@@ -76,11 +75,11 @@ public class PollTO extends AbstractEntityTO {
         this.items = items;
     }
 
-    public List<OrganizerTO> getOrganizer() {
+    public OrganizerTO getOrganizer() {
         return organizer;
     }
 
-    public void setOrganizer(List<OrganizerTO> organizer) {
+    public void setOrganizer(OrganizerTO organizer) {
         this.organizer = organizer;
     }
 
