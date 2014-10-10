@@ -11,6 +11,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
+import javax.ejb.EJB;
 import javax.enterprise.context.SessionScoped;
 import javax.faces.application.FacesMessage;
 import javax.faces.component.UIComponent;
@@ -23,6 +24,7 @@ import jjlm.votes.logic.to.ParticipantTO;
 import jjlm.votes.logic.to.PollTO;
 import jjlm.votes.persistence.entities.ItemType;
 import jjlm.votes.persistence.entities.PollState;
+import jjlm.votes.web.MailerBean;
 import jjlm.votes.web.help.RequestParameters;
 import jjlm.votes.web.logic.ParticipantListParser;
 
@@ -33,6 +35,8 @@ import jjlm.votes.web.logic.ParticipantListParser;
 @Named
 @SessionScoped
 public class EditPollBean extends OrganizerBean {
+    @EJB
+    private MailerBean mailerBean;
 
     private PollTO poll;
     private int paramID;
@@ -259,7 +263,11 @@ public class EditPollBean extends OrganizerBean {
     public String start() {
         edit();
         logic.startPoll(paramID);
-
+        
+        // send mails to participants
+        mailerBean.init(paramID);
+        mailerBean.sendMails();
+   
         return "edit-poll?faces-redirect=true&id=" + paramString;
     }
 

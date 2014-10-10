@@ -6,70 +6,87 @@
 package jjlm.votes.web;
 
 import java.util.List;
-import javax.enterprise.context.RequestScoped;
+import java.util.Properties;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.ejb.Asynchronous;
+import javax.ejb.EJB;
+import javax.ejb.Stateless;
 import javax.inject.Named;
-import jjlm.votes.logic.to.ItemTO;
+import javax.mail.Message;
+import javax.mail.MessagingException;
+import javax.mail.Session;
+import javax.mail.Transport;
+import javax.mail.internet.InternetAddress;
+import javax.mail.internet.MimeMessage;
+import jjlm.logic.VotesLogic;
 import jjlm.votes.logic.to.ParticipantTO;
 import jjlm.votes.logic.to.PollTO;
 import jjlm.votes.logic.to.TokenTO;
-import jjlm.votes.web.help.RequestParameters;
-import jjlm.votes.web.organizer.OrganizerBean;
 
 /**
  *
  * @author lukas
  */
 @Named
-@RequestScoped
-public class MailerBean extends OrganizerBean {
+@Stateless
+public class MailerBean {
 
+    @EJB
+    protected VotesLogic logic;
+    
     private PollTO poll;
-    private int paramID;
-    private String paramString;
+    private int pollId;
     private TokenTO token;
-        
-
-    public void init() {
-        paramString = RequestParameters.get("id");
+    
+    private static final Properties fMailServerConfig = new Properties();
+    
+    public void init(Integer pollId) {
+        this.pollId = pollId;
         try {
-            this.paramID = Integer.parseInt(paramString);
-            this.poll = logic.getPoll(this.paramID);
+            this.poll = logic.getPoll(this.pollId);
             
-            List<ParticipantTO> participants = logic.getParticipantsOfPoll(this.paramID);
+            List<ParticipantTO> participants = logic.getParticipantsOfPoll(this.pollId);
             
             for (ParticipantTO participant: participants) {
-               participant.setToken(logic.getTokensOfPollAndParticipant(paramID, participant.getId()));
+               participant.setToken(logic.getTokensOfPollAndParticipant(this.pollId, participant.getId()));
             }
                  
             this.poll.setParticipants(participants);
         } catch (Exception e) {
             System.err.println(e);
         }
-
     }
     
-    
+    @Asynchronous
     public void sendMails() {
-        
+        for (ParticipantTO participant: this.poll.getParticipants()) {
+            this.sendMail(participant);
+        }
     }
     
-    public void sendMail(ParticipantTO participant) {
-        
+    private void sendMail(ParticipantTO participant) {
+        try {
+            Session session = Session.getDefaultInstance(fMailServerConfig, null);
+            MimeMessage message = new MimeMessage(session);
+            
+            message.setSubject(this.poll.getTitle());
+            message.setRecipient(Message.RecipientType.TO, new InternetAddress(participant.getEmail()));
+            message.setText(this.getMailBody(participant));
+            
+            Transport.send(message);
+ 
+            Logger.getLogger(MailerBean.class.getName()).log(Level.INFO, "Mail sent to: {0}", participant.getEmail());
+        } catch (MessagingException ex) {
+            Logger.getLogger(MailerBean.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
     
-    public String getMailBody(ParticipantTO participant) {
+    private String getMailBody(ParticipantTO participant) {
         String result =  "Hi,\n";
-        result += "Here is your Link to the Poll:  poll.xhtml?id=" + this.paramID;
+        result += "Here is your Link to the Poll:  poll.xhtml?id=" + this.poll.getId();
         result += "Your Token is: " + participant.getToken().getSignature();
         return result;
-    }
-    
-    public PollTO getPoll() {
-        return this.poll;
-    }
-
-    public void setPoll(PollTO poll) {
-        this.poll = poll;
     }
 
 }
