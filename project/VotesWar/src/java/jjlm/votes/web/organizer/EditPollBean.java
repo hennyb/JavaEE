@@ -176,6 +176,12 @@ public class EditPollBean extends OrganizerBean {
 
     }
     
+    public boolean showPoll () {
+        
+        return poll.getOrganizer().getId() == this.getOrganizer().getId();
+        
+    }
+    
     /**
      * Initializes EditPollBean on request (redirect)
      */

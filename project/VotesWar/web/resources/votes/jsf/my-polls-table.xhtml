@@ -5,6 +5,37 @@
     xmlns:f="http://xmlns.jcp.org/jsf/core"
     xmlns:c="http://xmlns.jcp.org/jsp/jstl/core">
 
+
+    <div class="btn-toolbar">
+
+        <h:form>
+
+            
+            <c:choose>
+                <c:when test="#{myPollsBean.hasPrev()}">
+                    <h:commandLink
+                        styleClass="btn btn-success pull-left"
+                        action="#{myPollsBean.prev()}">
+                        <span class="glyphicon glyphicon-chevron-left"></span>
+                    </h:commandLink>
+                </c:when>
+                <c:when test="#{myPollsBean.hasNext()}">
+                    <h:commandLink
+                        styleClass="btn btn-success pull-right"
+                        action="#{myPollsBean.next()}">
+                        <span class="glyphicon glyphicon-chevron-right"></span>
+                    </h:commandLink>
+                </c:when>
+            </c:choose>
+            
+
+
+        </h:form>
+
+    </div>
+    
+    <br></br>
+    
     <table class="table table-bordered table-hover">
 
         <thead>
@@ -28,8 +59,11 @@
                         <td>
                             <c:choose>
                                 <c:when test="#{poll.pollState == 4}">
-                            <h:link outcome="result" value="Show Result"><f:param name="id" value="#{poll.id}"/></h:link>
+                                    <h:link outcome="result" value="Show Result"><f:param name="id" value="#{poll.id}"/></h:link>
                                 </c:when>
+                                <c:otherwise>
+                                    Results are not available yet.
+                                </c:otherwise>
                             </c:choose>
                             
                         </td>
@@ -47,16 +81,18 @@
             
             <c:choose>
                 <c:when test="#{myPollsBean.hasPrev()}">
-                    <h:commandButton
-                        styleClass="btn btn-primary pull-left"
-                        value="prev"
-                        action="#{myPollsBean.prev()}"></h:commandButton>
+                    <h:commandLink
+                        styleClass="btn btn-success pull-left"
+                        action="#{myPollsBean.prev()}">
+                        <span class="glyphicon glyphicon-chevron-left"></span>
+                    </h:commandLink>
                 </c:when>
                 <c:when test="#{myPollsBean.hasNext()}">
-                    <h:commandButton
-                        styleClass="btn btn-primary pull-right"
-                        value="next"
-                        action="#{myPollsBean.next()}"></h:commandButton>
+                    <h:commandLink
+                        styleClass="btn btn-success pull-right"
+                        action="#{myPollsBean.next()}">
+                        <span class="glyphicon glyphicon-chevron-right"></span>
+                    </h:commandLink>
                 </c:when>
             </c:choose>
             

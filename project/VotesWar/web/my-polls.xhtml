@@ -16,10 +16,16 @@
     
     <ui:define name="html-title">My Polls</ui:define>
     
-    <ui:define name="organizer-polls-title">My Polls (#{myPollsBean.myPollsCount})</ui:define>
+    <ui:define name="organizer-polls-title">My Polls</ui:define>
     
     <ui:define name="organizer-polls-content">
 
+        <div class="row">
+            <div class="col-md-12">
+                <h4>You have #{myPollsBean.myPollsCount} polls.</h4>
+            </div>
+        </div>
+        
         <div class="row">
             <div class="col-md-12">
                 <ui:include src="./resources/votes/jsf/my-polls-table.xhtml"></ui:include>

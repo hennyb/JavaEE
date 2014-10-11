@@ -14,37 +14,57 @@
         <f:viewAction action="#{editItemBean.init()}"></f:viewAction>
     </f:metadata>
 
-    <ui:define name="html-title">EditItem</ui:define>
+    <ui:define name="html-title">Edit Item</ui:define>
 
     <ui:define name="organizer-polls-title">
-        Item: #{editItemBean.itemTitle}
+        Edit Item 
     </ui:define>
 
     <ui:define name="organizer-polls-content">
 
+        <h:form styleClass="form-horizontal">
+
+        <div class="row">
+            <div class="col-md-12">
+                <h2>
+                    <ol class="breadcrumb">
+                        <li>
+                            <h:link outcome="edit-poll">
+                                <f:param name="id" value="#{editItemBean.item.poll.id}"></f:param>
+                                #{editItemBean.item.poll.title}
+                            </h:link>
+                        </li>
+                        <li>
+                            #{editItemBean.itemTitle}
+                        </li>
+                    </ol>
+                    
+                    <div class="btn-toolbar pull-right">
+
+                        <h:commandButton
+                            styleClass="btn btn-primary"
+                            value="Save"
+                            action="#{editItemBean.save()}"></h:commandButton>
+
+                        <h:commandButton
+                            styleClass="btn btn-primary"
+                            value="Delete"
+                            action="#{editItemBean.delete()}"></h:commandButton>
+
+                    </div>
+                            
+                    
+                </h2>
+                
+            </div>
+        </div>
+        
         <div class="row">
             <div class="col-md-12">
 
-                <h:form styleClass="form-horizontal">
-
                     <div class="row">
                         <div class="col-md-12">
-                            <h3>Settings
-
-                                <div class="btn-toolbar pull-right">
-
-                                    <h:commandButton
-                                        styleClass="btn btn-primary"
-                                        value="Save"
-                                        action="#{editItemBean.save()}"></h:commandButton>
-
-                                    <h:commandButton
-                                        styleClass="btn btn-primary"
-                                        value="Delete"
-                                        action="#{editItemBean.delete()}"></h:commandButton>
-
-                                </div>
-                            </h3>
+                            <h3>Settings</h3>
                             <hr></hr>
                         </div>
                     </div>
@@ -174,11 +194,14 @@
                     </c:choose>
 
 
-                </h:form>
 
             </div>
         </div>
+                    
+        <br></br>
+        <br></br>
 
+        </h:form>
 
     </ui:define>
 

@@ -7,8 +7,9 @@
         xmlns:votes="http://java.sun.com/jsf/composite/votes/jsf">
   
     <div class="row">
-        <div class="col-md-12">
-            <h1 class="text-center">Welcome to Votes!</h1>
+        <div class="col-md-12 text-center">
+            <h1>Welcome to Votes!</h1>
+            <h4>~ Electronic Polls made easy ~</h4>
             <hr></hr>
         </div>
     </div>
@@ -22,35 +23,44 @@
 
                 <votes:image styleClass="col-md-4 col-sm-3 col-xs-4 img-responsive" src="votes/img/votes.png"></votes:image>
                 
-                <div class="col-md-8 col-sm-9 col-xs-8">
+                <div class="col-md-6 col-sm-6 col-xs-6">
 
-                    <h:form styleClass="form-horizontal">
+                    <h:form styleClass="form-horizontal alert alert-success">
 
                         <div class="row">
                             <div class="col-md-12">
 
-                                    <div class="form-group">
-                                        <label class="col-sm-2 control-label">Email</label>
-                                        <div class="col-sm-4">
-                                            <h:inputText 
-                                                styleClass="form-control" 
-                                                value="#{userBean.email}"></h:inputText>
-                                        </div>
+                                <div class="form-group">
+                                    <label class="col-sm-2 control-label">Email</label>
+                                    <div class="col-sm-10">
+                                        <h:inputText 
+                                            styleClass="form-control" 
+                                            value="#{userBean.email}"></h:inputText>
                                     </div>
+                                </div>
 
-                                    <div class="form-group">
-                                        <label class="col-sm-2 control-label">Password</label>
-                                        <div class="col-sm-4">
-                                            <h:inputSecret 
-                                                styleClass="form-control" 
-                                                value="#{userBean.password}"></h:inputSecret>
-                                        </div>
+                                <div class="form-group">
+                                    <label class="col-sm-2 control-label">Password</label>
+                                    <div class="col-sm-10">
+                                        <h:inputSecret 
+                                            styleClass="form-control" 
+                                            value="#{userBean.password}"></h:inputSecret>
                                     </div>
+                                </div>
 
-                                    <h:commandButton 
-                                        styleClass="btn btn-primary"
-                                        value="Sign In"  
-                                        action="#{userBean.login()}"></h:commandButton>
+                                <div class="form-group">
+                    
+                                    <div class="col-sm-12 text-center">
+                                        
+                                        <h:commandButton 
+                                            styleClass="btn btn-primary"
+                                            value="Sign In"  
+                                            action="#{userBean.login()}"></h:commandButton>
+                                        
+                                    </div>
+                                    
+                                </div>
+                                
 
                             </div>
                         </div>
