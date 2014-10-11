@@ -8,7 +8,7 @@
         
         <navigation-case>
             <from-outcome>index</from-outcome>
-            <to-view-id>/index.html</to-view-id>
+            <to-view-id>/my-polls.html</to-view-id>
             <ridirect/>
         </navigation-case>
         
