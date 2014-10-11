@@ -16,7 +16,7 @@
                     <div class="col-sm-4">
                         <h:inputText 
                             styleClass="form-control" 
-                            value="#{signInBean.username}"></h:inputText>
+                            value="#{registerBean.username}"></h:inputText>
                     </div>
                 </div>
 
@@ -25,7 +25,7 @@
                     <div class="col-sm-4">
                         <h:inputText 
                             styleClass="form-control" 
-                            value="#{signInBean.realname}"></h:inputText>
+                            value="#{registerBean.realname}"></h:inputText>
                     </div>
                 </div>
 
@@ -34,25 +34,25 @@
                     <div class="col-sm-4">
                         <h:inputText 
                             styleClass="form-control" 
-                            value="#{signInBean.email}"></h:inputText>
+                            value="#{registerBean.email}"></h:inputText>
                     </div>
                 </div>
 
                 <div class="form-group">
                     <label class="col-sm-2 control-label">Password1</label>
                     <div class="col-sm-4">
-                        <h:inputText 
+                        <h:inputSecret 
                             styleClass="form-control" 
-                            value="#{signInBean.password1}"></h:inputText>
+                            value="#{registerBean.password1}"></h:inputSecret>
                     </div>
                 </div>
 
                 <div class="form-group">
                     <label class="col-sm-2 control-label">Password2</label>
                     <div class="col-sm-4">
-                        <h:inputText 
+                        <h:inputSecret 
                             styleClass="form-control" 
-                            value="#{signInBean.password2}"></h:inputText>
+                            value="#{registerBean.password2}"></h:inputSecret>
                     </div>
                 </div>
 
@@ -61,9 +61,9 @@
                     <div class="col-sm-6 text-center">
                         
                         <h:commandButton 
-                        value="Sign In" 
+                        value="Register" 
                         styleClass="btn btn-primary btn-lg" 
-                        action="#{signInBean.signin()}"></h:commandButton>
+                        action="#{registerBean.register()}"></h:commandButton>
                         
                     </div>
                     

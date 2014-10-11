@@ -1,13 +1,10 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
-
 package jjlm.votes.web;
 
+import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.ejb.EJB;
 import javax.enterprise.context.RequestScoped;
 import javax.inject.Inject;
@@ -17,14 +14,15 @@ import jjlm.votes.logic.to.OrganizerTO;
 import jjlm.votes.logic.to.PollTO;
 import jjlm.votes.persistence.entities.Organizer;
 import jjlm.votes.persistence.entities.Poll;
-/**
- *
- * @author darjeeling
- */
+import jjlm.votes.web.logic.HashGenerator;
 
+/**
+ * BackingBean to register new Users
+ * 
+ */
 @Named
 @RequestScoped
-public class SignInBean {
+public class RegisterBean {
     
     private String username;
     private String realname;
@@ -76,16 +74,26 @@ public class SignInBean {
         this.email = email;
     }
     
-    public String signin () {
+    public String register () {
         
-        Organizer organizer = new Organizer();
-        organizer.setEmail(email);
-        organizer.setEncryptedPassword(password1);
-        organizer.setRealname(realname);
-        organizer.setUsername(username);
+        try {
+            
+            String pwdHash = (new HashGenerator()).generateHash(password1);
+            
+            Organizer organizer = new Organizer();
+            organizer.setEmail(email);
+            organizer.setEncryptedPassword(pwdHash);
+            organizer.setRealname(realname);
+            organizer.setUsername(username);
+
+            //logic.storeOrganizer(organizer);
+            logic.storeOrganizer(organizer.createTO());
+            
+        } catch (NoSuchAlgorithmException ex) {
+            Logger.getLogger(RegisterBean.class.getName()).log(Level.SEVERE, null, ex);
+        }
         
-        //logic.storeOrganizer(organizer);
-        logic.storeOrganizer(organizer.createTO());
+        
         return "index?faces-redirect=true";
         
     }

@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package jjlm.votes.web.organizer;
 
 
@@ -30,15 +25,19 @@ import jjlm.votes.web.help.RequestParameters;
 import jjlm.votes.web.logic.ParticipantListParser;
 
 /**
- *
- * @author maxmeffert
+ * BackingBean (Controller) for the edit-poll page
+ * 
  */
 @Named
 @SessionScoped
 public class EditPollBean extends OrganizerBean {
+    
     @EJB
     private MailerBean mailerBean;
 
+    /**
+     * Current poll to edit
+     */
     private PollTO poll;
     private int paramID;
 
@@ -53,7 +52,7 @@ public class EditPollBean extends OrganizerBean {
 
     private String participantsText;
 
-    private SimpleDateFormat sdf = new SimpleDateFormat("MM/dd/yyyy");
+    private SimpleDateFormat simpleDateFormat = new SimpleDateFormat("MM/dd/yyyy");
 
     private List<ItemTO> pollItems;
 
@@ -62,48 +61,6 @@ public class EditPollBean extends OrganizerBean {
     private String notificationText;
 
     private String pollState;
-
-    public void init() {
-
-        poll = new PollTO();
-        setPollDescription("");
-        setPollTitle("");
-        setStartPoll("");
-        setEndPoll("");
-        setItemTitle("");
-        setItemType("");
-        pollItems = new ArrayList<>();
-
-        paramString = RequestParameters.get("id");
-
-        try {
-            this.paramID = Integer.parseInt(paramString);
-            poll = logic.getPoll(this.paramID);
-
-            setPollDescription(poll.getDescription());
-            setPollTitle(poll.getTitle());
-
-            pollItems = (poll.getId() != null
-                    ? logic.getItemsOfPoll(poll.getId())
-                    : new ArrayList<ItemTO>());
-
-            poll.setItems(pollItems);
-
-            if (poll.getStartPoll() != null) {
-                setStartPoll(sdf.format(poll.getStartPoll()));
-            } else {
-                setStartPoll("");
-            }
-            if (poll.getEndPoll() != null) {
-                setEndPoll(sdf.format(poll.getEndPoll()));
-            } else {
-                setEndPoll("");
-            }
-        } catch (Exception e) {
-            System.err.println(e);
-        }
-
-    }
 
     public PollTO getPollTO() {
         return poll;
@@ -218,101 +175,56 @@ public class EditPollBean extends OrganizerBean {
         return poll.getPollState() == PollState.FINISHED;
 
     }
+    
+    /**
+     * Initializes EditPollBean on request (redirect)
+     */
+    public void init() {
 
-    public String addParticipants() {
-
-        if (getParticipantsText() != null) {
-
-            ParticipantListParser plp = new ParticipantListParser();
-
-            List<String> emails = plp.parse(getParticipantsText());
-            List<ParticipantTO> participants = logic.getParticipantsOfPoll(poll.getId());
-
-            for (ParticipantTO participant : participants) {
-
-                int i;
-                while ((i = emails.indexOf(participant.getEmail())) != -1) {
-
-                    emails.remove(i);
-
-                }
-
-            }
-
-            for (String email : emails) {
-
-                ParticipantTO participantTO = new ParticipantTO();
-                participantTO.setEmail(email);
-                participantTO.setPoll(poll);
-                participantTO.setHasVoted(false);
-
-                logic.storeParticipant(participantTO);
-
-            }
-        }
-
-        return "edit-poll?faces-redirect=true&id=" + paramString;
-    }
-
-    public String deleteParticipant(int participantId) {
-
-        logic.deleteParticipant(participantId);
-
-        return "edit-poll?faces-redirect=true&id=" + paramString;
-    }
-
-    public String start() {
-        edit();
-        logic.startPoll(paramID);
-        
-        // send mails to participants
-        mailerBean.init(paramID);
-        mailerBean.sendMails();
-   
-        return "edit-poll?faces-redirect=true&id=" + paramString;
-    }
-
-    public String stop() {
-
-        logic.resetPoll(paramID);
-
-        return "edit-poll?faces-redirect=true&id=" + paramString;
-    }
-
-    public String edit() {
-        poll.setDescription(pollDescription);
-        poll.setTitle(pollTitle);
-
-        boolean valid = poll.getItems().size() > 0;
-
-        for (ItemTO item : poll.getItems()) {
-
-            valid = valid && item.isValid();
-
-        }
-
-        poll.setValid(valid);
-
-        Date endDate = null;
-        try {
-            endDate = sdf.parse(getEndPoll());
-        } catch (ParseException ex) {
-            System.err.println(ex);
-        }
-        poll.setEndPoll(endDate);
-
-        logic.storePoll(poll);
-
-        poll = null;
-
-        setPollTitle("");
+        poll = new PollTO();
         setPollDescription("");
+        setPollTitle("");
         setStartPoll("");
         setEndPoll("");
+        setItemTitle("");
+        setItemType("");
+        pollItems = new ArrayList<>();
 
-        return "edit-poll?faces-redirect=true&id=" + paramString;
+        paramString = RequestParameters.get("id");
+
+        try {
+            this.paramID = Integer.parseInt(paramString);
+            poll = logic.getPoll(this.paramID);
+
+            setPollDescription(poll.getDescription());
+            setPollTitle(poll.getTitle());
+
+            pollItems = (poll.getId() != null
+                    ? logic.getItemsOfPoll(poll.getId())
+                    : new ArrayList<ItemTO>());
+
+            poll.setItems(pollItems);
+
+            if (poll.getStartPoll() != null) {
+                setStartPoll(simpleDateFormat.format(poll.getStartPoll()));
+            } else {
+                setStartPoll("");
+            }
+            if (poll.getEndPoll() != null) {
+                setEndPoll(simpleDateFormat.format(poll.getEndPoll()));
+            } else {
+                setEndPoll("");
+            }
+        } catch (Exception e) {
+            System.err.println(e);
+        }
+
     }
 
+    /**
+     * Adds a new Item to the current poll
+     * @return 
+     */
     public String addItem() {
 
         ItemTO itemTO = new ItemTO();
@@ -349,16 +261,139 @@ public class EditPollBean extends OrganizerBean {
 
         return "edit-item?faces-redirect=true&id=" + itemTO.getId();
     }
+    
+    /**
+     * Adds new participants to the current poll
+     * @return 
+     */
+    public String addParticipants() {
 
+        if (getParticipantsText() != null) {
+
+            ParticipantListParser plp = new ParticipantListParser();
+
+            List<String> emails = plp.parse(getParticipantsText());
+            List<ParticipantTO> participants = logic.getParticipantsOfPoll(poll.getId());
+
+            for (ParticipantTO participant : participants) {
+
+                int i;
+                while ((i = emails.indexOf(participant.getEmail())) != -1) {
+
+                    emails.remove(i);
+
+                }
+
+            }
+
+            for (String email : emails) {
+
+                ParticipantTO participantTO = new ParticipantTO();
+                participantTO.setEmail(email);
+                participantTO.setPoll(poll);
+                participantTO.setHasVoted(false);
+
+                logic.storeParticipant(participantTO);
+
+            }
+        }
+
+        return "edit-poll?faces-redirect=true&id=" + paramString;
+    }
+
+    /**
+     * Deletes participant from current poll
+     * @param participantId
+     * @return 
+     */
+    public String deleteParticipant(int participantId) {
+
+        logic.deleteParticipant(participantId);
+
+        return "edit-poll?faces-redirect=true&id=" + paramString;
+    }
+
+    
+    /**
+     * Starts current poll
+     * @return 
+     */
+    public String start() {
+        save();
+        logic.startPoll(paramID);
+        
+        // send mails to participants
+        mailerBean.init(paramID);
+        mailerBean.sendMails();
+   
+        return "edit-poll?faces-redirect=true&id=" + paramString;
+    }
+
+    /**
+     * Resets current poll
+     * @return 
+     */
+    public String reset() {
+
+        logic.resetPoll(paramID);
+
+        return "edit-poll?faces-redirect=true&id=" + paramString;
+    }
+
+    /**
+     * Saves changes made to the current poll
+     * @return 
+     */
+    public String save() {
+        poll.setDescription(pollDescription);
+        poll.setTitle(pollTitle);
+
+        boolean valid = poll.getItems().size() > 0;
+
+        for (ItemTO item : poll.getItems()) {
+
+            valid = valid && item.isValid();
+
+        }
+
+        poll.setValid(valid);
+
+        Date endDate = null;
+        try {
+            endDate = simpleDateFormat.parse(getEndPoll());
+        } catch (ParseException ex) {
+            System.err.println(ex);
+        }
+        poll.setEndPoll(endDate);
+
+        logic.storePoll(poll);
+
+        poll = null;
+
+        setPollTitle("");
+        setPollDescription("");
+        setStartPoll("");
+        setEndPoll("");
+
+        return "edit-poll?faces-redirect=true&id=" + paramString;
+    }
+    
+    /**
+     * Deletes current poll
+     * @return 
+     */
     public String delete() {
         logic.deletePoll(paramID);
         return "my-polls";
     }
 
-    public String save() {
-        return "";
-    }
-
+    /**
+     * Validates current poll title to be unique system wide
+     * @param context
+     * @param component
+     * @param value
+     * @throws ValidatorException 
+     */
     public void validateTitle(FacesContext context, UIComponent component, Object value) throws ValidatorException {
 
         String title = (String) value;
@@ -372,6 +407,13 @@ public class EditPollBean extends OrganizerBean {
 
     }
 
+    /**
+     * Validates new item title to be unique poll wide
+     * @param context
+     * @param component
+     * @param value
+     * @throws ValidatorException 
+     */
     public void validateItemTitle(FacesContext context, UIComponent component, Object value) throws ValidatorException {
 
         String title = (String) value;
@@ -385,6 +427,13 @@ public class EditPollBean extends OrganizerBean {
 
     }
     
+    /**
+     * Validates poll end date to be in the future
+     * @param context
+     * @param component
+     * @param value
+     * @throws ValidatorException 
+     */
     public void validateEndDate(FacesContext context, UIComponent component, Object value) throws ValidatorException {
 
         String endDate = (String) value;
