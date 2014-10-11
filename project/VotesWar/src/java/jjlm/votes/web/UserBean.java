@@ -26,7 +26,7 @@ public class UserBean implements Serializable {
     /**
      * Login status for session
      */
-    private boolean isLoggedIn = false;
+    private boolean loggedIn = false;
     
     /**
      * 
@@ -38,8 +38,12 @@ public class UserBean implements Serializable {
     @EJB
     private VotesLogic logic;
 
-    public boolean getIsLoggedIn() {
-        return isLoggedIn;
+   
+
+    
+    
+    public boolean isLoggedIn() {
+        return loggedIn;
     }
 
     public String getName() {
@@ -67,13 +71,13 @@ public class UserBean implements Serializable {
     }
 
     /**
-     * 
+     * Checks user Authentication
      */
     public void login() {
 
         try {
                         
-            this.isLoggedIn = false;
+            this.loggedIn = false;
             
             if (email != null) {
             
@@ -85,7 +89,7 @@ public class UserBean implements Serializable {
                             && o.getEncryptedPassword().equals((new HashGenerator()).generateHash(password))) {
                     
                         name = o.getRealname();
-                        isLoggedIn = true;
+                        loggedIn = true;
                         
                     }
                     
@@ -98,11 +102,18 @@ public class UserBean implements Serializable {
         } catch (Exception e) {
             e.printStackTrace();
         }
+                
     }
 
+    /**
+     * Handles user logout
+     */
     public void logout() {
 
-        this.isLoggedIn = false;
+        this.loggedIn = false;
+        this.name = "";
+        this.email = "";
+        this.password = "";
 
     }
 

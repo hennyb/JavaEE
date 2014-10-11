@@ -57,6 +57,12 @@
         </navigation-case>
         
         <navigation-case>
+            <from-outcome>register</from-outcome>
+            <to-view-id>/register.xhtml</to-view-id>
+            <ridirect/>
+        </navigation-case>
+        
+        <navigation-case>
             <from-outcome>poll</from-outcome>
             <to-view-id>/poll.xhtml</to-view-id>
             <ridirect/>

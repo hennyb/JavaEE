@@ -92,4 +92,7 @@ public interface VotesLogic {
 
     public boolean isValidEndDate(int paramID, String endDate);
 
+    
+    public Long getPollCountFromOrganizer (int organizerId);
+    
 }

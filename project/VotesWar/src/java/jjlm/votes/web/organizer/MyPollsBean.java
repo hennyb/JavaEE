@@ -21,47 +21,64 @@ import jjlm.votes.logic.to.PollTO;
 @SessionScoped
 public class MyPollsBean extends OrganizerBean  {
     
+    
     private int offset = 0;
     private int limit = 10;
-    private int max;
+    private long count;
     
-
     
-    public MyPollsBean() {
+    public void init () {
+        
+        if (this.user.isLoggedIn()) {
+            
+            // stub
+            
+        }
+               
+    }
+   
+    public Long getMyPollsCount () {
+        
+        return logic.getPollCountFromOrganizer(this.getOrganizer().getId());
         
     }
     
-    
     public List<PollTO> getMyPolls() {
-        try{
-            return logic.getPollsfromOrganizer(this.getOrganizer().getId());
         
-        }catch(Exception e){
-            
-        }
-        return new ArrayList<>();
+        return logic.getPollsfromOrganizer(this.getOrganizer().getId(), this.offset, this.limit);
+        
+    }
+    
+    public boolean hasNext () {
+        
+        return (long) offset + limit <= getMyPollsCount();
+        
+    }
+    
+    public boolean hasPrev () {
+        
+        return 0 <= offset - limit;
+        
     }
 
     public void next () {
         
-        if (offset + limit <= max) {
+        if (hasNext()) {
             
             offset += limit;
             
         }
         
-       
-        
     }
     
     public void prev () {
         
-        if (0 <= offset - limit) {
+        if (hasPrev()) {
             
-            offset -= limit;
+             offset -= limit;
             
         }
-        
+       
     }
     
     

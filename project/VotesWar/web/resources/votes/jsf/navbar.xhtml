@@ -23,7 +23,7 @@
             
             <c:choose>
 
-                <c:when test="#{userBean.isLoggedIn}">
+                <c:when test="#{userBean.loggedIn}">
 
                     <h:form>
                     <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
@@ -49,7 +49,7 @@
                     <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
                         <ul class="nav navbar-nav navbar-right">
                             <li><h:link outcome="index" value="Sign In"></h:link></li>
-                            <li><h:link outcome="signin" value="Register"></h:link></li>
+                            <li><h:link outcome="register" value="Register"></h:link></li>
                             <li><h:link outcome="imprint" value="Imprint"></h:link></li>
                         </ul>
                     </div>

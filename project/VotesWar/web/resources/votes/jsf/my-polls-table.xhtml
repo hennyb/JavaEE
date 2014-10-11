@@ -11,7 +11,6 @@
             <tr>
                 <th>#</th>
                 <th>Poll</th>
-                <th>Period</th>
                 <th>State</th>
                 <th>Result</th>
             </tr>
@@ -23,13 +22,17 @@
                     <tr>
                         <td>#{status.index+1}</td>
                         <td>
-                            <!--<h:commandLink value="#{poll.description}" action="#{editPollBean.setParamID(poll.id)}" ></h:commandLink> -->
                             <h:link outcome="edit-poll" value="#{poll.title} "><f:param name="id" value="#{poll.id}"/></h:link>
+                        </td>
+                        <td>#{poll.pollState}</td>
+                        <td>
+                            <c:choose>
+                                <c:when test="#{poll.pollState == 4}">
+                            <h:link outcome="result" value="Show Result"><f:param name="id" value="#{poll.id}"/></h:link>
+                                </c:when>
+                            </c:choose>
                             
                         </td>
-                        <td>2014-2015</td>
-                        <td>#{poll.pollState}</td>
-                        <td><h:link outcome="result" value="Show Result"><f:param name="id" value="#{poll.id}"/></h:link></td>
                     </tr>
 
                 </ui:repeat>
@@ -41,15 +44,23 @@
 
         <h:form>
 
-            <h:commandButton
-                styleClass="btn btn-primary pull-left"
-                value="prev"
-                action="#{myPollsBean.prev()}"></h:commandButton>
+            
+            <c:choose>
+                <c:when test="#{myPollsBean.hasPrev()}">
+                    <h:commandButton
+                        styleClass="btn btn-primary pull-left"
+                        value="prev"
+                        action="#{myPollsBean.prev()}"></h:commandButton>
+                </c:when>
+                <c:when test="#{myPollsBean.hasNext()}">
+                    <h:commandButton
+                        styleClass="btn btn-primary pull-right"
+                        value="next"
+                        action="#{myPollsBean.next()}"></h:commandButton>
+                </c:when>
+            </c:choose>
+            
 
-            <h:commandButton
-                styleClass="btn btn-primary pull-right"
-                value="next"
-                action="#{myPollsBean.next()}"></h:commandButton>
 
         </h:form>
 

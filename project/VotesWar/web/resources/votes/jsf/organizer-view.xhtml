@@ -9,7 +9,7 @@
     <ui:define name="layout-content">
 
         <c:choose>
-            <c:when test="#{userBean.isLoggedIn}">
+            <c:when test="#{userBean.loggedIn}">
 
                 <ui:insert name="content"></ui:insert>
 

@@ -46,6 +46,15 @@ public class PollAccess extends AbstractAccess<Poll, PollTO> {
                 .getResultList();
 
     }
+    
+    public Long getPollCount (int organizerId) {
+        
+        return em.createQuery("Select count(p) from Poll p"
+                + " where p.organizer.id = :organizerId", Long.class)
+                .setParameter("organizerId", organizerId)
+                .getSingleResult();
+        
+    }
 
     public List<Poll> getPolls(int organizerId, int offset, int limit) {
         System.out.println("oid: " + organizerId);

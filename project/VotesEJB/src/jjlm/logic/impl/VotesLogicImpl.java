@@ -150,7 +150,7 @@ public class VotesLogicImpl implements VotesLogic {
     }
 
     @Override
-    public List<PollTO> getPollsfromOrganizer(int organizerID, int offset, int max) {
+    public List<PollTO> getPollsfromOrganizer(int organizerID, int offset, int limit) {
         for (PollTO p : AbstractEntity.createTransferList(pa.getPolls(organizerID))) {
             if (p.getPollState() != null
                     && p.getEndPoll() != null
@@ -159,7 +159,12 @@ public class VotesLogicImpl implements VotesLogic {
                 storePoll(p);
             }
         }
-        return AbstractEntity.createTransferList(pa.getAllPolls());
+        List<PollTO> result = AbstractEntity.createTransferList(pa.getPolls(organizerID, offset, limit));
+        
+        System.out.println(result);
+        
+        return result;
+        
     }
 
     @Override
@@ -547,5 +552,13 @@ public class VotesLogicImpl implements VotesLogic {
 
         return true;
     }
+
+    @Override
+    public Long getPollCountFromOrganizer(int organizerId) {
+        return pa.getPollCount(organizerId);
+    }
+    
+    
+    
 
 }
