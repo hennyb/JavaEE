@@ -43,6 +43,13 @@ public class TokenAccess extends AbstractAccess<Token, TokenTO> {
                 .getResultList();
 
     }
+    
+    public Token getTokensOfPollAndParticipant(int pollId, int participantId) {
+        return em.createQuery("Select t FROM Token t"
+                + " WHERE t.poll.id = :pollId AND t.participant.id = :participantId LIMIT 1", Token.class)
+                .setParameter("pollId", pollId).setParameter("participantId", participantId).getSingleResult();
+
+    }
 
     public Token getTokenBySignature(String signature) {
         return em.createQuery("Select t From Token t"

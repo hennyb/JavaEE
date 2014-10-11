@@ -38,13 +38,13 @@
 
                                 <div class="btn-toolbar pull-right">
 
-                                    
+
                                     <h:commandButton
                                         styleClass="btn btn-primary"
                                         value="Save"
                                         action="#{editPollBean.edit()}"></h:commandButton>
-        
-                                    
+
+
                                     <h:commandButton
                                         styleClass="btn btn-primary"
                                         value="Delete"
@@ -83,10 +83,13 @@
                                 <label class="col-sm-2 control-label">End-Date</label>
                                 <div class="col-sm-10">
                                     <h:inputText 
+                                        id="endPoll"
                                         styleClass="form-control datepicker" 
                                         value="#{editPollBean.endPoll}"
+                                        validator ="#{editPollBean.validateEndDate}"
                                         ></h:inputText>
                                 </div>
+                                <h:message for="endPoll"/>
                             </div>
 
                             <div class="form-group">
@@ -109,10 +112,10 @@
                         <div class="col-md-12 text-center">
                             <div class="btn-toolbar">
 
-                                
+
                                 <c:choose>
                                     <c:when test="#{editPollBean.prepared}">
-      
+
                                         <h:commandButton
                                             styleClass="btn btn-primary"
                                             value="Start"
@@ -125,7 +128,7 @@
                                             action="#{editPollBean.stop()}"></h:commandButton>                                            
                                     </c:when>
                                 </c:choose>
-                                
+
                             </div>
                         </div>
                     </div>
@@ -293,8 +296,8 @@
 
                         </c:when>
                     </c:choose>
-                    
-                    
+
+
                 </h:form>
 
             </div>
