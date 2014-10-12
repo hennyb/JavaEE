@@ -6,8 +6,8 @@
     xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
     xmlns:votes="http://java.sun.com/jsf/composite/votes/jsf"
     xmlns:p="http://xmlns.jcp.org/jsf/passthrough">
-            
-    <h:form styleClass="form-horizontal">
+
+    <h:form styleClass="form-horizontal" id="registerForm">
 
         <div class="row">
             <div class="col-md-8 alert alert-success">
@@ -34,15 +34,20 @@
                     <label class="col-sm-2 control-label">Email</label>
                     <div class="col-sm-10">
                         <h:inputText 
+                            id="email"
                             styleClass="form-control" 
-                            value="#{registerBean.email}"></h:inputText>
+                            value="#{registerBean.email}"
+                            validator="#{registerBean.validateEmail}"
+                            ></h:inputText>
                     </div>
+                    <h:message for="email" />
                 </div>
 
                 <div class="form-group">
                     <label class="col-sm-2 control-label">Password1</label>
                     <div class="col-sm-10">
                         <h:inputSecret 
+                            id="password1"
                             styleClass="form-control" 
                             value="#{registerBean.password1}"></h:inputSecret>
                     </div>
@@ -52,30 +57,33 @@
                     <label class="col-sm-2 control-label">Password2</label>
                     <div class="col-sm-10">
                         <h:inputSecret 
+                            id="password2"
                             styleClass="form-control" 
-                            value="#{registerBean.password2}"></h:inputSecret>
+                            value="#{registerBean.password2}"
+                            validator="#{registerBean.validatePassword}"
+                            ></h:inputSecret>
                     </div>
                 </div>
 
                 <div class="form-group">
-                    
+
                     <div class="col-sm-12 text-center">
-                        
+
                         <h:commandButton 
-                        value="Register" 
-                        styleClass="btn btn-primary" 
-                        action="#{registerBean.register()}"></h:commandButton>
-                        
+                            value="Register" 
+                            styleClass="btn btn-primary"
+                            action="#{registerBean.register()}"></h:commandButton>
+
                     </div>
-                    
+
                 </div>
-                
-                    
+
+
 
             </div>
         </div>
 
     </h:form>
-    
-    
+
+
 </ui:component>
