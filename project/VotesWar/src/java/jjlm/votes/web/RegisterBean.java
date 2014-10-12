@@ -82,11 +82,10 @@ public class RegisterBean {
     public String register() {
         
 	try {
-	        OrganizerTO organizerTo = new OrganizerTO();
 	        Organizer organizer = new Organizer();
 	        organizer.setEmail(email);
 	        String salt = organizer.generatePasswordSalt();
-	        String encryptedPassword = organizerTo.encryptPassword(password1, salt);
+	        String encryptedPassword = logic.encryptPassword(password1, salt);
 	        organizer.setPasswordSalt(salt);
 	        organizer.setEncryptedPassword(encryptedPassword);
 	        organizer.setRealname(realname);

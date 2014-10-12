@@ -7,7 +7,6 @@ package jjlm.votes.web;
 
 import java.io.Serializable;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 import javax.ejb.EJB;
 import javax.enterprise.context.SessionScoped;
@@ -18,7 +17,6 @@ import jjlm.votes.logic.to.ItemTO;
 import jjlm.votes.logic.to.ParticipantTO;
 import jjlm.votes.logic.to.PollTO;
 import jjlm.votes.logic.to.TokenTO;
-import jjlm.votes.persistence.entities.Item;
 import jjlm.votes.persistence.entities.ItemType;
 import jjlm.votes.persistence.entities.PollState;
 

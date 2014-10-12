@@ -27,9 +27,9 @@ public class UserBean implements Serializable {
      * Login status for session
      */
     private boolean loggedIn = false;
-    
+
     /**
-     * 
+     *
      */
     private String name;
     private String email;
@@ -38,10 +38,6 @@ public class UserBean implements Serializable {
     @EJB
     private VotesLogic logic;
 
-   
-
-    
-    
     public boolean isLoggedIn() {
         return loggedIn;
     }
@@ -76,32 +72,29 @@ public class UserBean implements Serializable {
     public void login() {
 
         try {
-                        
+
             this.loggedIn = false;
-            
+
             if (email != null) {
-            
+
                 OrganizerTO o = logic.getOrganizer(email);
-                
+
                 if (o != null) {
                     if (o.getEncryptedPassword() != null) {
-                            if (o.isPasswordValid(this.getPassword())) {
-                                name = o.getRealname();
-                                loggedIn = true;
-                         }
-                            
+                        if (logic.isPasswordValid(this.getPassword(), o.getPasswordSalt(), o.getEncryptedPassword())) {
+                            name = o.getRealname();
+                            loggedIn = true;
+                        }
                     }
-                    
                 }
-                
             }
-            
+
         } catch (NoSuchAlgorithmException ex) {
             Logger.getLogger(UserBean.class.getName()).log(Level.SEVERE, null, ex);
         } catch (Exception e) {
             e.printStackTrace();
         }
-                
+
     }
 
     /**

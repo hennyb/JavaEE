@@ -5,6 +5,7 @@
  */
 package jjlm.logic;
 
+import java.security.NoSuchAlgorithmException;
 import jjlm.votes.persistence.entities.PollState;
 import java.util.List;
 import javax.ejb.Remote;
@@ -99,5 +100,8 @@ public interface VotesLogic {
     public List<Integer> getPollIdsOfOrganizer(int organizerId);
 
     public List<Integer> getItemIdsOfOrganizer(int organizerId);
-
+    
+    public Boolean isPasswordValid(String password, String salt, String encryptedPassword) throws NoSuchAlgorithmException;
+    
+    public String encryptPassword(String password, String salt) throws NoSuchAlgorithmException;
 }
