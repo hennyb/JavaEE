@@ -30,6 +30,7 @@ import jjlm.votes.persistence.TokenAccess;
 import jjlm.votes.persistence.entities.AbstractEntity;
 import jjlm.votes.persistence.entities.Item;
 import jjlm.votes.persistence.entities.ItemOption;
+import jjlm.votes.persistence.entities.ItemType;
 import jjlm.votes.persistence.entities.Organizer;
 import jjlm.votes.persistence.entities.Participant;
 import jjlm.votes.persistence.entities.Poll;
@@ -160,11 +161,11 @@ public class VotesLogicImpl implements VotesLogic {
             }
         }
         List<PollTO> result = AbstractEntity.createTransferList(pa.getPolls(organizerID, offset, limit));
-        
+
         System.out.println(result);
-        
+
         return result;
-        
+
     }
 
     @Override
@@ -210,7 +211,34 @@ public class VotesLogicImpl implements VotesLogic {
             item.setAbstainedVotes(0);
             ia.create(item);
         } else {
+
             item = ia.edit(item);
+        }
+
+        if (item.getItemType() == ItemType.YES_NO) {
+            if (to.getId() != null) {
+                for (ItemOptionTO op : getOptionsOfItem(item.getId())) {
+                    deleteItemOption(op.getId());
+                }
+            }
+
+            item.setM(1);
+
+            ItemOptionTO no = new ItemOptionTO();
+            no.setVotes(0);
+            no.setTitle("No");
+            no.setDescription("");
+            no.setItem(item.createTO());
+
+            ItemOptionTO yes = new ItemOptionTO();
+
+            yes.setVotes(0);
+            yes.setTitle("Yes");
+            yes.setDescription("");
+            yes.setItem(item.createTO());
+
+            storeItemOption(yes);
+            storeItemOption(no);
         }
 
         validateItem(item.getId());
@@ -491,7 +519,7 @@ public class VotesLogicImpl implements VotesLogic {
     public TokenTO getTokensOfPollAndParticipant(int pollId, int participantId) {
         return ta.getTokensOfPollAndParticipant(pollId, participantId).createTO();
     }
-    
+
     @Override
     public void incrementItemOptionCount(int optionId) {
         ioa.incrementCount(optionId);
@@ -539,7 +567,7 @@ public class VotesLogicImpl implements VotesLogic {
             //if not parseable
             Date date = sdf.parse(endDate);
             //if enddate in the past
-            if(date.getTime()<new Date().getTime()){
+            if (date.getTime() < new Date().getTime()) {
                 return false;
             }
         } catch (Exception e) {
@@ -562,8 +590,5 @@ public class VotesLogicImpl implements VotesLogic {
     public boolean isOrganizerEmailUnique(String email) {
         return oa.isOrganizerEmailUnique(email);
     }
-    
-    
-    
 
 }

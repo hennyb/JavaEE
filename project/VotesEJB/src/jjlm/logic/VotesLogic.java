@@ -39,6 +39,7 @@ public interface VotesLogic {
     ItemTO getItem(int itemId);
 
     ItemTO storeItem(ItemTO to);
+    
 
     List<ItemOptionTO> getOptionsOfItem(int itemID);
 
