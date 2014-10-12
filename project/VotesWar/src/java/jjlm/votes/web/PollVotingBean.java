@@ -273,6 +273,8 @@ public class PollVotingBean implements Serializable {
                 }
             }
         }
+        this.optionStates.clear();
+        this.itemStates.clear();
         verified = false;
         tokenSignature = "";
 
