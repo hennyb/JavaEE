@@ -78,6 +78,8 @@ public interface VotesLogic {
     
     boolean isItemTitleUnique(int pollId, int itemId, String title);
     
+    boolean isOrganizerEmailUnique(String email);
+    
     TokenTO getTokenBySignature(String signature);
     
     TokenTO getTokensOfPollAndParticipant(int pollId, int participantId);
@@ -91,7 +93,6 @@ public interface VotesLogic {
     TokenTO storeToken(TokenTO token);
 
     public boolean isValidEndDate(int paramID, String endDate);
-
     
     public Long getPollCountFromOrganizer (int organizerId);
     

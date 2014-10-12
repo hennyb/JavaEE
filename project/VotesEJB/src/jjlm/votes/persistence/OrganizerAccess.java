@@ -14,26 +14,32 @@ import jjlm.votes.persistence.entities.Organizer;
 
 @Stateless
 @LocalBean
-public class OrganizerAccess extends AbstractAccess<Organizer, OrganizerTO>{
+public class OrganizerAccess extends AbstractAccess<Organizer, OrganizerTO> {
 
-    @PersistenceContext(name="VotesEJBPU")
+    @PersistenceContext(name = "VotesEJBPU")
     EntityManager em;
-    
-    
+
     public OrganizerAccess() {
         super(Organizer.class);
     }
-    
-    
+
     @Override
     protected EntityManager getEntityManager() {
         return em;
     }
-    
-    public Organizer findOrganizer(String email){
+
+    public Organizer findOrganizer(String email) {
         Organizer o = null;
         o = findBy("email", email);
         return o;
     }
-    
+
+    public boolean isOrganizerEmailUnique(String email) {
+        return em.createQuery("select count(o) From Organizer o"
+                + " Where o.email = :email", Long.class)
+                .setParameter("email", email)
+                .getSingleResult() == 0;
+
+    }
+
 }

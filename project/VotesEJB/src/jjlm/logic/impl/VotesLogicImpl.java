@@ -557,6 +557,11 @@ public class VotesLogicImpl implements VotesLogic {
     public Long getPollCountFromOrganizer(int organizerId) {
         return pa.getPollCount(organizerId);
     }
+
+    @Override
+    public boolean isOrganizerEmailUnique(String email) {
+        return oa.isOrganizerEmailUnique(email);
+    }
     
     
     

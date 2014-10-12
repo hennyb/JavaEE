@@ -41,5 +41,9 @@ public class ParticipantListParser {
         return result;
 
     }
+    
+    public static boolean isValidEmailAddress(String email){
+        return email.matches(EMAIL_REGEXP);
+    }
 
 }
