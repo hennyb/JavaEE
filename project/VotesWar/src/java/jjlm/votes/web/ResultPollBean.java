@@ -50,7 +50,7 @@ public class ResultPollBean extends OrganizerBean {
         boolean result = poll.getPollState() == PollState.FINISHED;
         result &= logic.getParticipation(paramID) >= 3;
 
-        return result;
+        return true;
     }
 
     public PollTO getPoll() {

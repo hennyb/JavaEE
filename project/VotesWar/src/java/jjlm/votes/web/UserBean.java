@@ -6,22 +6,31 @@
 package jjlm.votes.web;
 
 import java.io.Serializable;
+import java.security.NoSuchAlgorithmException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.ejb.EJB;
 import javax.enterprise.context.SessionScoped;
 import javax.inject.Named;
 import jjlm.logic.VotesLogic;
 import jjlm.votes.logic.to.OrganizerTO;
+import jjlm.votes.web.logic.HashGenerator;
 
 /**
- * UserBean is a data provider bean for presentation logic
- *
- * @author maxmeffert
+ * SessionBean for user data, handles login and logout actions.
  */
 @SessionScoped
 @Named
 public class UserBean implements Serializable {
 
-    private boolean isLoggedIn = false;
+    /**
+     * Login status for session
+     */
+    private boolean loggedIn = false;
+    
+    /**
+     * 
+     */
     private String name;
     private String email;
     private String password;
@@ -29,8 +38,12 @@ public class UserBean implements Serializable {
     @EJB
     private VotesLogic logic;
 
-    public boolean getIsLoggedIn() {
-        return isLoggedIn;
+   
+
+    
+    
+    public boolean isLoggedIn() {
+        return loggedIn;
     }
 
     public String getName() {
@@ -57,31 +70,48 @@ public class UserBean implements Serializable {
         this.password = password;
     }
 
+    /**
+     * Checks user Authentication
+     */
     public void login() {
 
-        this.isLoggedIn = false;
-
         try {
+                        
+            this.loggedIn = false;
+            
             if (email != null) {
+            
                 OrganizerTO o = logic.getOrganizer(email);
+                
                 if (o != null) {
-                    if (o.getEncryptedPassword() != null) {
-                        if (o.isPasswordValid(password)) {
-                            name = o.getRealname();
-                            isLoggedIn = true;
-                        } else {
-                        }
+                    if (o.getEncryptedPassword() != null 
+                            && o.getEncryptedPassword().equals((new HashGenerator()).generateHash(password))) {
+                        name = o.getRealname();
+                        loggedIn = true;
+                        
                     }
+                    
                 }
+                
             }
+            
+        } catch (NoSuchAlgorithmException ex) {
+            Logger.getLogger(UserBean.class.getName()).log(Level.SEVERE, null, ex);
         } catch (Exception e) {
             e.printStackTrace();
         }
+                
     }
 
+    /**
+     * Handles user logout
+     */
     public void logout() {
 
-        this.isLoggedIn = false;
+        this.loggedIn = false;
+        this.name = "";
+        this.email = "";
+        this.password = "";
 
     }
 

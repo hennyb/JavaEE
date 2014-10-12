@@ -3,18 +3,29 @@
 <ui:composition 
     template="./resources/votes/jsf/organizer-poll-view.xhtml" 
     xmlns="http://www.w3.org/1999/xhtml"
-    xmlns:h="http://xmlns.jcp.org/jsf/html"
-    xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:ui="http://java.sun.com/jsf/facelets"
     xmlns:votes="http://java.sun.com/jsf/composite/votes/jsf"
-    xmlns:c="http://xmlns.jcp.org/jsp/jstl/core"
-    xmlns:f="http://xmlns.jcp.org/jsf/core">
+    xmlns:c="http://java.sun.com/jsp/jstl/core"
+    xmlns:f="http://java.sun.com/jsf/core">
 
+    
+    <f:metadata>
+        <f:viewAction action="#{myPollsBean.init()}"></f:viewAction>
+    </f:metadata>
+    
     <ui:define name="html-title">My Polls</ui:define>
     
     <ui:define name="organizer-polls-title">My Polls</ui:define>
     
     <ui:define name="organizer-polls-content">
 
+        <div class="row">
+            <div class="col-md-12">
+                <h4>You have #{myPollsBean.myPollsCount} polls.</h4>
+            </div>
+        </div>
+        
         <div class="row">
             <div class="col-md-12">
                 <ui:include src="./resources/votes/jsf/my-polls-table.xhtml"></ui:include>

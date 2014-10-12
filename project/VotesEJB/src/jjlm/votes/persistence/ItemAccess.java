@@ -70,5 +70,12 @@ public class ItemAccess extends AbstractAccess<Item, ItemTO> {
                 .getSingleResult() == 0;
     }
 
+    public List<Integer> getItemIdsOfOrganizer(int organizerId) {
+        return em.createQuery("SELECT item.id FROM Item item"
+                + " where item.poll.organizer.id = :organizerId"
+                + "", Integer.class)
+                .setParameter("organizerId", organizerId)
+                .getResultList();
+    }
 
 }
