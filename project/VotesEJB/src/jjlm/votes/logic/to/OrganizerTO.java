@@ -5,9 +5,10 @@
  */
 package jjlm.votes.logic.to;
 
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
 import java.util.List;
-import jjlm.votes.persistence.entities.Poll;
 
 /**
  *
@@ -22,6 +23,8 @@ public class OrganizerTO extends AbstractEntityTO{
     private String realname;
     private String email;
     private String encryptedPassword;
+    private String passwordSalt;
+
     
     public OrganizerTO(){
         polls = new ArrayList<>();
@@ -67,6 +70,28 @@ public class OrganizerTO extends AbstractEntityTO{
         this.encryptedPassword = encryptedPassword;
     }
     
+    public String getPasswordSalt() {
+        return passwordSalt;
+    }
+
+    public void setPasswordSalt(String passwordSalt) {
+        this.passwordSalt = passwordSalt;
+    }
+
+    public Boolean isPasswordValid(String password) throws NoSuchAlgorithmException {
+        String encPass;
+        encPass = this.encryptPassword(password, this.getPasswordSalt());
+        return this.getEncryptedPassword().equals(encPass);
+    }
+        
+    public String encryptPassword(String password, String salt) throws NoSuchAlgorithmException {
+        MessageDigest md;
+        md = MessageDigest.getInstance("MD5");
+        byte[] result;
+        String plain = salt + password;
+        result = md.digest(plain.getBytes());
+        return new String(result);
+    }
     
     
 }

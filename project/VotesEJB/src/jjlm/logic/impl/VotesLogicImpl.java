@@ -109,6 +109,8 @@ public class VotesLogicImpl implements VotesLogic {
         //organizer.setPolls(to.getPolls());
         organizer.setPolls(new HashSet<Poll>());
         organizer.setRealname(to.getRealname());
+        organizer.setPasswordSalt(to.getPasswordSalt());
+
         organizer.setUsername(to.getUsername());
 
         if (to.getId() == null) {

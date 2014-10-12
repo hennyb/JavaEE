@@ -6,6 +6,7 @@
 
 package jjlm.votes.web;
 
+import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
 import java.util.HashSet;
 import javax.ejb.EJB;
@@ -31,6 +32,8 @@ public class SignInBean {
     private String password1;
     private String password2;
     private String email;
+    private String passwordSalt;
+
     
     @EJB
     private VotesLogic logic;
@@ -76,13 +79,30 @@ public class SignInBean {
         this.email = email;
     }
     
-    public String signin () {
+    public String setPasswordSalt() {
+        return passwordSalt;
+    }
+
+    public void setPasswordSalt(String salt) {
+        this.passwordSalt = salt;
+    }
+    
+    public String signin () throws NoSuchAlgorithmException {
+        
+        OrganizerTO organizerTo = new OrganizerTO();
         
         Organizer organizer = new Organizer();
         organizer.setEmail(email);
-        organizer.setEncryptedPassword(password1);
+        
+        
+        String salt = organizer.generatePasswordSalt();
+        String encryptedPassword = organizerTo.encryptPassword(password1, salt);
+        organizer.setPasswordSalt(salt);
+        organizer.setEncryptedPassword(encryptedPassword);
         organizer.setRealname(realname);
         organizer.setUsername(username);
+        
+        System.out.println(encryptedPassword);
         
         //logic.storeOrganizer(organizer);
         logic.storeOrganizer(organizer.createTO());

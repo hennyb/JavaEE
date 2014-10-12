@@ -5,8 +5,13 @@
  */
 package jjlm.votes.persistence.entities;
 
+import java.security.NoSuchAlgorithmException;
+import java.util.Arrays;
 import java.util.HashSet;
+import java.util.Random;
 import java.util.Set;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -30,6 +35,8 @@ public class Organizer extends AbstractEntity<Organizer, OrganizerTO> {
     private String realname;
     private String email;
     private String encryptedPassword;
+    private String passwordSalt;
+
 
     public Organizer() {
         polls = new HashSet<>();
@@ -52,9 +59,7 @@ public class Organizer extends AbstractEntity<Organizer, OrganizerTO> {
     public void setParticipantLists(Set<ParticipantList> participantLists) {
         this.participantLists = participantLists;
     }
-    
-    
-    
+
     public String getUsername() {
         return username;
     }
@@ -87,6 +92,19 @@ public class Organizer extends AbstractEntity<Organizer, OrganizerTO> {
         this.encryptedPassword = encryptedPassword;
     }
     
+    public String getPasswordSalt() {
+        return passwordSalt;
+    }
+
+    public void setPasswordSalt(String passwordSalt) {
+        this.passwordSalt = passwordSalt;
+    }
+
+    public String generatePasswordSalt() {
+        byte[] b = new byte[20];
+        new Random().nextBytes(b);
+        return new String(b);
+    }
 
     @Override
     public OrganizerTO createTO() {
@@ -96,6 +114,7 @@ public class Organizer extends AbstractEntity<Organizer, OrganizerTO> {
         to.setId(getId());
         to.setEmail(email);
         to.setEncryptedPassword(encryptedPassword);
+        to.setPasswordSalt(passwordSalt);
         to.setRealname(realname);
         to.setUsername(username);
         

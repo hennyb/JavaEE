@@ -65,9 +65,12 @@ public class UserBean implements Serializable {
             if (email != null) {
                 OrganizerTO o = logic.getOrganizer(email);
                 if (o != null) {
-                    if (o.getEncryptedPassword() != null && o.getEncryptedPassword().equals(password)) {
-                        name = o.getRealname();
-                        isLoggedIn = true;
+                    if (o.getEncryptedPassword() != null) {
+                        if (o.isPasswordValid(password)) {
+                            name = o.getRealname();
+                            isLoggedIn = true;
+                        } else {
+                        }
                     }
                 }
             }
