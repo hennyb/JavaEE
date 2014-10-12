@@ -1,6 +1,5 @@
 package jjlm.votes.web.organizer;
 
-
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -26,12 +25,12 @@ import jjlm.votes.web.logic.ParticipantListParser;
 
 /**
  * BackingBean (Controller) for the edit-poll page
- * 
+ *
  */
 @Named
 @SessionScoped
 public class EditPollBean extends OrganizerBean {
-    
+
     @EJB
     private MailerBean mailerBean;
 
@@ -175,13 +174,13 @@ public class EditPollBean extends OrganizerBean {
         return poll.getPollState() == PollState.FINISHED;
 
     }
-    
-    public boolean showPoll () {
-        
+
+    public boolean showPoll() {
+
         return poll.getOrganizer().getId() == this.getOrganizer().getId();
-        
+
     }
-    
+
     /**
      * Initializes EditPollBean on request (redirect)
      */
@@ -200,6 +199,7 @@ public class EditPollBean extends OrganizerBean {
 
         try {
             this.paramID = Integer.parseInt(paramString);
+
             poll = logic.getPoll(this.paramID);
 
             setPollDescription(poll.getDescription());
@@ -221,15 +221,21 @@ public class EditPollBean extends OrganizerBean {
             } else {
                 setEndPoll("");
             }
+
         } catch (Exception e) {
             System.err.println(e);
         }
 
     }
 
+    public boolean isPollOfOrganizer() {
+        return logic.getPollIdsOfOrganizer(logic.getOrganizer(user.getEmail()).getId()).contains(paramID);
+    }
+
     /**
      * Adds a new Item to the current poll
-     * @return 
+     *
+     * @return
      */
     public String addItem() {
 
@@ -244,7 +250,7 @@ public class EditPollBean extends OrganizerBean {
         if (itemTO.getItemType() == ItemType.YES_NO) {
             ItemOptionTO yes = new ItemOptionTO();
             yes.setVotes(0);
-            
+
             yes.setTitle("Yes");
             yes.setItem(itemTO);
             yes.setDescription("");
@@ -256,10 +262,9 @@ public class EditPollBean extends OrganizerBean {
             no.setTitle("No");
             no.setItem(itemTO);
             yes.setDescription("");
-            
+
             logic.storeItemOption(no);
-            
-            
+
             itemTO.setM(1);
             itemTO = logic.storeItem(itemTO);
             return "edit-poll?faces-redirect=true&id=" + paramString;
@@ -267,10 +272,11 @@ public class EditPollBean extends OrganizerBean {
 
         return "edit-item?faces-redirect=true&id=" + itemTO.getId();
     }
-    
+
     /**
      * Adds new participants to the current poll
-     * @return 
+     *
+     * @return
      */
     public String addParticipants() {
 
@@ -309,8 +315,9 @@ public class EditPollBean extends OrganizerBean {
 
     /**
      * Deletes participant from current poll
+     *
      * @param participantId
-     * @return 
+     * @return
      */
     public String deleteParticipant(int participantId) {
 
@@ -319,25 +326,26 @@ public class EditPollBean extends OrganizerBean {
         return "edit-poll?faces-redirect=true&id=" + paramString;
     }
 
-    
     /**
      * Starts current poll
-     * @return 
+     *
+     * @return
      */
     public String start() {
         save();
         logic.startPoll(paramID);
-        
+
         // send mails to participants
         mailerBean.init(paramID);
         mailerBean.sendMails();
-   
+
         return "edit-poll?faces-redirect=true&id=" + paramString;
     }
 
     /**
      * Resets current poll
-     * @return 
+     *
+     * @return
      */
     public String reset() {
 
@@ -348,7 +356,8 @@ public class EditPollBean extends OrganizerBean {
 
     /**
      * Saves changes made to the current poll
-     * @return 
+     *
+     * @return
      */
     public String save() {
         poll.setDescription(pollDescription);
@@ -383,10 +392,11 @@ public class EditPollBean extends OrganizerBean {
 
         return "edit-poll?faces-redirect=true&id=" + paramString;
     }
-    
+
     /**
      * Deletes current poll
-     * @return 
+     *
+     * @return
      */
     public String delete() {
         logic.deletePoll(paramID);
@@ -395,10 +405,11 @@ public class EditPollBean extends OrganizerBean {
 
     /**
      * Validates current poll title to be unique system wide
+     *
      * @param context
      * @param component
      * @param value
-     * @throws ValidatorException 
+     * @throws ValidatorException
      */
     public void validateTitle(FacesContext context, UIComponent component, Object value) throws ValidatorException {
 
@@ -415,10 +426,11 @@ public class EditPollBean extends OrganizerBean {
 
     /**
      * Validates new item title to be unique poll wide
+     *
      * @param context
      * @param component
      * @param value
-     * @throws ValidatorException 
+     * @throws ValidatorException
      */
     public void validateItemTitle(FacesContext context, UIComponent component, Object value) throws ValidatorException {
 
@@ -432,13 +444,14 @@ public class EditPollBean extends OrganizerBean {
         }
 
     }
-    
+
     /**
      * Validates poll end date to be in the future
+     *
      * @param context
      * @param component
      * @param value
-     * @throws ValidatorException 
+     * @throws ValidatorException
      */
     public void validateEndDate(FacesContext context, UIComponent component, Object value) throws ValidatorException {
 

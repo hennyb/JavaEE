@@ -5,6 +5,7 @@
  */
 package jjlm.votes.persistence;
 
+import java.util.List;
 import javax.ejb.LocalBean;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;

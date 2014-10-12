@@ -22,135 +22,55 @@
 
     <ui:define name="organizer-polls-content">
 
-        <h:form styleClass="form-horizontal">
+        <c:choose>
+            <c:when test="#{editItemBean.itemOfOrganizer}">
 
-        <div class="row">
-            <div class="col-md-12">
-                <h2>
-                    <ol class="breadcrumb">
-                        <li>
-                            <h:link outcome="edit-poll">
-                                <f:param name="id" value="#{editItemBean.item.poll.id}"></f:param>
-                                #{editItemBean.item.poll.title}
-                            </h:link>
-                        </li>
-                        <li>
-                            #{editItemBean.itemTitle}
-                        </li>
-                    </ol>
-                    
-                    <div class="btn-toolbar pull-right">
-
-                        <h:commandButton
-                            styleClass="btn btn-primary"
-                            value="Save"
-                            action="#{editItemBean.save()}"></h:commandButton>
-
-                        <h:commandButton
-                            styleClass="btn btn-primary"
-                            value="Delete"
-                            action="#{editItemBean.delete()}"></h:commandButton>
-
-                    </div>
-                            
-                    
-                </h2>
-                
-            </div>
-        </div>
-        
-        <div class="row">
-            <div class="col-md-12">
+                <h:form styleClass="form-horizontal">
 
                     <div class="row">
                         <div class="col-md-12">
-                            <h3>Settings</h3>
-                            <hr></hr>
+                            <h2>
+                                <ol class="breadcrumb">
+                                    <li>
+                                        <h:link outcome="edit-poll">
+                                            <f:param name="id" value="#{editItemBean.item.poll.id}"></f:param>
+                                                #{editItemBean.item.poll.title}
+                                        </h:link>
+                                    </li>
+                                    <li>
+                                        #{editItemBean.itemTitle}
+                                    </li>
+                                </ol>
+
+                                <div class="btn-toolbar pull-right">
+
+                                    <h:commandButton
+                                        styleClass="btn btn-primary"
+                                        value="Save"
+                                        action="#{editItemBean.save()}"></h:commandButton>
+
+                                    <h:commandButton
+                                        styleClass="btn btn-primary"
+                                        value="Delete"
+                                        action="#{editItemBean.delete()}"></h:commandButton>
+
+                                </div>
+
+
+                            </h2>
+
                         </div>
                     </div>
+
                     <div class="row">
                         <div class="col-md-12">
-
-                            <div class="form-group">
-                                <label class="col-sm-1 control-label">Title</label>
-                                <div class="col-sm-11">
-                                    <h:inputText 
-                                        id="itemTitle"
-                                        styleClass="form-control" 
-                                        validator ="#{editItemBean.validateItemTitle}"
-                                        value="#{editItemBean.itemTitle}"></h:inputText>
-                                </div>
-                                <h:message for="itemTitle"/>
-                            </div>
-                            <div class="form-group">
-                                <label class="col-sm-1 control-label">Type</label>
-                                <div class="col-sm-11">
-
-                                    <h:selectOneMenu value="#{editItemBean.itemType}"
-                                                     styleClass="col-md-12 form-control">
-                                        <f:selectItems value="#{editPollBean.itemTypes}" 
-                                                       itemLabel="#{itemType}" var="itemType" itemValue="#{itemType.ordinal()}"/>
-                                    </h:selectOneMenu>
-                                </div>
-                            </div>
-                            <c:choose>
-                                <c:when test="#{editItemBean.itemType==2}">
-                                    <div class="form-group">
-                                        <label class="col-sm-1 control-label">M</label>
-
-                                        <div class="col-sm-11">
-                                            <h:inputText 
-                                                styleClass="form-control" value="#{editItemBean.itemM}"></h:inputText>
-                                        </div>
-                                    </div>
-                                </c:when>
-                            </c:choose>
-                        </div>
-                    </div>
-                    <c:choose>
-                        <c:when test="#{editItemBean.itemType!=0}">
 
                             <div class="row">
                                 <div class="col-md-12">
-                                    <h3>Options</h3>
+                                    <h3>Settings</h3>
                                     <hr></hr>
                                 </div>
                             </div>
-                            <br></br>
-                            <div class="row">
-                                <div class="col-md-12">
-
-                                    <table class="table table-bordered table-hover">
-                                        <thead>
-                                            <tr>
-                                                <th>#</th>
-                                                <th>Title</th>
-                                                <th>Description</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                            <ui:repeat var="option" value="#{editItemBean.getAllOptions()}">
-
-                                                <tr>
-                                                    <td>#{option.id}</td>
-                                                    <td>#{option.title}</td>
-                                                    <td>#{option.description}</td>
-                                                    <td><h:commandButton
-                                                            styleClass="btn btn-primary"
-                                                            value="Delete"
-                                                            action="#{editItemBean.deleteOption(option.id)}"></h:commandButton></td>
-                                                </tr>
-
-                                            </ui:repeat>
-
-
-                                        </tbody>
-                                    </table>
-                                </div>
-                            </div>
-
-
-                            <br></br>
                             <div class="row">
                                 <div class="col-md-12">
 
@@ -158,50 +78,135 @@
                                         <label class="col-sm-1 control-label">Title</label>
                                         <div class="col-sm-11">
                                             <h:inputText 
-                                                styleClass="form-control" value="#{editItemBean.optionTitle}"></h:inputText>
+                                                id="itemTitle"
+                                                styleClass="form-control" 
+                                                validator ="#{editItemBean.validateItemTitle}"
+                                                value="#{editItemBean.itemTitle}"></h:inputText>
                                         </div>
+                                        <h:message for="itemTitle"/>
                                     </div>
-
-
-
                                     <div class="form-group">
-                                        <label class="col-sm-1 control-label">Description</label>
+                                        <label class="col-sm-1 control-label">Type</label>
                                         <div class="col-sm-11">
-                                            <h:inputTextarea
-                                                styleClass="col-md-12 participantlist"
-                                                value="#{editItemBean.optionDescription}"></h:inputTextarea>
 
+                                            <h:selectOneMenu value="#{editItemBean.itemType}"
+                                                             styleClass="col-md-12 form-control">
+                                                <f:selectItems value="#{editPollBean.itemTypes}" 
+                                                               itemLabel="#{itemType}" var="itemType" itemValue="#{itemType.ordinal()}"/>
+                                            </h:selectOneMenu>
+                                        </div>
+                                    </div>
+                                    <c:choose>
+                                        <c:when test="#{editItemBean.itemType==2}">
+                                            <div class="form-group">
+                                                <label class="col-sm-1 control-label">M</label>
+
+                                                <div class="col-sm-11">
+                                                    <h:inputText 
+                                                        styleClass="form-control" value="#{editItemBean.itemM}"></h:inputText>
+                                                </div>
+                                            </div>
+                                        </c:when>
+                                    </c:choose>
+                                </div>
+                            </div>
+                            <c:choose>
+                                <c:when test="#{editItemBean.itemType!=0}">
+
+                                    <div class="row">
+                                        <div class="col-md-12">
+                                            <h3>Options</h3>
+                                            <hr></hr>
+                                        </div>
+                                    </div>
+                                    <br></br>
+                                    <div class="row">
+                                        <div class="col-md-12">
+
+                                            <table class="table table-bordered table-hover">
+                                                <thead>
+                                                    <tr>
+                                                        <th>#</th>
+                                                        <th>Title</th>
+                                                        <th>Description</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    <ui:repeat var="option" value="#{editItemBean.getAllOptions()}">
+
+                                                        <tr>
+                                                            <td>#{option.id}</td>
+                                                            <td>#{option.title}</td>
+                                                            <td>#{option.description}</td>
+                                                            <td><h:commandButton
+                                                                    styleClass="btn btn-primary"
+                                                                    value="Delete"
+                                                                    action="#{editItemBean.deleteOption(option.id)}"></h:commandButton></td>
+                                                        </tr>
+
+                                                    </ui:repeat>
+
+
+                                                </tbody>
+                                            </table>
                                         </div>
                                     </div>
 
 
-                                </div>
-                            </div>
-                            <div class="row">
-                                <div class="col-md-12">
+                                    <br></br>
+                                    <div class="row">
+                                        <div class="col-md-12">
 
-                                    <div class="btn-toolbar pull-right">
+                                            <div class="form-group">
+                                                <label class="col-sm-1 control-label">Title</label>
+                                                <div class="col-sm-11">
+                                                    <h:inputText 
+                                                        styleClass="form-control" value="#{editItemBean.optionTitle}"></h:inputText>
+                                                </div>
+                                            </div>
 
-                                        <h:commandButton
-                                            styleClass="btn btn-primary"
-                                            value="Add Option"
-                                            action="#{editItemBean.addOption()}"></h:commandButton>
 
+
+                                            <div class="form-group">
+                                                <label class="col-sm-1 control-label">Description</label>
+                                                <div class="col-sm-11">
+                                                    <h:inputTextarea
+                                                        styleClass="col-md-12 participantlist"
+                                                        value="#{editItemBean.optionDescription}"></h:inputTextarea>
+
+                                                </div>
+                                            </div>
+
+
+                                        </div>
                                     </div>
-                                </div>
-                            </div>
-                        </c:when>
-                    </c:choose>
+                                    <div class="row">
+                                        <div class="col-md-12">
+
+                                            <div class="btn-toolbar pull-right">
+
+                                                <h:commandButton
+                                                    styleClass="btn btn-primary"
+                                                    value="Add Option"
+                                                    action="#{editItemBean.addOption()}"></h:commandButton>
+
+                                            </div>
+                                        </div>
+                                    </div>
+                                </c:when>
+                            </c:choose>
 
 
 
-            </div>
-        </div>
-                    
-        <br></br>
-        <br></br>
+                        </div>
+                    </div>
 
-        </h:form>
+                    <br></br>
+                    <br></br>
+
+                </h:form>
+            </c:when>
+        </c:choose>
 
     </ui:define>
 

@@ -39,7 +39,6 @@ public interface VotesLogic {
     ItemTO getItem(int itemId);
 
     ItemTO storeItem(ItemTO to);
-    
 
     List<ItemOptionTO> getOptionsOfItem(int itemID);
 
@@ -76,25 +75,29 @@ public interface VotesLogic {
     void sendTeamInformationMail(int courseId);
 
     boolean isItemTitleUnique(int pollId, String title);
-    
+
     boolean isItemTitleUnique(int pollId, int itemId, String title);
-    
+
     boolean isOrganizerEmailUnique(String email);
-    
+
     TokenTO getTokenBySignature(String signature);
-    
+
     TokenTO getTokensOfPollAndParticipant(int pollId, int participantId);
-    
+
     void incrementItemOptionCount(int optionId);
-    
+
     void incrementAbstainedItem(int itemId);
-    
+
     long getParticipation(int pollId);
 
     TokenTO storeToken(TokenTO token);
 
     public boolean isValidEndDate(int paramID, String endDate);
-    
-    public Long getPollCountFromOrganizer (int organizerId);
-    
+
+    public Long getPollCountFromOrganizer(int organizerId);
+
+    public List<Integer> getPollIdsOfOrganizer(int organizerId);
+
+    public List<Integer> getItemIdsOfOrganizer(int organizerId);
+
 }

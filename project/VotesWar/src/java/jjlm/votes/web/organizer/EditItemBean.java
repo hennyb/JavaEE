@@ -153,6 +153,10 @@ public class EditItemBean extends OrganizerBean {
         logic.deleteItemOption(optionid);
         return "edit-item?faces-redirect=true&id=" + getItemId();
     }
+    
+    public boolean isItemOfOrganizer(){
+        return logic.getItemIdsOfOrganizer(logic.getOrganizer(user.getEmail()).getId()).contains(getItemId());
+    }
 
     public void validateItemTitle(FacesContext context, UIComponent component, Object value) throws ValidatorException {
 

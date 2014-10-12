@@ -66,6 +66,15 @@ public class PollAccess extends AbstractAccess<Poll, PollTO> {
                 .setMaxResults(limit)
                 .getResultList();
     }
+    
+    public List<Integer> getPollIdsOfOrganizer(int organizerId) {
+        return em.createQuery("SELECT p.id FROM Poll p"
+                + " where p.organizer.id= :organizerId"
+                + "", Integer.class)
+                .setParameter("organizerId", organizerId)
+                .getResultList();
+    }
+    
 
     public boolean uniqueTitle(String title) {
         return em.createQuery("SELECT COUNT(p) FROM Poll p"

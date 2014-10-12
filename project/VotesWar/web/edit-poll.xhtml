@@ -19,317 +19,326 @@
     <ui:define name="organizer-polls-title">Edit Poll</ui:define>
 
     <ui:define name="organizer-polls-content">
-        
-        <h:form styleClass="form-horizontal">
-            
-            <div class="row">
 
-                <div class="col-md-12">
-                    <h2>
-                        #{editPollBean.pollTitle} 
-                        <label class="label label-success">#{editPollBean.pollState}</label>
-                        <c:choose>
-                            <c:when test="#{not editPollBean.pollTO.valid}">
-                                <label class="label label-danger">NOT VALID</label>
-                            </c:when>
-                        </c:choose>
-
-                        <div class="btn-toolbar pull-right">
-                            
-                            <h:commandButton
-                                styleClass="btn btn-primary"
-                                value="Save"
-                                action="#{editPollBean.save()}"></h:commandButton>
+        <c:choose>
+            <c:when test="#{editPollBean.pollOfOrganizer}">
 
 
-                            <h:commandButton
-                                styleClass="btn btn-primary"
-                                value="Delete"
-                                action="#{editPollBean.delete()}"></h:commandButton>
+                <h:form styleClass="form-horizontal">
+
+                    <div class="row">
+
+                        <div class="col-md-12">
+                            <h2>
+                                #{editPollBean.pollTitle} 
+                                <label class="label label-success">#{editPollBean.pollState}</label>
+                                <c:choose>
+                                    <c:when test="#{not editPollBean.pollTO.valid}">
+                                        <label class="label label-danger">NOT VALID</label>
+                                    </c:when>
+                                </c:choose>
+
+                                <div class="btn-toolbar pull-right">
+
+                                    <h:commandButton
+                                        styleClass="btn btn-primary"
+                                        value="Save"
+                                        action="#{editPollBean.save()}"></h:commandButton>
+
+
+                                    <h:commandButton
+                                        styleClass="btn btn-primary"
+                                        value="Delete"
+                                        action="#{editPollBean.delete()}"></h:commandButton>
+
+                                </div>
+                            </h2>
 
                         </div>
-                    </h2>
 
-                </div>
+                    </div>
 
-            </div>
-
-            <div class="row">
-                <div class="col-md-12">
+                    <div class="row">
+                        <div class="col-md-12">
 
 
-                        <div class="row">
-                            <div class="col-md-12">
-                                <h3>Settings</h3>
-                                <hr></hr>
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <h3>Settings</h3>
+                                    <hr></hr>
+                                </div>
                             </div>
-                        </div>
-                        <div class="row">
-                            <h:message for="pollTitle" styleClass="col-sm-12 alert alert-danger"/>
-                            <h:message for="endPoll" styleClass="col-sm-12 alert alert-danger"/>
-                        </div>
-                        <br></br>
-                        <div class="row">
-                            <div class="col-md-12">
-
-                                <div class="form-group">
-                                    <label class="col-sm-2 control-label">Title</label>
-                                    <div class="col-sm-10">
-                                        <h:inputText 
-                                            id="pollTitle"
-                                            styleClass="form-control" 
-                                            value="#{editPollBean.pollTitle}"
-                                            validator="#{editPollBean.validateTitle}"
-                                            ></h:inputText>
-                                    </div>
-
-                                </div>
-
-                                <div class="form-group">
-                                    <label class="col-sm-2 control-label">Description</label>
-                                    <div class="col-sm-10">
-                                        <h:inputTextarea
-                                            styleClass="form-control" value="#{editPollBean.pollDescription}"></h:inputTextarea>
-                                    </div>
-                                </div>
-
-                                <div class="form-group">
-                                    <label class="col-sm-2 control-label">End-Date</label>
-                                    <div class="col-sm-10">
-                                        <h:inputText 
-                                            id="endPoll"
-                                            styleClass="form-control datepicker" 
-                                            value="#{editPollBean.endPoll}"
-                                            validator ="#{editPollBean.validateEndDate}"
-                                            ></h:inputText>
-                                    </div>
-                                </div>
-
-                                <div class="form-group">
-                                    <label class="col-sm-2 control-label">Notification-Text</label>
-                                    <div class="col-sm-10">
-                                        <h:inputTextarea
-                                            styleClass="form-control" value="#{editPollBean.notificationText}"></h:inputTextarea>
-                                    </div>
-                                </div>
-
-                                <script>
-                                    $(document).ready(function () {
-                                        $(".datepicker").datepicker();
-                                    })
-                                </script>
-
+                            <div class="row">
+                                <h:message for="pollTitle" styleClass="col-sm-12 alert alert-danger"/>
+                                <h:message for="endPoll" styleClass="col-sm-12 alert alert-danger"/>
                             </div>
-                        </div>
-                        <div class="row">
-                            <div class="col-md-12 text-center">
-                                <div class="btn-toolbar">
+                            <br></br>
+                            <div class="row">
+                                <div class="col-md-12">
 
+                                    <div class="form-group">
+                                        <label class="col-sm-2 control-label">Title</label>
+                                        <div class="col-sm-10">
+                                            <h:inputText 
+                                                id="pollTitle"
+                                                styleClass="form-control" 
+                                                value="#{editPollBean.pollTitle}"
+                                                validator="#{editPollBean.validateTitle}"
+                                                ></h:inputText>
+                                        </div>
 
-                                    <c:choose>
-                                        <c:when test="#{editPollBean.prepared}">
+                                    </div>
 
-                                            <h:commandButton
-                                                styleClass="btn btn-primary"
-                                                value="Start"
-                                                action="#{editPollBean.start()}"></h:commandButton>                                            
-                                        </c:when>
-                                        <c:when test="#{editPollBean.started or editPollBean.voting}">
-                                            <h:commandButton
-                                                styleClass="btn btn-primary"
-                                                value="Reset"
-                                                action="#{editPollBean.reset()}"></h:commandButton>                                            
-                                        </c:when>
-                                    </c:choose>
+                                    <div class="form-group">
+                                        <label class="col-sm-2 control-label">Description</label>
+                                        <div class="col-sm-10">
+                                            <h:inputTextarea
+                                                styleClass="form-control" value="#{editPollBean.pollDescription}"></h:inputTextarea>
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label class="col-sm-2 control-label">End-Date</label>
+                                        <div class="col-sm-10">
+                                            <h:inputText 
+                                                id="endPoll"
+                                                styleClass="form-control datepicker" 
+                                                value="#{editPollBean.endPoll}"
+                                                validator ="#{editPollBean.validateEndDate}"
+                                                ></h:inputText>
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label class="col-sm-2 control-label">Notification-Text</label>
+                                        <div class="col-sm-10">
+                                            <h:inputTextarea
+                                                styleClass="form-control" value="#{editPollBean.notificationText}"></h:inputTextarea>
+                                        </div>
+                                    </div>
+
+                                    <script>
+                                        $(document).ready(function () {
+                                            $(".datepicker").datepicker();
+                                        })
+                                    </script>
 
                                 </div>
                             </div>
-                        </div>
+                            <div class="row">
+                                <div class="col-md-12 text-center">
+                                    <div class="btn-toolbar">
 
-                        <div class="row">
-                            <div class="col-md-12">
-                                <h3>Items</h3>
-                                <hr></hr>
+
+                                        <c:choose>
+                                            <c:when test="#{editPollBean.prepared}">
+
+                                                <h:commandButton
+                                                    styleClass="btn btn-primary"
+                                                    value="Start"
+                                                    action="#{editPollBean.start()}"></h:commandButton>                                            
+                                            </c:when>
+                                            <c:when test="#{editPollBean.started or editPollBean.voting}">
+                                                <h:commandButton
+                                                    styleClass="btn btn-primary"
+                                                    value="Reset"
+                                                    action="#{editPollBean.reset()}"></h:commandButton>                                            
+                                            </c:when>
+                                        </c:choose>
+
+                                    </div>
+                                </div>
                             </div>
-                        </div>
-                        <br></br>
-                        <div class="row">
-                            <div class="col-md-12">
 
-                                <table class="table table-bordered table-hover">
-                                    <thead>
-                                        <tr>
-                                            <th>#</th>
-                                            <th>Title</th>
-                                            <th>Type</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        <ui:repeat var="item" value="#{editPollBean.pollItems}">
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <h3>Items</h3>
+                                    <hr></hr>
+                                </div>
+                            </div>
+                            <br></br>
+                            <div class="row">
+                                <div class="col-md-12">
 
+                                    <table class="table table-bordered table-hover">
+                                        <thead>
                                             <tr>
-                                                <td> #{item.id}</td>
-                                                <td>
-                                                    <h:link outcome="edit-item" value="#{item.title}">
-                                                        <f:param name="id" value="#{item.id}"/>
-                                                    </h:link>
-                                                </td>
-                                                <td>#{item.itemType}</td>
+                                                <th>#</th>
+                                                <th>Title</th>
+                                                <th>Type</th>
                                             </tr>
+                                        </thead>
+                                        <tbody>
+                                            <ui:repeat var="item" value="#{editPollBean.pollItems}">
+
+                                                <tr>
+                                                    <td> #{item.id}</td>
+                                                    <td>
+                                                        <h:link outcome="edit-item" value="#{item.title}">
+                                                            <f:param name="id" value="#{item.id}"/>
+                                                        </h:link>
+                                                    </td>
+                                                    <td>#{item.itemType}</td>
+                                                </tr>
 
 
-                                        </ui:repeat>
+                                            </ui:repeat>
 
 
-                                    </tbody>
-                                </table>
+                                        </tbody>
+                                    </table>
+                                </div>
                             </div>
-                        </div>
 
-                        <c:choose>
-                            <c:when test="#{editPollBean.prepared}">
-                                <br></br>
-                                <div class="row">
-                                    <div class="col-md-12">
+                            <c:choose>
+                                <c:when test="#{editPollBean.prepared}">
+                                    <br></br>
+                                    <div class="row">
+                                        <div class="col-md-12">
 
-                                        <div class="form-group">
+                                            <div class="form-group">
 
-                                            <label class="col-sm-1 control-label">Title</label>
-                                            <div class="col-sm-11">
+                                                <label class="col-sm-1 control-label">Title</label>
+                                                <div class="col-sm-11">
 
-                                                <h:inputText 
-                                                    id="itemTitle"
-                                                    styleClass="form-control" 
-                                                    value="#{editPollBean.itemTitle}"
-                                                    validator = "#{editPollBean.validateItemTitle}">
-                                                </h:inputText>
+                                                    <h:inputText 
+                                                        id="itemTitle"
+                                                        styleClass="form-control" 
+                                                        value="#{editPollBean.itemTitle}"
+                                                        validator = "#{editPollBean.validateItemTitle}">
+                                                    </h:inputText>
+
+                                                </div>
+                                                <h:message for="itemTitle"/>
 
                                             </div>
-                                            <h:message for="itemTitle"/>
 
-                                        </div>
+                                            <div class="form-group">
 
-                                        <div class="form-group">
+                                                <label class="col-sm-1 control-label">Type</label>
+                                                <div class="col-sm-11">
 
-                                            <label class="col-sm-1 control-label">Type</label>
-                                            <div class="col-sm-11">
+                                                    <h:selectOneMenu value="#{editPollBean.itemType}"
+                                                                     styleClass="col-md-12 form-control">
+                                                        <f:selectItems value="#{editPollBean.itemTypes}" 
+                                                                       itemLabel="#{itemType}" var="itemType" itemValue="#{itemType.ordinal()}"/>
+                                                    </h:selectOneMenu>
 
-                                                <h:selectOneMenu value="#{editPollBean.itemType}"
-                                                                 styleClass="col-md-12 form-control">
-                                                    <f:selectItems value="#{editPollBean.itemTypes}" 
-                                                                   itemLabel="#{itemType}" var="itemType" itemValue="#{itemType.ordinal()}"/>
-                                                </h:selectOneMenu>
+                                                </div>
 
                                             </div>
 
                                         </div>
-
                                     </div>
-                                </div>
-                                <div class="row">
-                                    <div class="col-md-12">
+                                    <div class="row">
+                                        <div class="col-md-12">
 
-                                        <div class="btn-toolbar pull-right">
+                                            <div class="btn-toolbar pull-right">
 
-                                            <h:commandButton
-                                                styleClass="btn btn-primary"
-                                                value="Add Item"
-                                                action="#{editPollBean.addItem()}"></h:commandButton>
+                                                <h:commandButton
+                                                    styleClass="btn btn-primary"
+                                                    value="Add Item"
+                                                    action="#{editPollBean.addItem()}"></h:commandButton>
 
+                                            </div>
                                         </div>
                                     </div>
+                                </c:when>
+                            </c:choose>
+
+
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <h3>Participants</h3>
+                                    <hr></hr>
                                 </div>
-                            </c:when>
-                        </c:choose>
-
-
-                        <div class="row">
-                            <div class="col-md-12">
-                                <h3>Participants</h3>
-                                <hr></hr>
                             </div>
-                        </div>
-                        <br></br>
-                        <div class="row">
-                            <div class="col-md-12">
+                            <br></br>
+                            <div class="row">
+                                <div class="col-md-12">
 
-                                <table class="table table-bordered table-hover">
-                                    <thead>
-                                        <tr>
-                                            <th>#</th>
-                                            <th>Email</th>
-                                            <!-- wenn tracking <th>bean.hasvoted</th>-->
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        <ui:repeat var="participant" value="#{editPollBean.participants}">
-
+                                    <table class="table table-bordered table-hover">
+                                        <thead>
                                             <tr>
-                                                <td> #{participant.id}</td>
-                                                <td>
-                                                    <a href="mailto:#{participant.email}">#{participant.email}</a>
-                                                </td>
-                                                <td>
-                                                    <h:commandButton
-                                                        styleClass="btn btn-primary"
-                                                        value="Delete"
-                                                        action="#{editPollBean.deleteParticipant(participant.id)}"></h:commandButton>
-                                                </td>
+                                                <th>#</th>
+                                                <th>Email</th>
+                                                <!-- wenn tracking <th>bean.hasvoted</th>-->
                                             </tr>
+                                        </thead>
+                                        <tbody>
+                                            <ui:repeat var="participant" value="#{editPollBean.participants}">
+
+                                                <tr>
+                                                    <td> #{participant.id}</td>
+                                                    <td>
+                                                        <a href="mailto:#{participant.email}">#{participant.email}</a>
+                                                    </td>
+                                                    <td>
+                                                        <h:commandButton
+                                                            styleClass="btn btn-primary"
+                                                            value="Delete"
+                                                            action="#{editPollBean.deleteParticipant(participant.id)}"></h:commandButton>
+                                                    </td>
+                                                </tr>
 
 
-                                        </ui:repeat>
+                                            </ui:repeat>
 
 
-                                    </tbody>
-                                </table>
+                                        </tbody>
+                                    </table>
+                                </div>
                             </div>
-                        </div>
 
-                        <c:choose>
-                            <c:when test="#{editPollBean.prepared}">
+                            <c:choose>
+                                <c:when test="#{editPollBean.prepared}">
 
-                                <br></br>
-                                <div class="row">
-                                    <div class="col-md-12">
+                                    <br></br>
+                                    <div class="row">
+                                        <div class="col-md-12">
 
-                                        <div class="form-group">
-                                            <div class="col-sm-12">
-                                                <h:inputTextarea value="#{editPollBean.participantsText}"
-                                                                 styleClass="col-md-12 participantlist"
-                                                                 ></h:inputTextarea>
+                                            <div class="form-group">
+                                                <div class="col-sm-12">
+                                                    <h:inputTextarea value="#{editPollBean.participantsText}"
+                                                                     styleClass="col-md-12 participantlist"
+                                                                     ></h:inputTextarea>
+                                                </div>
+                                            </div>
+
+
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-md-12">
+
+                                            <div class="btn-toolbar pull-right">
+
+                                                <h:commandButton
+                                                    styleClass="btn btn-primary"
+                                                    value="Add Participants"
+                                                    action="#{editPollBean.addParticipants()}"></h:commandButton>
+
                                             </div>
                                         </div>
-
-
                                     </div>
-                                </div>
-                                <div class="row">
-                                    <div class="col-md-12">
 
-                                        <div class="btn-toolbar pull-right">
-
-                                            <h:commandButton
-                                                styleClass="btn btn-primary"
-                                                value="Add Participants"
-                                                action="#{editPollBean.addParticipants()}"></h:commandButton>
-
-                                        </div>
-                                    </div>
-                                </div>
-
-                            </c:when>
-                        </c:choose>
+                                </c:when>
+                            </c:choose>
 
 
 
 
-                </div>
-            </div>
+                        </div>
+                    </div>
 
-            <br></br>
-            <br></br>
-        </h:form>
+                    <br></br>
+                    <br></br>
+
+
+                </h:form>
+
+            </c:when>
+        </c:choose>
     </ui:define>
 
 </ui:composition>

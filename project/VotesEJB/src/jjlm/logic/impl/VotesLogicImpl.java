@@ -591,4 +591,14 @@ public class VotesLogicImpl implements VotesLogic {
         return oa.isOrganizerEmailUnique(email);
     }
 
+    @Override
+    public List<Integer> getPollIdsOfOrganizer(int organizerId) {
+        return pa.getPollIdsOfOrganizer(organizerId);
+    }
+
+    @Override
+    public List<Integer> getItemIdsOfOrganizer(int organizerId) {
+        return ia.getItemIdsOfOrganizer(organizerId);
+    }
+
 }
