@@ -80,19 +80,21 @@ public class RegisterBean {
     }
 
     public String register() {
+        
+	try {
+	        OrganizerTO organizerTo = new OrganizerTO();
+	        Organizer organizer = new Organizer();
+	        organizer.setEmail(email);
+	        String salt = organizer.generatePasswordSalt();
+	        String encryptedPassword = organizerTo.encryptPassword(password1, salt);
+	        organizer.setPasswordSalt(salt);
+	        organizer.setEncryptedPassword(encryptedPassword);
+	        organizer.setRealname(realname);
+	        organizer.setUsername(username);
 
-        try {
-
-            String pwdHash = (new HashGenerator()).generateHash(password1);
-
-            Organizer organizer = new Organizer();
-            organizer.setEmail(email);
-            organizer.setEncryptedPassword(pwdHash);
-            organizer.setRealname(realname);
-            organizer.setUsername(username);
-
-            //logic.storeOrganizer(organizer);
-            logic.storeOrganizer(organizer.createTO());
+	        //logic.storeOrganizer(organizer);
+	        logic.storeOrganizer(organizer.createTO());
+	        return "index?faces-redirect=true";
 
         } catch (NoSuchAlgorithmException ex) {
             Logger.getLogger(RegisterBean.class.getName()).log(Level.SEVERE, null, ex);
