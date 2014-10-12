@@ -14,7 +14,6 @@ import javax.enterprise.context.SessionScoped;
 import javax.inject.Named;
 import jjlm.logic.VotesLogic;
 import jjlm.votes.logic.to.OrganizerTO;
-import jjlm.votes.web.logic.HashGenerator;
 
 /**
  * SessionBean for user data, handles login and logout actions.

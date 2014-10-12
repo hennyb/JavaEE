@@ -24,10 +24,40 @@ import jjlm.votes.persistence.entities.PollState;
 @SessionScoped
 public class PollVotingBean implements Serializable {
 
+    private class OptionState {
+
+        private ItemTO item;
+        private boolean selected;
+
+        public ItemTO getItem() {
+            return item;
+        }
+
+        public void setItem(ItemTO item) {
+            this.item = item;
+        }
+
+        public boolean isSelected() {
+            return selected;
+        }
+
+        public void setSelected(boolean selected) {
+            this.selected = selected;
+        }
+
+        public String toString() {
+
+            return String.valueOf(this.selected);
+
+        }
+
+    }
+
     private class ItemState {
 
         private ItemTO item;
         private boolean abstained;
+        private int counter = 0;
 
         public ItemTO getItem() {
             return item;
@@ -43,6 +73,24 @@ public class PollVotingBean implements Serializable {
 
         public void setAbstained(boolean abstained) {
             this.abstained = abstained;
+        }
+        
+        public void inc () {
+            
+            counter++;
+            
+        }
+        
+        public void dec () {
+            
+            if (0 < counter) counter--;
+            
+        }
+        
+        public boolean isValid () {
+            
+            return item.getM() <= counter;
+            
         }
 
     }
@@ -103,6 +151,23 @@ public class PollVotingBean implements Serializable {
             System.out.println("setOptionSate1");
             opState.setSelected(!opState.isSelected());
             optionStates.put(optionId, opState);
+            
+            if (itemStates.containsKey(opState.getItem().getId())) {
+                
+                ItemState itState = itemStates.get(opState.getItem().getId());
+                
+                if (opState.isSelected()) {
+                    
+                    itState.inc();
+                    
+                }
+                else {
+                    
+                    itState.dec();
+                    
+                }
+                
+            }
 
         } else {
             System.out.println("setOptionSate2");
@@ -171,6 +236,18 @@ public class PollVotingBean implements Serializable {
         return false;
 
     }
+    
+    public boolean itemIsValid (int itemId) {
+        
+        if (this.itemStates.containsKey(itemId)) {
+
+            return this.itemStates.get(itemId).isValid();
+
+        }
+
+        return false;
+                
+    }
 
     public void abstainItem(int itemId) {
 
@@ -229,6 +306,12 @@ public class PollVotingBean implements Serializable {
     public String submit() {
 
         boolean allValid = true;
+        
+        for (Integer i : itemStates.keySet()) {
+            
+            allValid &= itemStates.get(i).isValid();
+            
+        }
 
         if (allValid) {
 
@@ -269,10 +352,12 @@ public class PollVotingBean implements Serializable {
                         }
                     }
                 }
-            }
+            }            
+
+            verified = false;
+            tokenSignature = "";
+            
         }
-        verified = false;
-        tokenSignature = "";
 
         return "poll";
 

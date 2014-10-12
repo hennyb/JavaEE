@@ -36,11 +36,20 @@
                                             <f:param name="id" value="#{editItemBean.item.poll.id}"></f:param>
                                                 #{editItemBean.item.poll.title}
                                         </h:link>
+
+
                                     </li>
                                     <li>
                                         #{editItemBean.itemTitle}
                                     </li>
+
+
                                 </ol>
+                                <c:choose>
+                                    <c:when test="#{not editItemBean.item.valid}">
+                                        <label class="label label-danger">NOT VALID</label>
+                                    </c:when>
+                                </c:choose>
 
                                 <div class="btn-toolbar pull-right">
 

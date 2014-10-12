@@ -19,7 +19,6 @@ import jjlm.votes.logic.to.ParticipantTO;
 import jjlm.votes.logic.to.PollTO;
 import jjlm.votes.persistence.entities.ItemType;
 import jjlm.votes.persistence.entities.PollState;
-import jjlm.votes.web.MailerBean;
 import jjlm.votes.web.help.RequestParameters;
 import jjlm.votes.web.logic.ParticipantListParser;
 
@@ -30,9 +29,6 @@ import jjlm.votes.web.logic.ParticipantListParser;
 @Named
 @SessionScoped
 public class EditPollBean extends OrganizerBean {
-
-    @EJB
-    private MailerBean mailerBean;
 
     /**
      * Current poll to edit
@@ -60,9 +56,21 @@ public class EditPollBean extends OrganizerBean {
     private String notificationText;
 
     private String pollState;
+    
+    private boolean tracking =false;
+    
+    
 
     public PollTO getPollTO() {
         return poll;
+    }
+
+    public boolean isTracking() {
+        return tracking;
+    }
+
+    public void setTracking(boolean tracking) {
+        this.tracking = tracking;
     }
 
     public String getNotificationText() {
@@ -79,6 +87,10 @@ public class EditPollBean extends OrganizerBean {
 
         return values;
 
+    }
+    
+    public void toogleTracking(){
+        tracking = !tracking;
     }
 
     public String getItemTitle() {
@@ -231,6 +243,7 @@ public class EditPollBean extends OrganizerBean {
     public boolean isPollOfOrganizer() {
         return logic.getPollIdsOfOrganizer(logic.getOrganizer(user.getEmail()).getId()).contains(paramID);
     }
+    
 
     /**
      * Adds a new Item to the current poll
@@ -239,6 +252,10 @@ public class EditPollBean extends OrganizerBean {
      */
     public String addItem() {
 
+        save();
+
+        poll = logic.getPoll(this.paramID);
+
         ItemTO itemTO = new ItemTO();
 
         itemTO.setPoll(poll);
@@ -246,6 +263,8 @@ public class EditPollBean extends OrganizerBean {
         itemTO.setItemType(ItemType.values()[Integer.parseInt(itemType)]);
 
         itemTO = logic.storeItem(itemTO);
+
+        poll = null;
 
         if (itemTO.getItemType() == ItemType.YES_NO) {
             ItemOptionTO yes = new ItemOptionTO();
@@ -333,11 +352,8 @@ public class EditPollBean extends OrganizerBean {
      */
     public String start() {
         save();
-        logic.startPoll(paramID);
+        logic.startPoll(paramID, notificationText);
 
-        // send mails to participants
-        mailerBean.init(paramID);
-        mailerBean.sendMails();
 
         return "edit-poll?faces-redirect=true&id=" + paramString;
     }
@@ -366,9 +382,7 @@ public class EditPollBean extends OrganizerBean {
         boolean valid = poll.getItems().size() > 0;
 
         for (ItemTO item : poll.getItems()) {
-
             valid = valid && item.isValid();
-
         }
 
         poll.setValid(valid);
@@ -384,6 +398,7 @@ public class EditPollBean extends OrganizerBean {
         logic.storePoll(poll);
 
         poll = null;
+        
 
         setPollTitle("");
         setPollDescription("");
@@ -464,6 +479,10 @@ public class EditPollBean extends OrganizerBean {
             throw new ValidatorException(message);
         }
 
+    }
+    
+    public boolean isItemValid(int itemId){
+        return logic.isItemValid(itemId);
     }
 
 }

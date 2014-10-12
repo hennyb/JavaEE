@@ -62,6 +62,14 @@
             <ridirect/>
         </navigation-case>
         
+        
+        
+        <navigation-case>
+            <from-outcome>participant</from-outcome>
+            <to-view-id>/participant.xhtml</to-view-id>
+            <ridirect/>
+        </navigation-case>
+        
         <navigation-case>
             <from-outcome>poll</from-outcome>
             <to-view-id>/poll.xhtml</to-view-id>
