@@ -100,7 +100,7 @@ public class RegisterBean {
             Logger.getLogger(RegisterBean.class.getName()).log(Level.SEVERE, null, ex);
         }
 
-        return "index?faces-redirect=true";
+        return "my-polls?faces-redirect=true";
 
     }
 

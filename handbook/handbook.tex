@@ -1,0 +1,60 @@
+\documentclass[a4paper]{scrreprt}
+ 
+\usepackage{enumitem}
+\usepackage[german]{babel}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{ae}
+\usepackage[bookmarks,bookmarksnumbered]{hyperref}
+\usepackage[toc]{glossaries}
+\usepackage{graphicx}
+\usepackage{wrapfig}
+\usepackage{hyperref}
+\usepackage{wrapfig}
+
+\usepackage[backend=bibtex,
+style=numeric
+%style=alphabetic
+%style=reading
+]{biblatex}
+\addbibresource{lit}
+
+\setlength\parindent{5mm}
+
+\graphicspath{ {img/} }
+
+\makeglossaries
+
+
+ 
+\begin{document}
+
+\begin{titlepage}
+
+\centering
+
+
+{\Huge \textbf{Votes}}
+\\ \vspace*{3mm}
+{\huge \textbf{Architecture Description}}
+\\ \vspace*{3mm}
+{\large
+Jan-Hendrik Borth,
+Johannes Härtel,\\
+Maximilian Meffert, 
+Lukas Müller 
+}
+
+\includegraphics[width=\textwidth]{votes.png}
+
+{\LARGE \textbf{- Electronic Polls made Easy -}}
+
+
+\end{titlepage}
+  
+
+\tableofcontents
+\listoffigures
+
+
+\end{document}
