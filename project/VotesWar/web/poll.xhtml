@@ -79,9 +79,7 @@
                     <h2 class="text-center">#{pollVotingBean.poll.startPoll} - #{pollVotingBean.poll.endPoll}</h2>
                     <br></br>
                     <b>Description:</b>
-                    <p class="text-justify">#{pollVotingBean.poll.description}
-                    Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.
-                    </p>
+                    <p class="text-justify">#{pollVotingBean.poll.description}</p>
                 </div>
             </div>
             
@@ -112,14 +110,18 @@
                 
                 <ui:repeat var="item" value="#{pollVotingBean.poll.items}">
 
-                    <div class="alert #{pollVotingBean.itemIsAbstained(item.id) ? 'alert-warning' : 'alert-primary'}">
+                    <div class="alert #{pollVotingBean.itemIsAbstained(item.id) ? 'alert-warning' : 
+                                        pollVotingBean.itemIsValid(item.id) ? 'alert-success' : 'alert-danger'}">
 
                     <div class="row">
 
                         <div class="col-md-12 ">
 
-                            <h3>#{item.title} 
-                                (min #{item.m})</h3>
+                            <h3>
+                                #{item.title} 
+                                (select at least #{item.m})
+                                #{pollVotingBean.itemIsAbstained(item.id) ? 'ABSTAINED' : ''}
+                            </h3>
 
                         </div>
 

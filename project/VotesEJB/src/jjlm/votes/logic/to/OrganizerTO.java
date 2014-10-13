@@ -77,21 +77,5 @@ public class OrganizerTO extends AbstractEntityTO{
     public void setPasswordSalt(String passwordSalt) {
         this.passwordSalt = passwordSalt;
     }
-
-    public Boolean isPasswordValid(String password) throws NoSuchAlgorithmException {
-        String encPass;
-        encPass = this.encryptPassword(password, this.getPasswordSalt());
-        return this.getEncryptedPassword().equals(encPass);
-    }
-        
-    public String encryptPassword(String password, String salt) throws NoSuchAlgorithmException {
-        MessageDigest md;
-        md = MessageDigest.getInstance("MD5");
-        byte[] result;
-        String plain = salt + password;
-        result = md.digest(plain.getBytes());
-        return new String(result);
-    }
-    
     
 }

@@ -131,12 +131,22 @@
 
 
                                         <c:choose>
-                                            <c:when test="#{editPollBean.prepared}">
+                                            <c:when test="#{editPollBean.prepared }">
 
-                                                <h:commandButton
-                                                    styleClass="btn btn-primary"
-                                                    value="Start"
-                                                    action="#{editPollBean.start()}"></h:commandButton>                                            
+                                                <c:choose>
+                                                    <c:when test="#{editPollBean.pollTO.valid}">
+                                                        <h:commandButton
+                                                            styleClass="btn btn-primary"
+                                                            value="Start"
+                                                            action="#{editPollBean.start()}"></h:commandButton> 
+                                                    </c:when>
+                                                    <c:otherwise>
+                                                        The poll has to be valid before you can start the poll.
+                                                    </c:otherwise>
+
+
+                                                </c:choose>
+
                                             </c:when>
                                             <c:when test="#{editPollBean.started or editPollBean.voting}">
                                                 <h:commandButton
@@ -169,20 +179,37 @@
                                             </tr>
                                         </thead>
                                         <tbody>
-                                            <ui:repeat var="item" value="#{editPollBean.pollItems}">
+                                            <c:forEach var="item" items="#{editPollBean.pollItems}">
 
                                                 <tr>
                                                     <td> #{item.id}</td>
                                                     <td>
-                                                        <h:link outcome="edit-item" value="#{item.title}">
-                                                            <f:param name="id" value="#{item.id}"/>
-                                                        </h:link>
+                                                        <c:choose var="item">
+                                                            <c:when test="#{not item.valid}">
+                                                                <label class="label label-danger">NOT VALID</label>
+                                                                &nbsp;
+                                                            </c:when>
+                                                            
+                                                        </c:choose>
+                                                        <c:choose>
+                                                            <c:when test="#{editPollBean.prepared}">
+                                                                <h:link outcome="edit-item" value="#{item.title}">
+                                                                    <f:param name="id" value="#{item.id}"/>
+                                                                </h:link>
+                                                            </c:when>
+                                                            <c:otherwise>
+                                                                #{item.title}
+                                                            </c:otherwise>
+
+                                                        </c:choose>
+
+
                                                     </td>
                                                     <td>#{item.itemType}</td>
                                                 </tr>
 
 
-                                            </ui:repeat>
+                                            </c:forEach>
 
 
                                         </tbody>
@@ -252,8 +279,18 @@
                                     <h3>Participants</h3>
                                     <hr></hr>
                                 </div>
+
                             </div>
+
+                            <h:commandButton
+                                styleClass="btn btn-primary pull-right"
+                                value="Toogle Tracking"
+                                action="#{editPollBean.toogleTracking()}"></h:commandButton>
+
                             <br></br>
+                            <br></br>
+
+
                             <div class="row">
                                 <div class="col-md-12">
 
@@ -263,6 +300,8 @@
                                                 <th>#</th>
                                                 <th>Email</th>
                                                 <!-- wenn tracking <th>bean.hasvoted</th>-->
+                                                <th></th>
+                                                <th>Track Status</th>
                                             </tr>
                                         </thead>
                                         <tbody>
@@ -271,13 +310,36 @@
                                                 <tr>
                                                     <td> #{participant.id}</td>
                                                     <td>
-                                                        <a href="mailto:#{participant.email}">#{participant.email}</a>
+                                                        <!-- <a href="mailto:#{participant.email}">#{participant.email}</a> -->
+                                                        <c:choose>
+
+                                                            <c:when test="#{editPollBean.prepared}">
+                                                                #{participant.email}
+                                                            </c:when>
+                                                            <c:otherwise>
+
+                                                                <h:link outcome="participant" value="#{participant.email}">
+                                                                    <f:param name="id" value="#{participant.id}"></f:param>
+                                                                </h:link>
+                                                            </c:otherwise>
+
+                                                        </c:choose>
+
+
                                                     </td>
                                                     <td>
                                                         <h:commandButton
                                                             styleClass="btn btn-primary"
                                                             value="Delete"
                                                             action="#{editPollBean.deleteParticipant(participant.id)}"></h:commandButton>
+                                                    </td>
+                                                    <td>
+                                                        <c:choose>
+                                                            <c:when test="#{editPollBean.tracking}">
+                                                                #{participant.hasVoted ? "Has Voted" : "Has Not Voted"}
+                                                            </c:when>
+
+                                                        </c:choose>
                                                     </td>
                                                 </tr>
 

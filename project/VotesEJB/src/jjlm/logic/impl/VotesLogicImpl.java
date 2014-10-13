@@ -5,6 +5,8 @@
  */
 package jjlm.logic.impl;
 
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -602,5 +604,22 @@ public class VotesLogicImpl implements VotesLogic {
     public List<Integer> getItemIdsOfOrganizer(int organizerId) {
         return ia.getItemIdsOfOrganizer(organizerId);
     }
+    
+    @Override
+    public Boolean isPasswordValid(String password, String salt, String encryptedPassword) throws NoSuchAlgorithmException {
+        String encPass = this.encryptPassword(password, salt);
+        return encryptedPassword.equals(encPass);
+    }
+        
+    @Override
+    public String encryptPassword(String password, String salt) throws NoSuchAlgorithmException {
+        MessageDigest md;
+        md = MessageDigest.getInstance("MD5");
+        byte[] result;
+        String plain = salt + password;
+        result = md.digest(plain.getBytes());
+        return new String(result);
+    }
+    
 
 }

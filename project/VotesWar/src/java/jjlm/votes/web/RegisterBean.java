@@ -1,8 +1,7 @@
 package jjlm.votes.web;
 
 import java.security.NoSuchAlgorithmException;
-import java.util.ArrayList;
-import java.util.HashSet;
+import java.util.UUID;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.ejb.EJB;
@@ -12,14 +11,9 @@ import javax.faces.component.UIComponent;
 import javax.faces.component.UIInput;
 import javax.faces.context.FacesContext;
 import javax.faces.validator.ValidatorException;
-import javax.inject.Inject;
 import javax.inject.Named;
 import jjlm.logic.VotesLogic;
-import jjlm.votes.logic.to.OrganizerTO;
-import jjlm.votes.logic.to.PollTO;
 import jjlm.votes.persistence.entities.Organizer;
-import jjlm.votes.persistence.entities.Poll;
-import jjlm.votes.web.logic.HashGenerator;
 import jjlm.votes.web.logic.ParticipantListParser;
 
 /**
@@ -82,11 +76,10 @@ public class RegisterBean {
     public String register() {
         
 	try {
-	        OrganizerTO organizerTo = new OrganizerTO();
 	        Organizer organizer = new Organizer();
 	        organizer.setEmail(email);
-	        String salt = organizer.generatePasswordSalt();
-	        String encryptedPassword = organizerTo.encryptPassword(password1, salt);
+	        String salt = UUID.randomUUID().toString();
+	        String encryptedPassword = logic.encryptPassword(password1, salt);
 	        organizer.setPasswordSalt(salt);
 	        organizer.setEncryptedPassword(encryptedPassword);
 	        organizer.setRealname(realname);
@@ -94,7 +87,7 @@ public class RegisterBean {
 
 	        //logic.storeOrganizer(organizer);
 	        logic.storeOrganizer(organizer.createTO());
-	        return "index?faces-redirect=true";
+	        return "my-polls?faces-redirect=true";
 
         } catch (NoSuchAlgorithmException ex) {
             Logger.getLogger(RegisterBean.class.getName()).log(Level.SEVERE, null, ex);

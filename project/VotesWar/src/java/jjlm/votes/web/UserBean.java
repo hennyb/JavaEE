@@ -14,7 +14,6 @@ import javax.enterprise.context.SessionScoped;
 import javax.inject.Named;
 import jjlm.logic.VotesLogic;
 import jjlm.votes.logic.to.OrganizerTO;
-import jjlm.votes.web.logic.HashGenerator;
 
 /**
  * SessionBean for user data, handles login and logout actions.
@@ -27,9 +26,9 @@ public class UserBean implements Serializable {
      * Login status for session
      */
     private boolean loggedIn = false;
-    
+
     /**
-     * 
+     *
      */
     private String name;
     private String email;
@@ -38,10 +37,6 @@ public class UserBean implements Serializable {
     @EJB
     private VotesLogic logic;
 
-   
-
-    
-    
     public boolean isLoggedIn() {
         return loggedIn;
     }
@@ -76,31 +71,29 @@ public class UserBean implements Serializable {
     public void login() {
 
         try {
-                        
+
             this.loggedIn = false;
-            
+
             if (email != null) {
-            
+
                 OrganizerTO o = logic.getOrganizer(email);
-                
+
                 if (o != null) {
-                    if (o.getEncryptedPassword() != null 
-                            && o.getEncryptedPassword().equals((new HashGenerator()).generateHash(password))) {
-                        name = o.getRealname();
-                        loggedIn = true;
-                        
+                    if (o.getEncryptedPassword() != null) {
+                        if (logic.isPasswordValid(this.getPassword(), o.getPasswordSalt(), o.getEncryptedPassword())) {
+                            name = o.getRealname();
+                            loggedIn = true;
+                        }
                     }
-                    
                 }
-                
             }
-            
+
         } catch (NoSuchAlgorithmException ex) {
             Logger.getLogger(UserBean.class.getName()).log(Level.SEVERE, null, ex);
         } catch (Exception e) {
             e.printStackTrace();
         }
-                
+
     }
 
     /**
