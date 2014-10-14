@@ -74,23 +74,25 @@ public class PollVotingBean implements Serializable {
         public void setAbstained(boolean abstained) {
             this.abstained = abstained;
         }
-        
-        public void inc () {
-            
+
+        public void inc() {
+
             counter++;
-            
+
         }
-        
-        public void dec () {
-            
-            if (0 < counter) counter--;
-            
+
+        public void dec() {
+
+            if (0 < counter) {
+                counter--;
+            }
+
         }
-        
-        public boolean isValid () {
-            
+
+        public boolean isValid() {
+
             return item.getM() <= counter;
-            
+
         }
 
     }
@@ -151,23 +153,6 @@ public class PollVotingBean implements Serializable {
             System.out.println("setOptionSate1");
             opState.setSelected(!opState.isSelected());
             optionStates.put(optionId, opState);
-            
-            if (itemStates.containsKey(opState.getItem().getId())) {
-                
-                ItemState itState = itemStates.get(opState.getItem().getId());
-                
-                if (opState.isSelected()) {
-                    
-                    itState.inc();
-                    
-                }
-                else {
-                    
-                    itState.dec();
-                    
-                }
-                
-            }
 
         } else {
             System.out.println("setOptionSate2");
@@ -182,6 +167,22 @@ public class PollVotingBean implements Serializable {
             optionStates.put(optionId, opState);
 
             System.out.println("setOptionSate3");
+        }
+
+        if (itemStates.containsKey(opState.getItem().getId())) {
+
+            ItemState itState = itemStates.get(opState.getItem().getId());
+
+            if (opState.isSelected()) {
+
+                itState.inc();
+
+            } else {
+
+                itState.dec();
+
+            }
+
         }
 
         System.out.println(this.optionStates);
@@ -236,9 +237,9 @@ public class PollVotingBean implements Serializable {
         return false;
 
     }
-    
-    public boolean itemIsValid (int itemId) {
-        
+
+    public boolean itemIsValid(int itemId) {
+
         if (this.itemStates.containsKey(itemId)) {
 
             return this.itemStates.get(itemId).isValid();
@@ -246,7 +247,7 @@ public class PollVotingBean implements Serializable {
         }
 
         return false;
-                
+
     }
 
     public void abstainItem(int itemId) {
@@ -306,11 +307,11 @@ public class PollVotingBean implements Serializable {
     public String submit() {
 
         boolean allValid = true;
-        
+
         for (Integer i : itemStates.keySet()) {
-            
-            allValid &= itemStates.get(i).isValid();
-            
+
+            allValid &= (itemStates.get(i).isValid() || this.itemStates.get(i).isAbstained());
+
         }
 
         if (allValid) {
@@ -352,11 +353,11 @@ public class PollVotingBean implements Serializable {
                         }
                     }
                 }
-            }            
+            }
 
             verified = false;
             tokenSignature = "";
-            
+
         }
 
         return "poll";

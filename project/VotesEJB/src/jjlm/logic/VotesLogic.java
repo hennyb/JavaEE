@@ -67,13 +67,11 @@ public interface VotesLogic {
 
     void deleteTokensOfPoll(int pollId);
 
-    List<TokenTO> startPoll(int pollId);
+    List<TokenTO> startPoll(int pollId, String notificationText);
 
     void resetPoll(int pollId);
 
     List<TokenTO> createTokensForPoll(int pollId);
-
-    void sendTeamInformationMail(int courseId);
 
     boolean isItemTitleUnique(int pollId, String title);
 
@@ -93,15 +91,22 @@ public interface VotesLogic {
 
     TokenTO storeToken(TokenTO token);
 
-    public boolean isValidEndDate(int paramID, String endDate);
+    boolean isValidEndDate(int paramID, String endDate);
 
-    public Long getPollCountFromOrganizer(int organizerId);
+    Long getPollCountFromOrganizer(int organizerId);
 
-    public List<Integer> getPollIdsOfOrganizer(int organizerId);
+    List<Integer> getPollIdsOfOrganizer(int organizerId);
 
-    public List<Integer> getItemIdsOfOrganizer(int organizerId);
-    
-    public Boolean isPasswordValid(String password, String salt, String encryptedPassword) throws NoSuchAlgorithmException;
-    
-    public String encryptPassword(String password, String salt) throws NoSuchAlgorithmException;
+    List<Integer> getItemIdsOfOrganizer(int organizerId);
+
+    Boolean isPasswordValid(String password, String salt, String encryptedPassword) throws NoSuchAlgorithmException;
+
+    String encryptPassword(String password, String salt) throws NoSuchAlgorithmException;
+
+    ParticipantTO getParticipant(int participantId);
+
+    long getNumberOfParticipants(int pollId);
+
+    public boolean isItemValid(int itemId);
+
 }
