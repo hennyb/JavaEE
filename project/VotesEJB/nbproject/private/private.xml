@@ -2,10 +2,6 @@
 <project-private xmlns="http://www.netbeans.org/ns/project-private/1">
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
-        <group>
-            <file>file:/C:/Users/Johannes/Documents/NetBeansProjects7.4/JavaEE/project/VotesEJB/cfg/persistence.xml</file>
-            <file>file:/C:/Users/Johannes/Documents/NetBeansProjects7.4/JavaEE/project/VotesEJB/src/jjlm/votes/persistence/OrganizerAccess.java</file>
-            <file>file:/C:/Users/Johannes/Documents/NetBeansProjects7.4/JavaEE/project/VotesEJB/setup/glassfish-resources.xml</file>
-        </group>
+        <group/>
     </open-files>
 </project-private>
