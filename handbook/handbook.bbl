@@ -3,4 +3,17 @@
 \bibitem{Votes14}
 Votes! - javaee web applications 2014, Mai 2014.
 
+\bibitem{Uwe08}
+N.~Koch, A.~Knapp, G.~Zhang, and H.~Baumeister.
+\newblock Uml-based web engineering.
+\newblock In G.~Rossi, O.~Pastor, D.~Schwabe, and L.~Olsina, editors, {\em Web
+  Engineering: Modelling and Implementing Web Applications}, Human-Computer
+  Interaction Series, pages 157--191. Springer London, 2008.
+
+\bibitem{uweref}
+C.~Kroiss and N.~Koch.
+\newblock {\em {UWE Metamodel and Profile: User Guide and Reference V1.0}}.
+\newblock Ludwig-Maximilians-Universitaet (LMU), Programming and Software
+  Engineering Unit (PST) Institute for Informatics, M\"{u}nchen, Germany, 2008.
+
 \end{thebibliography}
