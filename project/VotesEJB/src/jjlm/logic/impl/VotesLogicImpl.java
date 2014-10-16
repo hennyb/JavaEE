@@ -5,6 +5,7 @@
  */
 package jjlm.logic.impl;
 
+import java.io.UnsupportedEncodingException;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.text.SimpleDateFormat;
@@ -13,8 +14,17 @@ import java.util.Date;
 import java.util.HashSet;
 import java.util.List;
 import java.util.UUID;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.annotation.Resource;
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
+import javax.mail.Message;
+import javax.mail.MessagingException;
+import javax.mail.Session;
+import javax.mail.Transport;
+import javax.mail.internet.InternetAddress;
+import javax.mail.internet.MimeMessage;
 import jjlm.votes.persistence.entities.PollState;
 import jjlm.logic.VotesLogic;
 import jjlm.votes.logic.to.ItemOptionTO;
@@ -60,6 +70,9 @@ public class VotesLogicImpl implements VotesLogic {
 
     @EJB
     private TokenAccess ta;
+
+    @Resource(lookup = "unimail")
+    private Session mailSession;
 
     @Override
     public OrganizerTO getOrganizer(String email) {
@@ -192,8 +205,8 @@ public class VotesLogicImpl implements VotesLogic {
     }
 
     @Override
-    public List<ItemTO> getItemsOfPoll(int poollId) {
-        return AbstractEntity.createTransferList(ia.getItems(poollId));
+    public List<ItemTO> getItemsOfPoll(int pollId) {
+        return AbstractEntity.createTransferList(ia.getItems(pollId));
     }
 
     @Override
@@ -430,7 +443,7 @@ public class VotesLogicImpl implements VotesLogic {
     }
 
     @Override
-    public List<TokenTO> startPoll(int pollId) {
+    public List<TokenTO> startPoll(int pollId, String notificationText) {
 
         PollTO poll = getPoll(pollId);
         poll.setStartPoll(new Date());
@@ -438,25 +451,42 @@ public class VotesLogicImpl implements VotesLogic {
 
         storePoll(poll);
 
-        return createTokensForPoll(pollId);
+        List<TokenTO> tokens = createTokensForPoll(pollId);
 
-    }
+        for (ParticipantTO participant : getParticipantsOfPoll(pollId)) {
+            StringBuilder emailText = new StringBuilder();
 
-    @Override
-    public void sendTeamInformationMail(int courseId) {
-//        try {
-//            Message msg = new MimeMessage(mailSession);
-//            msg.setSubject("Test vom Glassfish äöüÄÖÜß€µ∫");
-//            msg.setSentDate(new Date());
-//            msg.setReplyTo(InternetAddress.parse("riediger@uni-koblenz.de", false));
-//            msg.setRecipients(Message.RecipientType.TO,
-//                    InternetAddress.parse("riediger@uni-koblenz.de", false));
-//            msg.setText("Test\n\nUmlaute: äöüÄÖÜß€µ∫\n\n-- \n"
-//                    + "Viele Grüße: Volker Riediger");
-//            Transport.send(msg);
-//        } catch (MessagingException ex) {
-//
-//        }
+            emailText.append(notificationText + "\n");
+            emailText.append("Hello "+participant.getEmail()+ "\n");
+            emailText.append("You are invited to the poll "+poll.getTitle() + "\n");
+            emailText.append("Here is a small description:"+ "\n");
+            emailText.append(poll.getDescription()+ "\n");
+            emailText.append("please visit my-web-page.com/poll and verify your token: "+getParticipant(participant.getId()).getToken().getSignature() +" \n");
+            emailText.append("The Poll starts on "+poll.getStartPoll()+"\n");
+            emailText.append("And ends on "+poll.getEndPoll()+"\n");
+            emailText.append("There are "+getNumberOfParticipants(pollId)+ " participants invited to this poll"+"\n");
+            
+            emailText.append("Best Regards \n");
+            emailText.append(poll.getOrganizer().getRealname());
+            
+            
+            try {
+                Message msg = new MimeMessage(mailSession);
+                msg.setSubject("Invitation to Poll: " + poll.getTitle());
+                msg.setSentDate(new Date());
+                msg.setFrom(new InternetAddress("hennnyhenny@gmail.com"));
+                msg.setRecipients(Message.RecipientType.TO,
+                        InternetAddress.parse(participant.getEmail(), false));
+                msg.setText(emailText.toString());
+
+                Transport.send(msg);
+            } catch (MessagingException ex) {
+                System.err.println(ex);
+            }
+
+        }
+        return tokens;
+
     }
 
     private void validateItem(int itemId) {
@@ -604,22 +634,48 @@ public class VotesLogicImpl implements VotesLogic {
     public List<Integer> getItemIdsOfOrganizer(int organizerId) {
         return ia.getItemIdsOfOrganizer(organizerId);
     }
-    
+
     @Override
     public Boolean isPasswordValid(String password, String salt, String encryptedPassword) throws NoSuchAlgorithmException {
         String encPass = this.encryptPassword(password, salt);
         return encryptedPassword.equals(encPass);
     }
-        
+
     @Override
     public String encryptPassword(String password, String salt) throws NoSuchAlgorithmException {
         MessageDigest md;
-        md = MessageDigest.getInstance("MD5");
-        byte[] result;
+        md = MessageDigest.getInstance("SHA-256");
+
+        String result = "";
+        byte[] bytes;
+        //do not change unless you want to drop all users
         String plain = salt + password;
-        result = md.digest(plain.getBytes());
-        return new String(result);
+
+        bytes = md.digest(plain.getBytes());
+
+        for (byte b : bytes) {
+
+            result += String.format("%02X", b);
+
+        }
+
+        return result;
     }
-    
+
+    @Override
+    public ParticipantTO getParticipant(int participantId) {
+        return pta.getParticipantWithPoll(participantId);
+    }
+
+    @Override
+    public long getNumberOfParticipants(int pollId) {
+        return pa.getParticipations(pollId);
+    }
+
+    @Override
+    public boolean isItemValid(int itemId) {
+        System.out.println(itemId);
+        return getItem(itemId).isValid();
+    }
 
 }

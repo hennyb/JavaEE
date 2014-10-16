@@ -5,7 +5,9 @@
  */
 package jjlm.votes.persistence.entities;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.Lob;
 import javax.persistence.ManyToOne;
 import jjlm.votes.logic.to.ItemOptionTO;
 
@@ -32,7 +34,8 @@ public class ItemOption extends AbstractEntity<ItemOption, ItemOptionTO> {
         this.votes = votes;
     }
     
-    
+    @Lob 
+    @Column(name="DESCRIPTION", length=10000)
     public String getDescription() {
         return this.description;
     }

@@ -5,20 +5,19 @@
  */
 package jjlm.votes.persistence.entities;
 
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
 import javax.persistence.FetchType;
-import javax.persistence.JoinTable;
-import javax.persistence.ManyToMany;
+import javax.persistence.Lob;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Temporal;
-import jjlm.votes.logic.to.OrganizerTO;
+import javax.validation.constraints.Size;
 import jjlm.votes.logic.to.PollTO;
 
 
@@ -96,11 +95,8 @@ public class Poll extends AbstractEntity<Poll, PollTO> {
         this.organizer = organizer;
     }
 
-    /**
-     * Returns description.
-     *
-     * @return description
-     */
+    @Lob 
+    @Column(name="DESCRIPTION", length=10000)
     public String getDescription() {
         return this.description;
     }

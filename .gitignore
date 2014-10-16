@@ -29,3 +29,4 @@
 /handbook/handbook.run.xml
 /handbook/handbook.synctex.gz
 /handbook/handbook.toc
+/handbook/sections/*.aux

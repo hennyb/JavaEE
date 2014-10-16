@@ -46,14 +46,14 @@ public class PollAccess extends AbstractAccess<Poll, PollTO> {
                 .getResultList();
 
     }
-    
-    public Long getPollCount (int organizerId) {
-        
+
+    public Long getPollCount(int organizerId) {
+
         return em.createQuery("Select count(p) from Poll p"
                 + " where p.organizer.id = :organizerId", Long.class)
                 .setParameter("organizerId", organizerId)
                 .getSingleResult();
-        
+
     }
 
     public List<Poll> getPolls(int organizerId, int offset, int limit) {
@@ -66,7 +66,7 @@ public class PollAccess extends AbstractAccess<Poll, PollTO> {
                 .setMaxResults(limit)
                 .getResultList();
     }
-    
+
     public List<Integer> getPollIdsOfOrganizer(int organizerId) {
         return em.createQuery("SELECT p.id FROM Poll p"
                 + " where p.organizer.id= :organizerId"
@@ -74,7 +74,6 @@ public class PollAccess extends AbstractAccess<Poll, PollTO> {
                 .setParameter("organizerId", organizerId)
                 .getResultList();
     }
-    
 
     public boolean uniqueTitle(String title) {
         return em.createQuery("SELECT COUNT(p) FROM Poll p"
@@ -116,6 +115,14 @@ public class PollAccess extends AbstractAccess<Poll, PollTO> {
         return em.createQuery("SELECT COUNT(p) FROM Participant p"
                 + " WHERE p.poll.id = :pollId"
                 + " and p.hasVoted = 1"
+                + "", Long.class)
+                .setParameter("pollId", pollId)
+                .getSingleResult();
+    }
+
+    public long getParticipations(int pollId) {
+        return em.createQuery("SELECT COUNT(p) FROM Participant p"
+                + " WHERE p.poll.id = :pollId"
                 + "", Long.class)
                 .setParameter("pollId", pollId)
                 .getSingleResult();

@@ -11,7 +11,9 @@ import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import jjlm.votes.logic.to.ParticipantTO;
+import jjlm.votes.logic.to.TokenTO;
 import jjlm.votes.persistence.entities.Participant;
+import jjlm.votes.persistence.entities.Token;
 
 @Stateless
 @LocalBean
@@ -34,5 +36,20 @@ public class ParticipantAccess extends AbstractAccess<Participant, ParticipantTO
                 + " WHERE p.poll.id = :pollId", Participant.class)
                 .setParameter("pollId", pollId)
                 .getResultList();
+    }
+
+    public ParticipantTO getParticipantWithPoll(int participantId) {
+
+        ParticipantTO particpant = find(participantId).createTO();
+
+        Token t = em.createQuery("Select t FROM Token t"
+                + " Where t.participant.id = :participantId", Token.class).setParameter("participantId", participantId).getSingleResult();
+
+        TokenTO token = t.createTO();
+
+        particpant.setToken(token);
+
+        return particpant;
+
     }
 }
