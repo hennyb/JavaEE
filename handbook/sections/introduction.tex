@@ -1,2 +1,23 @@
 \section{Introduction}
-\textit{Votes - Electronic Polls Made Easy} is the examination project of the JavaEE course in summer semester 2014 at the University of Koblenz-Landau.
+\textsc{Votes - Electronic Polls Made Easy} is the examination project of the JavaEE Web Applications course, summer term 2014 at the University of Koblenz-Landau.
+The Votes-System provides means to conduct arbitrary electronic polls comparable to the Doodle\footnote{\url{http://doodle.com/}} scheduling tool, but is not specialized for time schedules.
+
+The main use case for Votes is to simplify poll based decision finding of university bodies such as the examination office.
+Due to busy schedules of members, meetings are hard to organize, which results in an unwanted delay of important decisions.
+Votes provides a solution for such polls accessible via the Web, which renders meetings unnecessary to conduct polls where no further discussion is needed.
+
+Any member of the university can register with Votes as \textit{Organizer}.
+Once signed in, an organizer can create polls with an arbitrary amount of \textit{Items} he or she wishes to be voted on.
+Such items can be questions, which only demand a \textsc{Yes/No} decision.
+Or items can consist of \textit{n} options a participant can select.
+Additionally the organizer can specify a minimum number (1 or more) of options the participant has to select.
+
+Participants can be invited to a poll by simply adding his or hers email-address to the list of participants.
+When a poll is started by its organizer, each participant will receive an message containing a \textit{Token} string, which will act as ballot, and an URL, where to conduct the vote until the poll's expiration date.
+Before a participant can submit a vote, the Votes-System requires a valid token.
+Without such a token a participant cannot view the poll contents.
+
+To ensure anonymity certain restrictions are made.
+Although Votes stores who has voted on which poll, no link can be established with what a participant has voted for.
+Additionally each poll requires at least three participants and no result can be displayed if less than tree have participated.
+Moreover, no intermediate results can be displayed.

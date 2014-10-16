@@ -25,21 +25,30 @@
 \graphicspath{ {img/} }
 
 \pagestyle{fancy}
-\fancyhead[L]{Votes Handbook}
+\fancyhead[L]{Votes - Electronic Polls Made Easy}
 %\fancyhead[R]{\leftmark}
 
 
 \begin{document}
+
 
 \begin{titlepage}
 
 \centering
 
 
-{\Huge\fontsize{40}{40} \textbf{Votes Handbook}}
+{\Huge\fontsize{40}{40} \textbf{Votes}}
 \\ \vspace*{7mm}
+{\LARGE \textbf{- Electronic Polls Made Easy -}}
 %{\huge \textbf{Handbook}}
-%\\ \vspace*{3mm}
+\\ \vspace*{3mm}
+
+\includegraphics[width=\textwidth]{votes.png}
+
+{\huge \textsc{University of Koblenz-Landau}}
+\\ \vspace*{3mm}
+{\Large \textsc{Summer Term 2014}}
+\\ \vspace*{7mm}
 {\large
 Jan-Hendrik Borth,
 Johannes Härtel,\\
@@ -47,29 +56,23 @@ Maximilian Meffert,
 Lukas Müller 
 }
 
-\includegraphics[width=\textwidth]{votes.png}
-
-{\LARGE \textbf{- Electronic Polls Made Easy -}}
-\\ \vspace*{7mm}
-{\huge \textsc{University of Koblenz-Landau}}
-
-
-
-
 \end{titlepage}
 
+\newpage
+\vspace*{\fill}
+\newpage
 \include{sections/abstract}
-
+\newpage
 \tableofcontents
 \newpage
 \listoffigures
 \newpage
-
 \include{sections/introduction}
 \include{sections/requirements}
 \include{sections/architecture}
 \appendix
 \include{sections/installation-guide}
+\include{sections/manual}
 
 % Bibliography
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
