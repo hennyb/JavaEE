@@ -1,31 +1,23 @@
 \section{Introduction}
-\textsc{Votes - Electronic Polls Made Easy} is the examination project of the JavaEE course in summer semester 2014 at the University of Koblenz-Landau.
+\textsc{Votes - Electronic Polls Made Easy} is the examination project of the JavaEE Web Applications course, summer tern 2014 at the University of Koblenz-Landau.
+The Votes-System provides means to conduct arbitrary electronic polls comparable to the Doodle\footnote{\url{http://doodle.com/}} scheduling tool, but is not specialized for time schedules.
 
-The Votes!-System supports electronic polls. The system shall be used mainly by university bodies
-such as the examination office (Prüfungsausschuss). Many decisions in such bodies are made by
-polls. Since a common meeting is often hard to organize due to crowded schedules of participants,
-a voting system accessible via the Web is desirable.
+The main use case for Votes is to simplify poll based decision finding of university bodies such as the examination office.
+Due to busy schedules of members, meetings are hard to organize, which results in an unwanted delay of important decisions.
+Votes provides a solution for such polls accessible via the Web, which renders meetings unnecessary to conduct polls where no further discussion is needed.
 
-Any member of the university must be able to define and conduct a voting. This role shall be called
-organizer. Participants, i.e. the people making a choice, need not be member of the university.
-The system shall support different types of polls, such as yes-no, one of n options, m of n options.
-Voters must be able to abstain from voting (vote void, ungültige Stimme oder Enthaltung). Depend-
-ing on the decision mode (absolute majority relative majority, simple majority), void votes are counted
-differently.
+Any member of the university can register with Votes as \textit{Organizer}.
+Once signed in, an organizer can create polls with an arbitrary amount of \textit{Items} he or she wishes to be voted on.
+Such items can be questions, which only demand a \textsc{Yes/No} decision.
+Or items can consist of \textit{n} options a participant can select.
+Additionally the organizer can specify a minimum number (1 or more) of options the participant has to select.
 
-Participants of a voting get a token, e.g. a transaction number, via E-Mail. This token represents their
-ballot paper (Wahlschein). The system must ensure anonymity. At no point in time, the person sub-
-mitting a ballot must be connectable to her voting.
+Participants can be invited to a poll by simply adding his or hers email-address to the list of participants.
+When a poll is started by its organizer, each participant will receive an message containing a \textit{Token} string, which will act as ballot, and an URL, where to conduct the vote until the poll's expiration date.
+Before a participant can submit a vote, the Votes-System requires a valid token.
+Without such a token a participant cannot view the poll.
 
-However, some administrative procedures require that the system keeps track of who has voted and
-who didn’t participate. The organizer can decide if such tracking is required. Optionally, the voting
-system can send reminder mails to voters who did not yet participate.
-Once a voting has been started, nobody can change the options and the participant list any more.
-
-After the voting deadline expires, the organizer can view the results. To ensure anonymity, the results
-may not be shown when an identification of a participant is possible (e.g. when tracking is enabled,
-and only one participant submitted her decision).
-
-A graphical representation of the results, e.g. as a bar chart or pie chart, would be nice. For subse-
-quent polls, an organizer should be able to record participant lists. The lists can easily be reused
-when the same participants occur many times, a usual situation in university bodies.
+To ensure anonymity certain restrictions are made.
+Although Votes stores who has voted on which poll, no link can be established with what a participant has voted for.
+Additionally each poll requires at least three participants and no result can be displayed if less than tree have participated.
+Moreover, no intermediate results can be displayed.
