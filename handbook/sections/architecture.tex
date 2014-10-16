@@ -34,5 +34,22 @@ The navigation through the system and the interaction between user and content m
 \subsection{Presentation model}
 % If we insert the UWE Presentation model, i need help of max because i can not undesand html jsf.
 
+The presentation model describes the components involved in the user interface and their relations. In the following model, displayed in figure \ref{F:presentation_model}, and its realisations web page, plotted in \ref{F:presentation_model_realisation}, the underlying structure is pointed out by using the example of the 'My Polls' page. The page consists of two parts and is defined by the component type MyPolls. The lower region holds one list displaying polls, the upper side displays the menu that allows the user to go back to the 'My Polls' page or to create a new Poll. In the case of the 'My Polls' type the left button of the SystemMenu part links back to the page itself. This is necessary because the SystemMenu type is also used in other context where it is needed to have a link back to the 'My Polls' page. Other pages of the votes system can be defined in similar fashion. The visual UWE stereotypes are missing in this model because of technical reasons.
+
+ 
+\begin{figure}
+\centering
+\includegraphics[width=0.4\textwidth]{png/presentation_model.png}
+\caption{Votes presentation model of 'My Polls' page}
+\label{F:presentation_model}
+\end{figure}
+
+\begin{figure}
+\centering
+\includegraphics[width=0.4\textwidth]{png/presentation_model_realisation.png}
+\caption{Votes realisation of 'My Polls' page}
+\label{F:presentation_model_realisation}
+\end{figure}
+
 \subsection{VotesWar Architecture (Packaging?)}
 % Do you mean packaging?
