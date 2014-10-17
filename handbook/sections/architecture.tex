@@ -1,8 +1,35 @@
 \section{Architecture}
 % Reference 'Uwe08' and 'uweref' in sources folder.
 
-In this section the architecture of the votes system is define. The viewpoints are taken from the UWE approach proposed in \cite{Uwe08,uweref} and use UML stereotypes. In the next sections the focus lies on the content, navigation and presentation model as the requirements are already define in \ref{requirements}.
+In this section the architecture of the votes system is define. 
+The viewpoints are taken from the UWE approach proposed in \cite{Uwe08,uweref} and use UML stereotypes. 
+In the next sections the focus lies on the content, navigation and presentation model as the requirements are already define in \ref{requirements}.
 
+\subsection{VotesEJB Architecture}
+\begin{figure}
+\centering
+\includegraphics[width=0.9\textwidth]{png/poll-states.png}
+\caption{Poll States}
+\label{figure:poll-states}
+\end{figure}
+\begin{figure}
+\centering
+\includegraphics[width=0.9\textwidth]{png/ejb-model.png}
+\caption{VotesEJB Entity Model}
+\label{figure:ejb-model}
+\end{figure}
+\begin{figure}
+\centering
+\includegraphics[width=0.9\textwidth]{png/ejb-abstract-entity.png}
+\caption{VotesEJB Abstract Entity}
+\label{figure:ejb-abstract-entity}
+\end{figure}
+\begin{figure}
+\centering
+\includegraphics[width=0.9\textwidth]{png/ejb-facade.png}
+\caption{VotesEJB Facade}
+\label{figure:ejb-facade}
+\end{figure}
 
 
 \subsection{Content Model}
@@ -11,6 +38,8 @@ The following perspective describes the systems content model derived from requi
 The votes content model can be seen in figure \ref{content_model}. The corresponding implementation serves as backbone of the running application in form of keeping the data and persisting it on a database. Later this is realises by JPA. Importance comes to the fact that no presentation details are included in the model, only the domain knowledge is included. The six classes represent all essential entity types that are involved in the requirements and their corresponding properties. Two enumeration types serve as additional datatypes. 
 
 High value comes to this view due to the fact that it can be directly mapped on the JPA and the transfer object classes that are part of the systems implementation. Apart from the fixed nature of the content model, described in the current requirements, a derivation process defining the Java classes can be of high good for further evolution and maintenance providing constructive quality assurance.
+
+
 
 \begin{figure}
 \centering
