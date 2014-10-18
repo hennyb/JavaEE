@@ -137,10 +137,12 @@ Another notable exception is the validation of polls, depicted in figure \ref{fi
 Poll validation is one mean to ensure anonymity as only valid polls can be started.
 Like the poll state, the poll valid flag is frequently updated when a poll is accessed.
 
+However, such business operations are still closely related to CRUD.
+So they are no additional business classes or packages besides the EJB facade, which is described in the following section.
 
 \subsubsection{The VotesEJB Facade}
 \label{subsubsec:the-votesejb-facade}
-asdf
+Additionally to the data mapper pattern, JPA also makes use of the \textit{Facade}\footnote{\url{http://en.wikipedia.org/wiki/Facade_pattern}} pattern.
 
 \begin{figure}[h]
 \centering
