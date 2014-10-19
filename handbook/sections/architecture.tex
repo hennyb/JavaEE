@@ -20,7 +20,7 @@ However, we made some extensions:
 \begin{figure}[h]
 \centering
 \includegraphics[width=0.7\textwidth]{png/ejb-model.png}
-\caption{VotesEJB Entity Model}
+\caption{VotesEJB: Entity Model}
 \label{figure:ejb-model}
 \end{figure}
 
@@ -84,7 +84,7 @@ Entities of the votes domain model inherit such a property from the class Abstra
 \begin{figure}[h]
 \centering
 \includegraphics[width=0.7\textwidth]{png/ejb-abstract-entity.png}
-\caption{VotesEJB Abstract Entity}
+\caption{VotesEJB: Abstract Entity}
 \label{figure:ejb-abstract-entity}
 \end{figure}
 
@@ -94,7 +94,7 @@ This pattern is exemplified in figure \ref{figure:ejb-data-mapper}, which shows 
 \begin{figure}[h]
 \centering
 \includegraphics[width=0.7\textwidth]{png/ejb-data-mapper.png}
-\caption{VotesEJB Data Mapper}
+\caption{VotesEJB: Data Mapper}
 \label{figure:ejb-data-mapper}
 \end{figure}
 
@@ -110,7 +110,7 @@ One notable exception is the transition of poll states depicted in figure \ref{f
 \begin{figure}[h]
 \centering
 \includegraphics[width=0.7\textwidth]{png/poll-states.png}
-\caption{Poll States}
+\caption{VotesEJB: Poll States}
 \label{figure:poll-states}
 \end{figure}
 
@@ -128,7 +128,7 @@ If this state is reached, no further modification is possible.
 \begin{figure}[h]
 \centering
 \includegraphics[width=0.7\textwidth]{png/poll-validation.png}
-\caption{Poll Validation}
+\caption{VotesEJB: Poll Validation}
 \label{figure:poll-validation}
 \end{figure}
 
@@ -149,7 +149,7 @@ The facade of the VotesEJB module called \texttt{VotesLogic} is exemplified in f
 \begin{figure}[h]
 \centering
 \includegraphics[width=0.7\textwidth]{png/ejb-facade.png}
-\caption{VotesEJB Facade}
+\caption{VotesEJB: Facade}
 \label{figure:ejb-facade}
 \end{figure}
 
@@ -196,7 +196,7 @@ The outline of votes web pages is depicted in figure \ref{figure:web-directory-o
 \result.xhtml
 \end{verbatim}
 \end{minipage}
-\caption{VotesWar Web Pages Outline}
+\caption{VotesWar: Web Pages Outline}
 \label{figure:web-directory-outline}
 \end{figure}
 
@@ -219,24 +219,31 @@ Both sessions are described in more detail by the following sections.
 
 
 \subsubsection{Organizer Sessions}
-An Organizer is able to create new polls or edit existing polls and their items.
-The figure \ref{figure:web-organizer-navigation-graph} shows the navigation possibilities on the web-page. The page \texttt{my-polls} is the first page an organizer sees after he logged in. It is also the most central place because it is possible to navigate to \texttt{my-polls} from every page.
-After the organizer created a new poll on the \texttt{new-poll} page he get directed to the \texttt{edit-poll} page where he can edit the attributes of a poll (Title, End-Date, etc.) and add new items and participants to the poll. By clicking on the title of an corresponding item the organizer navigates to \texttt{edit-item} page.
-
-
+Organizer Sessions are used to create new polls or edit existing polls and their items.
+Figure \ref{figure:web-organizer-navigation-graph} depicts the possible navigation between all web pages associated with this session. 
 
 \begin{figure}[h]
 \centering
 \includegraphics[width=0.7\textwidth]{png/web-organizer-navigation-graph.png}
-\caption{VotesWar Organizer Navigation Graph}
+\caption{VotesWar: Organizer Navigation Graph}
 \label{figure:web-organizer-navigation-graph}
 \end{figure}
+
+After login, an organizer usually starts at the \texttt{my-poll} page, which shows a table of all polls he or she has created and their current status.
+From this page on, it is possible to either create a new poll or edit an existing one.
+The pages \texttt{my-polls} and \texttt{new-poll} are available from every other page, because of navigation components.
+After an organizer creates a new poll on the \texttt{new-poll} page he gets redirected to the \texttt{edit-poll} page of the same poll.
+There he or she can edit the properties of a poll (Title, End-Date, etc.) and add new items or participants. 
+By clicking on links of items an organizer navigates to the corresponding \texttt{edit-item} page.
+After a poll is finished, it is also possible to navigate to the \texttt{result} page of a poll.
+
+Note, because Votes facilitates a RESTful architecture, every page can be used as starting point with a login beforehand.
 
 \subsubsection{Participant Sessions}
 \begin{figure}[h]
 \centering
 \includegraphics[width=0.7\textwidth]{png/web-participant-state-machine.png}
-\caption{VotesWar Patricipation State Machine}
+\caption{VotesWar: Patricipation State Machine}
 \label{figure:web-participation-state-machine}
 \end{figure}
 
