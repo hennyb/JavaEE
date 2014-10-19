@@ -37,7 +37,7 @@
   </font>
  </defs>
  <defs class="TextShapeIndex">
-  <g ooo:slide="id1" ooo:id-list="id3 id4 id5 id6 id7 id8 id9 id10 id11 id12 id13 id14 id15 id16 id17 id18 id19 id20 id21 id22"/>
+  <g ooo:slide="id1" ooo:id-list="id3 id4 id5 id6 id7 id8 id9 id10 id11 id12 id13 id14 id15 id16 id17 id18 id19 id20 id21 id22 id23"/>
  </defs>
  <defs class="EmbeddedBulletChars">
   <g id="bullet-char-template(57356)" transform="scale(0.00048828125,-0.00048828125)">
@@ -161,14 +161,14 @@
      </g>
      <g class="com.sun.star.drawing.ConnectorShape">
       <g id="id16">
-       <path fill="none" stroke="rgb(0,0,0)" stroke-width="102" stroke-linejoin="round" d="M 24314,23112 C 22481,25822 10839,25844 10839,22352"/>
+       <path fill="none" stroke="rgb(0,0,0)" stroke-width="102" stroke-linejoin="round" d="M 24313,23112 C 22480,25820 10839,25842 10839,22352"/>
        <path fill="rgb(0,0,0)" stroke="none" d="M 24555,22352 L 24025,23059 24555,23236 24555,22352 Z"/>
       </g>
      </g>
      <g class="com.sun.star.drawing.ConnectorShape">
       <g id="id17">
-       <path fill="none" stroke="rgb(0,0,0)" stroke-width="102" stroke-linejoin="round" d="M 24582,23222 C 25146,31963 34270,29994 34270,26552"/>
-       <path fill="rgb(0,0,0)" stroke="none" d="M 24555,22352 L 24303,23199 24862,23181 24555,22352 Z"/>
+       <path fill="none" stroke="rgb(0,0,0)" stroke-width="102" stroke-linejoin="round" d="M 24576,23220 C 25004,31937 31851,30423 35791,28417 39731,26411 40315,24012 36810,24012"/>
+       <path fill="rgb(0,0,0)" stroke="none" d="M 24555,22352 L 24297,23197 24855,23183 24555,22352 Z"/>
       </g>
      </g>
      <g class="com.sun.star.drawing.ConnectorShape">
@@ -185,7 +185,7 @@
      </g>
      <g class="com.sun.star.drawing.ConnectorShape">
       <g id="id20">
-       <path fill="none" stroke="rgb(0,0,0)" stroke-width="102" stroke-linejoin="round" d="M 37617,15914 C 40762,16946 40783,24012 36810,24012"/>
+       <path fill="none" stroke="rgb(0,0,0)" stroke-width="102" stroke-linejoin="round" d="M 37617,15914 C 40764,16946 40785,24012 36810,24012"/>
        <path fill="rgb(0,0,0)" stroke="none" d="M 36810,15789 L 37593,16199 37682,15648 36810,15789 Z"/>
       </g>
      </g>
@@ -197,8 +197,14 @@
      </g>
      <g class="com.sun.star.drawing.ConnectorShape">
       <g id="id22">
-       <path fill="none" stroke="rgb(0,0,0)" stroke-width="102" stroke-linejoin="round" d="M 37639,15734 C 40942,15255 40367,11982 32807,8942 25247,5902 10839,3628 10839,17272"/>
+       <path fill="none" stroke="rgb(0,0,0)" stroke-width="102" stroke-linejoin="round" d="M 37639,15734 C 40944,15255 40368,11982 32808,8942 25248,5902 10839,3628 10839,17272"/>
        <path fill="rgb(0,0,0)" stroke="none" d="M 36810,15789 L 37666,16009 37627,15452 36810,15789 Z"/>
+      </g>
+     </g>
+     <g class="com.sun.star.drawing.ConnectorShape">
+      <g id="id23">
+       <path fill="none" stroke="rgb(0,0,0)" stroke-width="102" stroke-linejoin="round" d="M 34381,27368 C 35640,31799 47161,31815 47161,26552"/>
+       <path fill="rgb(0,0,0)" stroke="none" d="M 34270,26552 L 34112,27422 34665,27343 34270,26552 Z"/>
       </g>
      </g>
     </g>
