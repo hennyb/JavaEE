@@ -75,7 +75,31 @@ Click \texttt{Save}.
 \begin{enumerate}
 
 \item
-sd
+From \texttt{GlassFish Console - Common Tasks} navigate to \texttt{Create New JavaMail Sessions}.
+
+\item
+You need an email-account for this settings. Insert the following property values:
+\begin{verbatim}
+JNDI Name:                      unimail
+Mail Host:                      [URL of SMTP-Host]
+Default User:                   [Username of the email-account]
+Default Sender Address:         [Email-address of the email-account]
+
+\end{verbatim}
+
+\item
+Add additional properties with the following (property names are case sensitive):
+\begin{verbatim}
+mail.smtp.socketFactory.port:   465
+mail.smtp.port:                 465
+mail.smtp.password:             [Password of the email-account]
+mail.smtp.auth:                 true
+mail.smtp.socketFactory.class:  javax.net.ssl.SSLSocketFactory
+\end{verbatim}
+
+\item
+Click \texttt{OK}.
+
 
 \end{enumerate}
 

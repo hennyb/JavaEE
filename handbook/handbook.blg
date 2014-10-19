@@ -1,4 +1,10 @@
+<<<<<<< HEAD
+This is BibTeX, Version 0.99d (TeX Live 2014)
+Capacity: max_strings=35307, hash_size=35307, hash_prime=30011
+The top-level auxiliary file: handbook.aux
+=======
 This is BibTeX, Version 0.99dThe top-level auxiliary file: handbook.aux
+>>>>>>> 3d25dc799a772f848f2677279d07dca5ad80eb87
 A level-1 auxiliary file: sections/abstract.aux
 A level-1 auxiliary file: sections/introduction.aux
 A level-1 auxiliary file: sections/requirements.aux
