@@ -142,7 +142,9 @@ So they are no additional business classes or packages besides the EJB facade, w
 
 \subsubsection{The VotesEJB Facade}
 \label{subsubsec:the-votesejb-facade}
-Additionally to the data mapper pattern, JPA also makes use of the \textit{Facade}\footnote{\url{http://en.wikipedia.org/wiki/Facade_pattern}} pattern.
+JavaEE Web Applications also encourage the use of the \textit{Facade}\footnote{\url{http://en.wikipedia.org/wiki/Facade_pattern}} pattern.
+Facades in general are used to hide complexity by only making the relevant features available to the outside.
+The facade of the VotesEJB module called \texttt{VotesLogic} is exemplified in figure \ref{figure:ejb-facade}.
 
 \begin{figure}[h]
 \centering
@@ -151,6 +153,13 @@ Additionally to the data mapper pattern, JPA also makes use of the \textit{Facad
 \label{figure:ejb-facade}
 \end{figure}
 
+The facade is used to handle communication between the VotesEJB and VotesWar modules.
+Therefore, the class \texttt{VotesLogicImpl} is injected into beans of VotesWar.
+The votes facade provides means to create, read, update and delete entities, and additional business logic methods such as poll validation and user authentication.
+Figure \ref{figure:ejb-facade} also shows, that the facade internally uses the data mapper pattern described in section §\ref{subsubsec:votes-entity-persistence}.
+
+Because the VotesEJB and VotesWar modules are instantiated separately, the communication is handled through \textit{Data Transfer Objects}\footnote{\url{http://martinfowler.com/eaaCatalog/dataTransferObject.html}} like \texttt{PollTO} instead of entity objects.
+Such transfer objects exactly mirror the structure of entities, but provide a more lightweight form of serialization than entity objects as they do not contain additional mutators.
 
 
 
@@ -159,7 +168,7 @@ JavaEE Web Applications package presentation and user interface logic into WAR m
 Votes makes use of the JavaServer Faces\footnote{\url{https://javaserverfaces.java.net/}} API (JSF) to create user interface components and their interactions.
 In order to create a common look and feel, we use Twitter Bootstrap\footnote{\url{http://getbootstrap.com/}}.
 Result charts a created by the Highcharts\footnote{\url{http://www.highcharts.com/}} API.
-The directory outline of the votes web pages is depicted in figure \ref{figure:web-directory-outline}.
+The outline of votes web pages is depicted in figure \ref{figure:web-directory-outline}.
 
 \begin{figure}[h]
 \centering
@@ -173,9 +182,12 @@ The directory outline of the votes web pages is depicted in figure \ref{figure:w
         \css
         \img
         \jsf
+            ...
+            \login.xhtml
+            \navbar.xhtml
+            ...
 \edit-item.xhtml
 \edit-poll.xhtml
-\imprint.xhtml
 \my-polls.xhtml
 \new-poll.xhtml
 \poll.xhtml
@@ -183,15 +195,26 @@ The directory outline of the votes web pages is depicted in figure \ref{figure:w
 \result.xhtml
 \end{verbatim}
 \end{minipage}
-
 \caption{VotesWar Web Pages Outline}
 \label{figure:web-directory-outline}
 \end{figure}
 
+All top level XHTML files are accessible through navigation.
+Additional resources are packaged into the \texttt{resources} directory.
+Note that resources proprietary to votes also contain a \texttt{jsf} directory, containing reusable components, such as a login page or a navbar component.
+The login page is only shown if needed to keep the web page as RESTful as possible.
 
+JSF does not enforce any particular pattern as any bean is globally available inside the XHTML template notation.
+However, we try to keep a 1:1-mapping between a backing bean and its corresponding web page if possible.
+For instance, there is a file \texttt{NewPollBean} corresponding to the page \texttt{new-poll.xhtml}.
+Exceptions are made for login handling. 
+User information provided by a \texttt{UserBean} is used be various components.
 
-JSF does not enforce any particular pattern.
-However, we try to map exactly one backing bean to a web page if possible.
+Besides organizer registration, the votes web module handles two kinds of sessions.
+That is: organizer sessions, which are used to administer polls.
+And participation sessions, which handle the voting interactions of participants.
+Both sessions are described in more detail by the following sections.
+
 
 
 \subsubsection{Organizer Sessions}
@@ -216,16 +239,6 @@ After the organizer created a new poll on the \texttt{new-poll} page he get dire
 \label{figure:web-participation-state-machine}
 \end{figure}
 
-%- participation
-%
-%- organizer
-%	- login not state
 
-%\begin{figure}[h]
-%\centering
-%\includegraphics[width=0.8\textwidth]{png/state_site.png}
-%\caption{States of the organizer navigation}
-%\label{figure:state_site}
-%\end{figure}
 
 
