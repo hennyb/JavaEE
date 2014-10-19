@@ -240,6 +240,7 @@ After a poll is finished, it is also possible to navigate to the \texttt{result}
 Note, because Votes facilitates a RESTful architecture, every page can be used as starting point with a login beforehand.
 
 \subsubsection{Participant Sessions}
+The figure \ref{figure:web-participation-state-machine} shows the pages which an participant of a poll sees when participating in  a poll. By inserting a valid token on the \texttt{Token-Verification} page a participant gets directed to the \texttt{Poll-Voting} page of the poll he got invited to. After he submitted the poll he gets directed to the \texttt{Token-Verification} page again.
 \begin{figure}[h]
 \centering
 \includegraphics[width=0.7\textwidth]{png/web-participant-state-machine.png}
