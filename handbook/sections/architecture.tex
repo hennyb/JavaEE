@@ -159,7 +159,7 @@ JavaEE Web Applications package presentation and user interface logic into WAR m
 Votes makes use of the JavaServer Faces\footnote{\url{https://javaserverfaces.java.net/}} API (JSF) to create user interface components and their interactions.
 In order to create a common look and feel, we use Twitter Bootstrap\footnote{\url{http://getbootstrap.com/}}.
 Result charts a created by the Highcharts\footnote{\url{http://www.highcharts.com/}} API.
-The directory outline of the votes web pages is depicted in figure \ref{figure:web-directory-outline}.
+The outline of votes web pages is depicted in figure \ref{figure:web-directory-outline}.
 
 \begin{figure}[h]
 \centering
@@ -173,9 +173,12 @@ The directory outline of the votes web pages is depicted in figure \ref{figure:w
         \css
         \img
         \jsf
+            ...
+            \login.xhtml
+            \navbar.xhtml
+            ...
 \edit-item.xhtml
 \edit-poll.xhtml
-\imprint.xhtml
 \my-polls.xhtml
 \new-poll.xhtml
 \poll.xhtml
@@ -183,15 +186,26 @@ The directory outline of the votes web pages is depicted in figure \ref{figure:w
 \result.xhtml
 \end{verbatim}
 \end{minipage}
-
 \caption{VotesWar Web Pages Outline}
 \label{figure:web-directory-outline}
 \end{figure}
 
+All top level XHTML files are accessible through navigation.
+Additional resources are packaged into the \texttt{resources} directory.
+Note that resources proprietary to votes also contain a \texttt{jsf} directory, containing reusable components, such as a login page or a navbar component.
+The login page is only shown if needed to keep the web page as RESTful as possible.
 
+JSF does not enforce any particular pattern as any bean is globally available inside the XHTML template notation.
+However, we try to keep a 1:1-mapping between a backing bean and its corresponding web page if possible.
+For instance, there is a file \texttt{NewPollBean} corresponding to the page \texttt{new-poll.xhtml}.
+Exceptions are made for login handling. 
+User information provided by a \texttt{UserBean} is used be various components.
 
-JSF does not enforce any particular pattern.
-However, we try to map exactly one backing bean to a web page if possible.
+Besides organizer registration, the votes web module handles two kinds of sessions.
+That is: organizer sessions, which are used to administer polls.
+And participation sessions, which handle the voting interactions of participants.
+Both sessions are described in more detail by the following sections.
+
 
 
 \subsubsection{Organizer Sessions}
