@@ -7,7 +7,7 @@ Following that, we briefly discuss the architecture of the War-Module.
 
 \subsection{VotesEJB Architecture}
 \label{subsec:votesejb-architector}
-In order to maintain scalability, the business and persistence components of a JavaEE Web Application are packaged into an EJB JAR Module.
+In order to maintain scalability, the business and persistence components of a JavaEE Web Application are packaged into an EJB JAR module.
 Such modules can easily be cloned to handle more workload properly.
 In general an EJB module consists of an domain model, an arbitrary amount of business and persistence classes and a facade, making the relevant components visible to the outside.
 
@@ -155,14 +155,56 @@ Additionally to the data mapper pattern, JPA also makes use of the \textit{Facad
 
 
 \subsection{VotesWar Architecture}
+JavaEE Web Applications package presentation and user interface logic into WAR modules.
+Votes makes use of the JavaServer Faces\footnote{\url{https://javaserverfaces.java.net/}} API (JSF) to create a user interface and its components.
+In order to create a common look and feel, we use Twitter Bootstrap\footnote{\url{http://getbootstrap.com/}}.
 
-%- use jsf 
-%- does not encourage a pattern
-%- tried to stay a 1:1 mapping (page:backing bean)
+\begin{figure}[h]
+\centering
+\begin{minipage}[t]{3cm}
+\begin{verbatim}
+\resources
+    \bootstrap
+    \highcarts
+    \jquery
+    \votes
+        \css
+        \img
+        \jsf
+\edit-item.xhtml
+\edit-poll.xhtml
+\imprint.xhtml
+\my-polls.xhtml
+\new-poll.xhtml
+\poll.xhtml
+\register.xhtml
+\result.xhtml
+\end{verbatim}
+\end{minipage}
+
+\caption{VotesWar Web Pages Outline}
+\end{figure}
+
+JSF does not enforce any particular pattern.
+However, we try to map exactly one backing bean to a web page if possible.
 
 
 \subsubsection{Organizer Sessions}
+
+\begin{figure}[h]
+\centering
+\includegraphics[width=0.7\textwidth]{png/web-organizer-navigation-graph.png}
+\caption{VotesWar Organizer Navigation Graph}
+\label{figure:web-organizer-navigation-graph}
+\end{figure}
+
 \subsubsection{Participant Sessions}
+\begin{figure}[h]
+\centering
+\includegraphics[width=0.7\textwidth]{png/web-participant-state-machine.png}
+\caption{VotesWar Patricipation State Machine}
+\label{figure:web-participation-state-machine}
+\end{figure}
 
 %- participation
 %
