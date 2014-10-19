@@ -1,5 +1,95 @@
 \section{Installation Guide}
-\subsection{Database Installation}
-\subsubsection{Connection Pool}
-\subsubsection{JDBC Resource}
-\subsection{Mail Session}
+This is a step by step installation guide for the deployment of the Votes-System.
+In order to install Votes, we need to open the GlassFish Admin Console in a browser window:
+
+\begin{enumerate}
+
+\item
+Make sure GlassFish is started (preferably GlassFish version 4 or higher).
+
+\item
+Navigate to \url{http://localhost:4848}.
+
+\end{enumerate}
+
+
+\subsection{Deploying a New JDBC Connection Pool}
+
+\begin{enumerate}
+
+\item
+From \texttt{GlassFish Console - Common Tasks} navigate to \texttt{Create New JDBC Connection Pool}.
+
+\item
+Insert the following property values:
+\begin{verbatim}
+Pool Name:                derby_net_votesdb_rootPool
+Resource Type:            javax.sql.DataSource
+Database Driver Vendor:   JavaDB
+\end{verbatim}
+
+\item
+Click \texttt{Next}.
+
+\item 
+Set \texttt{Datasource Classname} to: \texttt{org.apache.derby.jdbc.ClientDataSource}
+
+\item
+Replace all additional properties with the following (property names are case sensitive):
+\begin{verbatim}
+User:           root
+Password:       password
+serverName:     localhost
+portNumber:     1527
+databaseName:   votesdb
+driverClass:    org.apache.derby.jdbc.ClientDriver
+URL:            jdbc:derby://localhost:1527/votesdb
+\end{verbatim}
+
+\item
+Click \texttt{Save}.
+
+\end{enumerate}
+
+\subsection{Deploying a New JDBC Resource}
+
+\begin{enumerate}
+
+\item
+From \texttt{GlassFish Console - Common Tasks} navigate to \texttt{Create New JDBC Resource}.
+
+\item
+Set \texttt{JNDI Name} to: \texttt{votesdb}
+
+\item
+Select \texttt{derby\_net\_votesdb\_rootPool} as \texttt{Pool Name}
+
+\item
+Click \texttt{Save}.
+
+\end{enumerate}
+
+
+\subsection{Deploying a New JavaMail Session}
+
+\begin{enumerate}
+
+\item
+sd
+
+\end{enumerate}
+
+\subsection{Deploying Votes}
+
+\begin{enumerate}
+
+\item
+From \texttt{GlassFish Console - Common Tasks} navigate to \texttt{Deploy an Application}.
+
+\item
+Select the \texttt{Location} of the \texttt{Votes.ear} file.
+
+\item
+Click \texttt{OK}.
+
+\end{enumerate}
