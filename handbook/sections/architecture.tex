@@ -156,8 +156,10 @@ Additionally to the data mapper pattern, JPA also makes use of the \textit{Facad
 
 \subsection{VotesWar Architecture}
 JavaEE Web Applications package presentation and user interface logic into WAR modules.
-Votes makes use of the JavaServer Faces\footnote{\url{https://javaserverfaces.java.net/}} API (JSF) to create a user interface and its components.
+Votes makes use of the JavaServer Faces\footnote{\url{https://javaserverfaces.java.net/}} API (JSF) to create user interface components and their interactions.
 In order to create a common look and feel, we use Twitter Bootstrap\footnote{\url{http://getbootstrap.com/}}.
+Result charts a created by the Highcharts\footnote{\url{http://www.highcharts.com/}} API.
+The directory outline of the votes web pages is depicted in figure \ref{figure:web-directory-outline}.
 
 \begin{figure}[h]
 \centering
@@ -183,7 +185,10 @@ In order to create a common look and feel, we use Twitter Bootstrap\footnote{\ur
 \end{minipage}
 
 \caption{VotesWar Web Pages Outline}
+\label{figure:web-directory-outline}
 \end{figure}
+
+
 
 JSF does not enforce any particular pattern.
 However, we try to map exactly one backing bean to a web page if possible.
