@@ -142,7 +142,9 @@ So they are no additional business classes or packages besides the EJB facade, w
 
 \subsubsection{The VotesEJB Facade}
 \label{subsubsec:the-votesejb-facade}
-Additionally to the data mapper pattern, JPA also makes use of the \textit{Facade}\footnote{\url{http://en.wikipedia.org/wiki/Facade_pattern}} pattern.
+JavaEE Web Applications also encourage the use of the \textit{Facade}\footnote{\url{http://en.wikipedia.org/wiki/Facade_pattern}} pattern.
+Facades in general are used to hide complexity by only making the relevant features available to the outside.
+The facade of the VotesEJB module called \texttt{VotesLogic} is exemplified in figure \ref{figure:ejb-facade}.
 
 \begin{figure}[h]
 \centering
@@ -151,6 +153,13 @@ Additionally to the data mapper pattern, JPA also makes use of the \textit{Facad
 \label{figure:ejb-facade}
 \end{figure}
 
+The facade is used to handle communication between the VotesEJB and VotesWar modules.
+Therefore, the class \texttt{VotesLogicImpl} is injected into beans of VotesWar.
+The votes facade provides means to create, read, update and delete entities, and additional business logic methods such as poll validation and user authentication.
+Figure \ref{figure:ejb-facade} also shows, that the facade internally uses the data mapper pattern described in section §\ref{subsubsec:votes-entity-persistence}.
+
+Because the VotesEJB and VotesWar modules are instantiated separately, the communication is handled through \textit{Data Transfer Objects}\footnote{\url{http://martinfowler.com/eaaCatalog/dataTransferObject.html}} like \texttt{PollTO} instead of entity objects.
+Such transfer objects exactly mirror the structure of entities, but provide a more lightweight form of serialization than entity objects as they do not contain additional mutators.
 
 
 
@@ -225,16 +234,6 @@ Both sessions are described in more detail by the following sections.
 \label{figure:web-participation-state-machine}
 \end{figure}
 
-%- participation
-%
-%- organizer
-%	- login not state
 
-%\begin{figure}[h]
-%\centering
-%\includegraphics[width=0.8\textwidth]{png/state_site.png}
-%\caption{States of the organizer navigation}
-%\label{figure:state_site}
-%\end{figure}
 
 
