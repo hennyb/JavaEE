@@ -240,14 +240,21 @@ After a poll is finished, it is also possible to navigate to the \texttt{result}
 Note, because Votes facilitates a RESTful architecture, every page can be used as starting point with a login beforehand.
 
 \subsubsection{Participant Sessions}
-The figure \ref{figure:web-participation-state-machine} shows the pages which an participant of a poll sees when participating in  a poll. By inserting a valid token on the \texttt{Token-Verification} page a participant gets directed to the \texttt{Poll-Voting} page of the poll he got invited to. After he submitted the poll he gets directed to the \texttt{Token-Verification} page again.
+Participant Sessions are used by participants to conduct votes.
+The figure \ref{figure:web-participation-state-machine} depicts states of the page a participant sees while participating.
+It is implemented following requirements 10. 
+
 \begin{figure}[h]
 \centering
 \includegraphics[width=0.7\textwidth]{png/web-participant-state-machine.png}
-\caption{VotesWar: Patricipation State Machine}
+\caption{VotesWar: Participation State Machine}
 \label{figure:web-participation-state-machine}
 \end{figure}
 
+At first, a participant asked to verify his or her token as \texttt{Token-Verification}.
+If this token is invalid, the participant cannot go onwards.
+If the given token is indeed valid, the participant is forwarded to \texttt{Poll-Voting}, where he or she can conduct a vote.
+After the participant has submitted the vote, he or she is redirected to the starting point.
 
 
 
